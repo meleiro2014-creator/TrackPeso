@@ -370,6 +370,23 @@
     margin-top: 2px;
   }
 
+  details.card > summary.card-title {
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  details.card > summary.card-title::-webkit-details-marker { display: none; }
+  details.card > summary.card-title::after {
+    content: '▸';
+    color: var(--gold-3);
+    font-size: 0.9rem;
+    transition: transform 0.15s ease;
+    margin-left: 4px;
+  }
+  details.card[open] > summary.card-title::after { transform: rotate(90deg); }
+  details.card:not([open]) { margin-bottom: 24px; }
+  }
+
   .alerts-panel {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -958,6 +975,16 @@
 <body>
 <div class="container">
 
+  <div id="installBanner" style="display:none; margin-bottom:16px; padding:14px 16px; background:linear-gradient(135deg, rgba(201,169,97,.14), rgba(201,169,97,.05)); border:1px solid var(--border-gold-strong); border-radius:12px; align-items:center; gap:12px; flex-wrap:wrap;">
+    <div style="font-size:1.4rem;">📲</div>
+    <div style="flex:1; min-width:200px;">
+      <div style="font-weight:700; color:var(--text-1); font-size:0.92rem;" id="installBannerTitle">Instala TrackPeso en tu móvil</div>
+      <div style="color:var(--text-3); font-size:0.78rem; margin-top:2px;" id="installBannerDesc">Se abre como una app, sin barra de navegador.</div>
+    </div>
+    <button class="btn" id="installBannerBtn" onclick="instalarTrackPesoApp()" style="display:none;">Instalar</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('installBanner').style.display='none'">Ahora no</button>
+  </div>
+
   <div class="header">
     <div class="header-badge">Elite · Análisis Avanzado</div>
     <h1>TrackPeso</h1>
@@ -1078,6 +1105,135 @@
       <div class="stat-sub ">33 días</div>
     </div>
   </div>
+
+  <div class="section-divider"></div>
+
+  <details class="card" id="cardActualizar">
+    <summary class="card-title">
+      <span class="icon">⚙️</span>
+      <div>
+        <div class="title-text">Actualizar y Descargar Datos</div>
+        <div class="subtitle-text">Compatible con CSV y formato pipe · toca para abrir</div>
+      </div>
+    </summary>
+    <div id="autosaveBanner" style="display:none; margin-bottom:16px; padding:12px 14px; background:var(--warning-soft); border:1px solid var(--warning); border-radius:10px; font-size:0.85rem; color:var(--text-1);"></div>
+    <div class="tabs">
+      <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
+      <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
+      <button class="tab active" onclick="switchTab(event, 'tabActividad')">Actividad</button>
+    </div>
+
+    <div id="tabPeso" class="tab-content">
+      <div class="format-hint">
+        <strong>📥 Importación de peso</strong><br>
+        Selecciona el CSV exportado por tu báscula. Reconoce CSV de balanza (Renpho y similares) y CSV simple (fecha,peso). Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>⚖️ Archivo de peso</strong>
+          <small>CSV exportado de la báscula o app de salud.</small>
+          <input type="file" id="fileImportPeso" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivoPeso()">📥 Importar archivo</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileImportPeso').value='';document.getElementById('importPesoStatus').textContent=''">✕ Limpiar selección</button>
+      </div>
+      <div id="importPesoStatus" class="import-status"></div>
+      <details style="margin-top:18px;">
+        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
+        <div style="margin-top:12px;">
+          <div class="format-hint">
+            <strong>📋 Formatos aceptados al pegar:</strong><br>
+            <strong>1. CSV de balanza</strong> (Renpho, etc.): <code>time,weight,height,bmi,...</code><br>
+            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 91.2 | 92.7 | 92.0 | +0.2 | 33.0</code><br>
+            <strong>3. CSV simple</strong>: <code>fecha,peso</code> o <code>fecha,manana,tarde</code>
+          </div>
+          <label>Pega los datos de peso (CSV o tabla)</label>
+          <textarea id="inputPeso" placeholder="Pega aquí los datos de peso..."></textarea>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" onclick="procesarPeso()">Procesar Peso</button>
+            <button class="btn btn-secondary" onclick="toggleLog('logPeso')">Ver log</button>
+          </div>
+          <div id="logPeso" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-balanza</div><div class="log-line log-info">Columnas: time=0, weight=1, bmi=3</div><div class="log-line log-success">✅ 32 días procesados (73 mediciones)</div><div class="log-line log-success">✓ 29 actualizados, 3 nuevos</div></div>
+        </div>
+      </details>
+    </div>
+
+    <div id="tabTA" class="tab-content">
+      <div class="format-hint">
+        <strong>📥 Importación de tensión</strong><br>
+        Selecciona el CSV exportado por tu tensiómetro. Reconoce CSV de tensiómetro (fecha,sistólica,diástole,pulso...) y CSV simple. Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>🩺 Archivo de tensión</strong>
+          <small>CSV exportado del tensiómetro o app de salud.</small>
+          <input type="file" id="fileImportTA" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivoTA()">📥 Importar archivo</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileImportTA').value='';document.getElementById('importTAStatus').textContent=''">✕ Limpiar selección</button>
+      </div>
+      <div id="importTAStatus" class="import-status"></div>
+      <details style="margin-top:18px;">
+        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
+        <div style="margin-top:12px;">
+          <div class="format-hint">
+            <strong>📋 Formatos aceptados al pegar:</strong><br>
+            <strong>1. CSV de tensiómetro</strong>: <code>Fecha,Sistólica,Diástole,Pulso,...</code><br>
+            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 142 | 76 | 67 | HTA</code><br>
+            <strong>3. CSV simple</strong>: <code>fecha,sistolica,diastole,pulso</code>
+          </div>
+          <label>Pega los datos de tensión (CSV o tabla)</label>
+          <textarea id="inputTA" placeholder="Pega aquí los datos de tensión..."></textarea>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" onclick="procesarTA()">Procesar Tensión</button>
+            <button class="btn btn-secondary" onclick="toggleLog('logTA')">Ver log</button>
+          </div>
+          <div id="logTA" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-tension</div><div class="log-line log-info">Columnas: fecha=0, sis=1, dia=2, pulso=3</div><div class="log-line log-success">✅ 20 días procesados (20 mediciones)</div><div class="log-line log-success">✓ 18 actualizados, 2 nuevos</div></div>
+        </div>
+      </details>
+    </div>
+
+
+    <div id="tabActividad" class="tab-content active">
+      <div class="format-hint">
+        <strong>📥 Importación de actividad</strong><br>
+        Selecciona los CSV exportados por tu dispositivo. Puedes actualizar solo el archivo que haya cambiado.
+        Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>🚶 Actividad diaria</strong>
+          <small>ACTIVITY*.csv — fecha, pasos, distancia, runDistance, calorías.</small>
+          <input type="file" id="fileActividad" accept=".csv,text/csv">
+        </div>
+        <div class="file-import-box">
+          <strong>🏃 Sesiones</strong>
+          <small>ACTIVITY_STAGE*.csv — fecha, inicio, fin, distancia, calorías, pasos.</small>
+          <input type="file" id="fileActividadEtapas" accept=".csv,text/csv">
+        </div>
+        <div class="file-import-box">
+          <strong>⏱ Actividad por minuto</strong>
+          <small>ACTIVITY_MINUTE*.csv — fecha, hora, pasos.</small>
+          <input type="file" id="fileActividadMinuto" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivosActividad()">📥 Incorporar archivos seleccionados</button>
+        <button class="btn btn-secondary" onclick="limpiarSeleccionActividad()">✕ Limpiar selección</button>
+      </div>
+      <div id="importActividadStatus" class="import-status">✅ Actividad diaria: 37 filas incorporadas. · Sesiones: 191 filas incorporadas. · Actividad por minuto: 4007 filas incorporadas.</div>
+    </div>
+
+    <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn" onclick="descargarHTML()">💾 Descargar HTML Actualizado</button>
+      <button class="btn btn-secondary" onclick="restaurarOriginal()">↺ Restaurar Original</button>
+    </div>
+  </details>
+
 
   <div class="card">
     <div class="card-title">
@@ -1971,140 +2127,15 @@
     </div>
   </div>
 
-  <div class="section-divider"></div>
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon">⚙️</span>
-      <div>
-        <div class="title-text">Actualizar y Descargar Datos</div>
-        <div class="subtitle-text">Compatible con CSV y formato pipe</div>
-      </div>
-    </div>
-    <div class="tabs">
-      <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
-      <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
-      <button class="tab active" onclick="switchTab(event, 'tabActividad')">Actividad</button>
-    </div>
-
-    <div id="tabPeso" class="tab-content">
-      <div class="format-hint">
-        <strong>📥 Importación de peso</strong><br>
-        Selecciona el CSV exportado por tu báscula. Reconoce CSV de balanza (Renpho y similares) y CSV simple (fecha,peso). Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>⚖️ Archivo de peso</strong>
-          <small>CSV exportado de la báscula o app de salud.</small>
-          <input type="file" id="fileImportPeso" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivoPeso()">📥 Importar archivo</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fileImportPeso').value='';document.getElementById('importPesoStatus').textContent=''">✕ Limpiar selección</button>
-      </div>
-      <div id="importPesoStatus" class="import-status"></div>
-      <details style="margin-top:18px;">
-        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
-        <div style="margin-top:12px;">
-          <div class="format-hint">
-            <strong>📋 Formatos aceptados al pegar:</strong><br>
-            <strong>1. CSV de balanza</strong> (Renpho, etc.): <code>time,weight,height,bmi,...</code><br>
-            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 91.2 | 92.7 | 92.0 | +0.2 | 33.0</code><br>
-            <strong>3. CSV simple</strong>: <code>fecha,peso</code> o <code>fecha,manana,tarde</code>
-          </div>
-          <label>Pega los datos de peso (CSV o tabla)</label>
-          <textarea id="inputPeso" placeholder="Pega aquí los datos de peso..."></textarea>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn" onclick="procesarPeso()">Procesar Peso</button>
-            <button class="btn btn-secondary" onclick="toggleLog('logPeso')">Ver log</button>
-          </div>
-          <div id="logPeso" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-balanza</div><div class="log-line log-info">Columnas: time=0, weight=1, bmi=3</div><div class="log-line log-success">✅ 32 días procesados (73 mediciones)</div><div class="log-line log-success">✓ 29 actualizados, 3 nuevos</div></div>
-        </div>
-      </details>
-    </div>
-
-    <div id="tabTA" class="tab-content">
-      <div class="format-hint">
-        <strong>📥 Importación de tensión</strong><br>
-        Selecciona el CSV exportado por tu tensiómetro. Reconoce CSV de tensiómetro (fecha,sistólica,diástole,pulso...) y CSV simple. Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>🩺 Archivo de tensión</strong>
-          <small>CSV exportado del tensiómetro o app de salud.</small>
-          <input type="file" id="fileImportTA" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivoTA()">📥 Importar archivo</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fileImportTA').value='';document.getElementById('importTAStatus').textContent=''">✕ Limpiar selección</button>
-      </div>
-      <div id="importTAStatus" class="import-status"></div>
-      <details style="margin-top:18px;">
-        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
-        <div style="margin-top:12px;">
-          <div class="format-hint">
-            <strong>📋 Formatos aceptados al pegar:</strong><br>
-            <strong>1. CSV de tensiómetro</strong>: <code>Fecha,Sistólica,Diástole,Pulso,...</code><br>
-            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 142 | 76 | 67 | HTA</code><br>
-            <strong>3. CSV simple</strong>: <code>fecha,sistolica,diastole,pulso</code>
-          </div>
-          <label>Pega los datos de tensión (CSV o tabla)</label>
-          <textarea id="inputTA" placeholder="Pega aquí los datos de tensión..."></textarea>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn" onclick="procesarTA()">Procesar Tensión</button>
-            <button class="btn btn-secondary" onclick="toggleLog('logTA')">Ver log</button>
-          </div>
-          <div id="logTA" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-tension</div><div class="log-line log-info">Columnas: fecha=0, sis=1, dia=2, pulso=3</div><div class="log-line log-success">✅ 20 días procesados (20 mediciones)</div><div class="log-line log-success">✓ 18 actualizados, 2 nuevos</div></div>
-        </div>
-      </details>
-    </div>
-
-
-    <div id="tabActividad" class="tab-content active">
-      <div class="format-hint">
-        <strong>📥 Importación de actividad</strong><br>
-        Selecciona los CSV exportados por tu dispositivo. Puedes actualizar solo el archivo que haya cambiado.
-        Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>🚶 Actividad diaria</strong>
-          <small>ACTIVITY*.csv — fecha, pasos, distancia, runDistance, calorías.</small>
-          <input type="file" id="fileActividad" accept=".csv,text/csv">
-        </div>
-        <div class="file-import-box">
-          <strong>🏃 Sesiones</strong>
-          <small>ACTIVITY_STAGE*.csv — fecha, inicio, fin, distancia, calorías, pasos.</small>
-          <input type="file" id="fileActividadEtapas" accept=".csv,text/csv">
-        </div>
-        <div class="file-import-box">
-          <strong>⏱ Actividad por minuto</strong>
-          <small>ACTIVITY_MINUTE*.csv — fecha, hora, pasos.</small>
-          <input type="file" id="fileActividadMinuto" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivosActividad()">📥 Incorporar archivos seleccionados</button>
-        <button class="btn btn-secondary" onclick="limpiarSeleccionActividad()">✕ Limpiar selección</button>
-      </div>
-      <div id="importActividadStatus" class="import-status">✅ Actividad diaria: 37 filas incorporadas. · Sesiones: 191 filas incorporadas. · Actividad por minuto: 4007 filas incorporadas.</div>
-    </div>
-
-    <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn" onclick="descargarHTML()">💾 Descargar HTML Actualizado</button>
-      <button class="btn btn-secondary" onclick="restaurarOriginal()">↺ Restaurar Original</button>
-    </div>
-  </div>
 
   <div style="text-align:center; padding:32px 20px;">
-    <button id="btnInstalarApp" class="btn" style="display:none; margin:0 auto 14px;" onclick="instalarTrackPesoApp()">📲 Instalar TrackPeso en este dispositivo</button>
     <div style="color:var(--text-4); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;">
       TrackPeso Elite · Archivo autónomo y portable
     </div>
   </div>
 </div>
+
+<button id="fabActualizar" onclick="irAActualizarDatos()" title="Actualizar datos" style="position:fixed; bottom:22px; right:22px; z-index:50; width:52px; height:52px; border-radius:50%; border:1px solid var(--border-gold-strong); background:linear-gradient(135deg, var(--gold-3), var(--gold-4)); color:#0f0f15; font-size:1.3rem; box-shadow:0 6px 20px rgba(0,0,0,.4); cursor:pointer; display:flex; align-items:center; justify-content:center;">⚙️</button>
 
 <script>
 /* =========================================================
@@ -24674,9 +24705,44 @@ let DATOS = {
     }
   ]
 };
+let DATOS_BUILD_TS = '2026-08-18T21:14:00.000Z';
 /* =========================================================
    UTILIDADES
    ========================================================= */
+
+/* Limita una tabla larga a los N registros más recientes, con un botón
+   "Ver todos" / "Ver menos" debajo. Se llama al final de cada render
+   de tabla, así que funciona sin importar qué la haya actualizado. */
+function limitarTabla(selectorTbody, visibles) {
+  visibles = visibles || 14;
+  const tbody = document.querySelector(selectorTbody);
+  if (!tbody) return;
+  const filas = Array.from(tbody.querySelectorAll('tr'));
+  const wrap = tbody.closest('.table-wrap') || tbody.parentElement;
+  const key = selectorTbody.replace(/[^a-zA-Z0-9]/g, '_');
+  let btn = wrap.parentElement.querySelector('button.tabla-toggle-btn[data-for="' + key + '"]');
+  if (filas.length <= visibles) {
+    filas.forEach(f => f.style.display = '');
+    if (btn) btn.remove();
+    return;
+  }
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.className = 'btn btn-secondary tabla-toggle-btn';
+    btn.dataset.for = key;
+    btn.dataset.expanded = '0';
+    btn.style.marginTop = '12px';
+    wrap.insertAdjacentElement('afterend', btn);
+  }
+  const aplicar = () => {
+    const expandido = btn.dataset.expanded === '1';
+    filas.forEach((f, i) => f.style.display = (expandido || i < visibles) ? '' : 'none');
+    btn.textContent = expandido ? '▴ Ver menos' : `▾ Ver todos (${filas.length})`;
+  };
+  btn.onclick = () => { btn.dataset.expanded = btn.dataset.expanded === '1' ? '0' : '1'; aplicar(); };
+  aplicar();
+}
+
 function fmtFecha(f) {
   const d = new Date(f);
   return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
@@ -25042,6 +25108,7 @@ function procesarPeso() {
   logAdd('logPeso', `✓ ${actualizados} actualizados, ${nuevosCount} nuevos`, 'success');
 
   renderAll();
+  if (typeof autoguardarLocal === 'function') autoguardarLocal();
   document.getElementById('inputPeso').value = '';
   alert(`✅ ${agrupado.length} días procesados correctamente`);
 }
@@ -25221,6 +25288,7 @@ function procesarTA() {
   logAdd('logTA', `✓ ${actualizados} actualizados, ${nuevosCount} nuevos`, 'success');
 
   renderAll();
+  if (typeof autoguardarLocal === 'function') autoguardarLocal();
   document.getElementById('inputTA').value = '';
   alert(`✅ ${agrupado.length} días procesados correctamente`);
 }
@@ -25470,6 +25538,7 @@ function renderTablaPeso() {
       </tr>
     `;
   }).join('');
+  limitarTabla('#tablaPeso tbody', 14);
 }
 
 /* =========================================================
@@ -25489,6 +25558,7 @@ function renderTablaTA() {
       </tr>
     `;
   }).join('');
+  limitarTabla('#tablaTA tbody', 14);
 
   const ultima = DATOS.ta[0];
   const e = estadoTA(ultima.sis, ultima.dia);
@@ -26494,6 +26564,7 @@ window.addEventListener('resize', () => {
       const w=wm[x.fecha], next=new Date(TP.day(x.fecha));next.setDate(next.getDate()+1);const nd=next.toISOString().slice(0,10),nw=wm[nd], delta=(nw!=null&&w!=null)?nw-w:null;
       return `<tr><td>${new Date(x.fecha+'T12:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit'})}</td><td>${w!=null?TP.fmt(w,1):'—'}</td><td>${Number(x.pasos).toLocaleString('es-ES')}</td><td>${TP.fmt(Number(x.distanciaKm??x.distancia/1000),2)}</td><td>${(sm[x.fecha]||[]).length}</td><td>${nw!=null?TP.fmt(nw,1):'—'}</td><td>${delta==null?'—':(delta>0?'+':'')+TP.fmt(delta,2)}</td></tr>`;
     }).join('');
+    limitarTabla('#tablaActividadBody', 14);
     TP.drawActivity();
     TP.activityAnalysis();
   };
@@ -26695,6 +26766,7 @@ window.addEventListener('resize', () => {
       if(!log.length){status.innerHTML='⚠️ Selecciona al menos un archivo.';return;}
       status.innerHTML='✅ '+log.join(' · ');
       renderActividad();dibujarProyeccion();renderResumen();renderPatrones();renderRebotes();renderStats();renderAlertas();renderHitos();renderTablaPeso();renderHeatmap();renderSpeedChart();renderEficiencia();
+      autoguardarLocal();
     }catch(e){console.error(e);status.innerHTML='❌ No se pudo importar: '+e.message;}
   };
   window.limpiarSeleccionActividad=function(){
@@ -26728,6 +26800,7 @@ window.addEventListener('resize', () => {
       if(DATOS.peso.length>0) DATOS.peso[DATOS.peso.length-1].delta=null;
       status.innerHTML=`✅ ${agrupado.length} días procesados (${nuevos.length} mediciones) · ${actualizados} actualizados, ${nuevosCount} nuevos.`;
       renderAll();
+      autoguardarLocal();
       document.getElementById('fileImportPeso').value='';
     }catch(e){console.error(e);status.innerHTML='❌ No se pudo importar: '+e.message;}
   };
@@ -26755,23 +26828,78 @@ window.addEventListener('resize', () => {
       DATOS.ta.sort((a,b)=>b.fecha.localeCompare(a.fecha));
       status.innerHTML=`✅ ${agrupado.length} días procesados (${nuevos.length} mediciones) · ${actualizados} actualizados, ${nuevosCount} nuevos.`;
       renderAll();
+      autoguardarLocal();
       document.getElementById('fileImportTA').value='';
     }catch(e){console.error(e);status.innerHTML='❌ No se pudo importar: '+e.message;}
   };
 
-  /* -------- Descarga robusta: sustituye únicamente el objeto DATOS -------- */
+  /* -------- Descarga robusta: sustituye el objeto DATOS y la marca de tiempo -------- */
   window.descargarHTML=function(){
+    const nowTs=new Date().toISOString();
     const clone=document.documentElement.cloneNode(true);
     const scripts=clone.querySelectorAll('script');
     let target=null;
     scripts.forEach(s=>{if(s.textContent.includes('let DATOS ='))target=s;});
     if(!target){alert('No se ha encontrado la base de datos del programa.');return;}
-    const content=target.textContent;
+    let content=target.textContent;
     const replacement='let DATOS = '+JSON.stringify(DATOS,null,2)+';\n';
-    target.textContent=content.replace(/let DATOS = \{[\s\S]*?\};\s*\n/,replacement);
+    content=content.replace(/let DATOS = \{[\s\S]*?\};\s*\n/,replacement);
+    content=content.replace(/let DATOS_BUILD_TS = '[^']*';/, `let DATOS_BUILD_TS = '${nowTs}';`);
+    target.textContent=content;
     const html='<!DOCTYPE html>\n'+clone.outerHTML;
     const blob=new Blob([html],{type:'text/html;charset=utf-8'});
     const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='TrackPeso_'+new Date().toISOString().slice(0,10)+'.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    DATOS_BUILD_TS=nowTs;
+    autoguardarLocal(nowTs);
+    const banner=document.getElementById('autosaveBanner');if(banner)banner.style.display='none';
+  };
+
+  /* -------- Autoguardado local (para no perder cambios sin descargar/re-subir) -------- */
+  const AUTOSAVE_KEY='trackpeso_autosave_v1';
+  window.autoguardarLocal=function(ts){
+    try{
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({datos:DATOS, savedAt: ts||new Date().toISOString()}));
+    }catch(e){ /* modo privado u otro fallo de almacenamiento: no es crítico */ }
+  };
+  function comprobarAutoguardado(){
+    let raw;
+    try{raw=localStorage.getItem(AUTOSAVE_KEY);}catch(e){return;}
+    if(!raw)return;
+    let saved;
+    try{saved=JSON.parse(raw);}catch(e){return;}
+    if(!saved||!saved.savedAt)return;
+    const banner=document.getElementById('autosaveBanner');
+    if(!banner)return;
+    if(saved.savedAt>DATOS_BUILD_TS){
+      const fecha=new Date(saved.savedAt).toLocaleString('es-ES',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+      banner.style.display='block';
+      banner.innerHTML=`📦 Hay cambios guardados en este navegador (${fecha}) que no están en este archivo — probablemente los importaste aquí y no llegaste a descargar/re-subir el HTML actualizado.
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" style="padding:6px 14px;font-size:0.8rem;" onclick="restaurarAutoguardado()">Restaurar esos cambios</button>
+          <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;" onclick="descartarAutoguardado()">Descartar</button>
+        </div>`;
+      const det=document.getElementById('cardActualizar');if(det)det.open=true;
+    }
+  }
+  window.restaurarAutoguardado=function(){
+    let raw;
+    try{raw=localStorage.getItem(AUTOSAVE_KEY);}catch(e){return;}
+    if(!raw)return;
+    try{
+      const saved=JSON.parse(raw);
+      DATOS=saved.datos;
+      renderAll();
+      const banner=document.getElementById('autosaveBanner');if(banner)banner.style.display='none';
+    }catch(e){alert('No se pudo restaurar: '+e.message);}
+  };
+  window.descartarAutoguardado=function(){
+    try{localStorage.removeItem(AUTOSAVE_KEY);}catch(e){}
+    const banner=document.getElementById('autosaveBanner');if(banner)banner.style.display='none';
+  };
+  window.irAActualizarDatos=function(){
+    const det=document.getElementById('cardActualizar');
+    if(det)det.open=true;
+    document.getElementById('cardActualizar').scrollIntoView({behavior:'smooth',block:'start'});
   };
 
   /* -------- render inicial sin tocar las pantallas originales -------- */
@@ -26779,6 +26907,7 @@ window.addEventListener('resize', () => {
   window.renderAllV21=function(){
     try{oldRenderAll();}catch(e){console.error('Render original:',e);}
     try{renderActividad();}catch(e){console.error('Actividad:',e);}
+    try{comprobarAutoguardado();}catch(e){console.error('Autoguardado:',e);}
   };
   window.addEventListener('load',()=>{setTimeout(()=>window.renderAllV21(),0);});
 })();
@@ -26829,22 +26958,70 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   });
 }
 
-/* Botón/aviso de instalación cuando el navegador lo permite */
+/* -------- PWA: banner de instalación (arriba de todo) --------
+   En Android/Chrome el evento beforeinstallprompt puede tardar en
+   llegar o no llegar (depende de "engagement" con el sitio). Por eso
+   el banner, pasado un momento, cae a instrucciones manuales en vez
+   de quedarse esperando el evento indefinidamente. */
 let deferredInstallPrompt = null;
+const yaInstalada = () => {
+  try {
+    return (typeof window.matchMedia === 'function' && window.matchMedia('(display-mode: standalone)').matches)
+      || navigator.standalone === true;
+  } catch (e) { return false; }
+};
+
+function mostrarBannerManual() {
+  if (yaInstalada()) return;
+  const banner = document.getElementById('installBanner');
+  const desc = document.getElementById('installBannerDesc');
+  if (!banner || !desc) return;
+  const ua = navigator.userAgent;
+  const esAndroidChrome = /Android/i.test(ua) && /Chrome/i.test(ua) && !/Edg|OPR|SamsungBrowser/i.test(ua);
+  const esIOS = /iPhone|iPad|iPod/i.test(ua);
+  if (esAndroidChrome) {
+    desc.textContent = 'Toca el menú ⋮ (arriba a la derecha) → "Instalar aplicación" o "Añadir a pantalla de inicio".';
+  } else if (esIOS) {
+    desc.textContent = 'Toca Compartir (el cuadrado con la flecha) → "Añadir a pantalla de inicio".';
+  } else {
+    desc.textContent = 'Busca "Instalar aplicación" en el menú de tu navegador.';
+  }
+  banner.style.display = 'flex';
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  const btn = document.getElementById('btnInstalarApp');
+  if (yaInstalada()) return;
+  const banner = document.getElementById('installBanner');
+  const btn = document.getElementById('installBannerBtn');
+  const desc = document.getElementById('installBannerDesc');
+  if (banner) banner.style.display = 'flex';
   if (btn) btn.style.display = 'inline-flex';
+  if (desc) desc.textContent = 'Se abre como una app, sin barra de navegador.';
 });
+
+window.addEventListener('appinstalled', () => {
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
+  deferredInstallPrompt = null;
+});
+
 window.instalarTrackPesoApp = async function () {
   if (!deferredInstallPrompt) return;
   deferredInstallPrompt.prompt();
   await deferredInstallPrompt.userChoice;
   deferredInstallPrompt = null;
-  const btn = document.getElementById('btnInstalarApp');
-  if (btn) btn.style.display = 'none';
+  const banner = document.getElementById('installBanner');
+  if (banner) banner.style.display = 'none';
 };
+
+// Si a los 2.5s no ha llegado el evento automático (Chrome de escritorio
+// lo suele disparar rápido; en Android puede no llegar nunca la primera
+// vez), mostramos las instrucciones manuales en su lugar.
+window.addEventListener('load', () => {
+  setTimeout(() => { if (!deferredInstallPrompt) mostrarBannerManual(); }, 2500);
+});
 </script>
 
 </body></html>
