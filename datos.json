@@ -22891,6 +22891,1938 @@
           "fueraDeRango": false
         }
       ]
+    },
+    {
+      "fecha": "2025-06-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.4,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6.0,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.5,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 41.8,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 95.7,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 33.2,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34.7,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 12.8,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 5.5,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 2.9,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2.0,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.5,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.1,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.04,
+          "unidad": "x10³/µl",
+          "refMin": 0.01,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 184,
+          "unidad": "x10³/µl",
+          "refMin": 130,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.1,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tiempo_protrombina",
+          "nombre": "Tiempo de Protrombina",
+          "valor": 13.5,
+          "unidad": "sg",
+          "refMin": 11,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_quick",
+          "nombre": "Índice de Quick",
+          "valor": 98.0,
+          "unidad": "%",
+          "refMin": 65,
+          "refMax": 125,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "inr",
+          "nombre": "INR",
+          "valor": 1.0,
+          "unidad": "",
+          "refMin": 0.8,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttpa",
+          "nombre": "Tiempo de tromboplastina parcial activado (TTPA)",
+          "valor": 27.6,
+          "unidad": "sg",
+          "refMin": 23,
+          "refMax": 39.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 110,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 100,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bun",
+          "nombre": "BUN (Nitrógeno ureico) suero",
+          "valor": 15,
+          "unidad": "mg/dl",
+          "refMin": 8,
+          "refMax": 23,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.91,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 89.32,
+          "unidad": "ml/min/1.73m²",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 6.2,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.8,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.3,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_indirecta",
+          "nombre": "Bilirrubina indirecta suero",
+          "valor": 0.5,
+          "unidad": "mg/dl",
+          "refMin": 0,
+          "refMax": 1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.5,
+          "unidad": "mg/dl",
+          "refMin": 8.8,
+          "refMax": 10.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "magnesio",
+          "nombre": "Magnesio suero",
+          "valor": 2.0,
+          "unidad": "mg/dL",
+          "refMin": 1.6,
+          "refMax": 2.4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.7,
+          "unidad": "%",
+          "refMin": null,
+          "refMax": 5.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 144,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.8,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 22,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 23,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 41,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 53,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 15,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 98,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ck",
+          "nombre": "CK (Creatin Quinasa) suero",
+          "valor": 235,
+          "unidad": "UI/l",
+          "refMin": null,
+          "refMax": 190,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "lipasa",
+          "nombre": "Lipasa suero",
+          "valor": 34,
+          "unidad": "UI/l",
+          "refMin": 13,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 171,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 191,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 260.0,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 195,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 164,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 36,
+          "unidad": "mg/dl",
+          "refMin": 40,
+          "refMax": null,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 126,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "no_hdl",
+          "nombre": "Colesterol no-HDL suero",
+          "valor": 159,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 130,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "zinc",
+          "nombre": "Zinc suero",
+          "valor": 91,
+          "unidad": "mcg/dL",
+          "refMin": 70,
+          "refMax": 120,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 1.37,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 5.65,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t3_total",
+          "nombre": "T3 total suero",
+          "valor": 1.03,
+          "unidad": "ng/ml",
+          "refMin": 0.8,
+          "refMax": 2.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 12.4,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": null,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2024-01-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.6,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.9,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 43.8,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 95.2,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 32.4,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34.0,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 12.8,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 6.3,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 3.2,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.6,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.07,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.03,
+          "unidad": "x10³/µl",
+          "refMin": 0.01,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 210,
+          "unidad": "x10³/µl",
+          "refMin": 130,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.5,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 7,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 97,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 39,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.83,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 94.31,
+          "unidad": "ml/min/1.73m²",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 5.5,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.5,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.2,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "albumina",
+          "nombre": "Albúmina suero",
+          "valor": 41.9,
+          "unidad": "g/L",
+          "refMin": 35,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.1,
+          "unidad": "mg/dl",
+          "refMin": 8.8,
+          "refMax": 10.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 2.9,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.7,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 141,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.5,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "cloro",
+          "nombre": "Cloro suero",
+          "valor": 105,
+          "unidad": "mmol/l",
+          "refMin": 98,
+          "refMax": 107,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 25,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 27,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 41,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 53,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 13,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 221,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 109,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "colinesterasa",
+          "nombre": "Colinesterasa suero",
+          "valor": 8383,
+          "unidad": "U/L",
+          "refMin": 5320,
+          "refMax": 12920,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 108,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 188,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 265.0,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 203,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 135,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 40,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 136,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 27,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_aterogenico",
+          "nombre": "Índice aterogénico suero",
+          "valor": 5.1,
+          "unidad": "Índice",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "no_hdl",
+          "nombre": "Colesterol no-HDL suero",
+          "valor": 163,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "lipidos_totales",
+          "nombre": "Lípidos totales suero",
+          "valor": 738,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 800,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 0.94,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 7.32,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "pcr",
+          "nombre": "Proteína C Reactiva",
+          "valor": 0.4,
+          "unidad": "mg/dL",
+          "refMin": null,
+          "refMax": 5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.6,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 0.96,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 14.4,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": null,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2021-09-25",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.7,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 15.4,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 45.5,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 97.6,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 33.0,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 33.8,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 13.0,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 6.5,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 3.3,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.7,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.06,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.03,
+          "unidad": "x10³/µl",
+          "refMin": 0.0,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 191,
+          "unidad": "x10³/µl",
+          "refMin": 125,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.4,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 4,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tiempo_protrombina",
+          "nombre": "Tiempo de Protrombina",
+          "valor": 13.5,
+          "unidad": "sg",
+          "refMin": 11,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_quick",
+          "nombre": "Índice de Quick",
+          "valor": 98.0,
+          "unidad": "%",
+          "refMin": 65,
+          "refMax": 125,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "inr",
+          "nombre": "INR",
+          "valor": 1.0,
+          "unidad": "",
+          "refMin": 0.8,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttpa",
+          "nombre": "Tiempo de tromboplastina parcial activado (TTPA)",
+          "valor": 28.1,
+          "unidad": "sg",
+          "refMin": 23,
+          "refMax": 39.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttp_ratio",
+          "nombre": "TTP Ratio",
+          "valor": 0.9,
+          "unidad": "",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 84,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.72,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 102.15,
+          "unidad": "ml/min",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 5.1,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.6,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.3,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.1,
+          "unidad": "mg/dl",
+          "refMin": 8.6,
+          "refMax": 10.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 3.2,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.4,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 143,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.6,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 29,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 35,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 38,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 50,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 55,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 15,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 217,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 98,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colinesterasa",
+          "nombre": "Colinesterasa suero",
+          "valor": 7561,
+          "unidad": "U/L",
+          "refMin": 5320,
+          "refMax": 12920,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 87,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 298,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 265.0,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 190,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 121,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 43,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 123,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 24,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "lipidos_totales",
+          "nombre": "Lípidos totales suero",
+          "valor": 711,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 800,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "aslo",
+          "nombre": "ASLO suero",
+          "valor": 24,
+          "unidad": "UI/ml",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "factor_reumatoide",
+          "nombre": "Factor reumatoide suero",
+          "valor": 7,
+          "unidad": "UI/ml",
+          "refMin": 0,
+          "refMax": 14,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 1.16,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_libre",
+          "nombre": "T4 libre suero",
+          "valor": 1.09,
+          "unidad": "ng/dl",
+          "refMin": 0.9,
+          "refMax": 1.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 6.83,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "pcr",
+          "nombre": "Proteína C Reactiva",
+          "valor": 0.6,
+          "unidad": "mg/dL",
+          "refMin": null,
+          "refMax": 5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.6,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 0.93,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_folico",
+          "nombre": "Ácido fólico suero",
+          "valor": 4.97,
+          "unidad": "ng/ml",
+          "refMin": 3.89,
+          "refMax": 26.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_b12",
+          "nombre": "Vitamina B12 suero",
+          "valor": 324.2,
+          "unidad": "pg/ml",
+          "refMin": 197,
+          "refMax": 771,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 14.3,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 100,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2020-07-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.5,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.9,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 43.1,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 94.9,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 32.8,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34.6,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 13.1,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 4.8,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 1.8,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.5,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.07,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.04,
+          "unidad": "x10³/µl",
+          "refMin": 0.0,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 184,
+          "unidad": "x10³/µl",
+          "refMin": 125,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.5,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 3,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 86,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 29,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.82,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 97.42,
+          "unidad": "ml/min",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.4,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.1,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.5,
+          "unidad": "mg/dl",
+          "refMin": 8.6,
+          "refMax": 10.0,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 3.7,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.5,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 141,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.8,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 22,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 35,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 14,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 50,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 57,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 5,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 301,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 303,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 184,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 137,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 38,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 119,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 27,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 0.92,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_libre",
+          "nombre": "T4 libre suero",
+          "valor": 1.03,
+          "unidad": "ng/dl",
+          "refMin": 0.9,
+          "refMax": 1.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.5,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 1.03,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_folico",
+          "nombre": "Ácido fólico suero",
+          "valor": 7.81,
+          "unidad": "ng/ml",
+          "refMin": 3.89,
+          "refMax": 26.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_b12",
+          "nombre": "Vitamina B12 suero",
+          "valor": 254.2,
+          "unidad": "pg/ml",
+          "refMin": 197,
+          "refMax": 771,
+          "fueraDeRango": false
+        }
+      ]
     }
   ]
 }
