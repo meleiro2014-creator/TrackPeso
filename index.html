@@ -27024,4 +27024,522 @@ window.addEventListener('load', () => {
 });
 </script>
 
+
+<script>
+
+/* =========================================================================
+   MÓDULO: Sincronización con GitHub + Analíticas de laboratorio
+   Añadido el 21/08/2026. Se apoya en la misma variable global DATOS.
+   ========================================================================= */
+(function(){
+  'use strict';
+
+  /* ---------------- Config GitHub ---------------- */
+  const GH_OWNER = 'meleiro2014-creator';
+  const GH_REPO  = 'TrackPeso';
+  const GH_BRANCH = 'main';
+  const GH_DATA_PATH = 'datos.json';
+  const GH_TOKEN_KEY = 'trackpeso_gh_token';
+
+  function normalizar(s){
+    return (s||'').toString().toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,' ').trim();
+  }
+
+  /* ---------------- Catálogo de parámetros conocidos ---------------- */
+  const CATALOGO = [
+    {clave:'hematies', nombre:'Hematíes', unidad:'x10^6/µl', sinonimos:['hematies']},
+    {clave:'hemoglobina', nombre:'Hemoglobina', unidad:'g/dl', sinonimos:['hemoglobina']},
+    {clave:'hematocrito', nombre:'Hematocrito', unidad:'%', sinonimos:['hematocrito']},
+    {clave:'vcm', nombre:'Volumen corpuscular medio (VCM)', unidad:'fl', sinonimos:['volumen corpuscular medio','vcm']},
+    {clave:'hcm', nombre:'Hemoglobina corpuscular media (HCM)', unidad:'pg', sinonimos:['hemoglobina corpuscular media','hcm']},
+    {clave:'chcm', nombre:'Concentración Hemoglobina Corpuscular Media (CHCM)', unidad:'g/dl', sinonimos:['concentracion hemoglobina corpuscular media','chcm']},
+    {clave:'rdw', nombre:'RDW', unidad:'%', sinonimos:['rdw']},
+    {clave:'leucocitos', nombre:'Leucocitos', unidad:'x10³/µl', sinonimos:['leucocitos']},
+    {clave:'neutrofilos_abs', nombre:'Neutrófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['neutrofilos v absoluto','neutrofilos']},
+    {clave:'linfocitos_abs', nombre:'Linfocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['linfocitos v absoluto','linfocitos absoluto']},
+    {clave:'monocitos_abs', nombre:'Monocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['monocitos v absoluto','monocitos absoluto']},
+    {clave:'eosinofilos_abs', nombre:'Eosinófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['eosinofilos v absoluto','eosinofilos absoluto']},
+    {clave:'basofilos_abs', nombre:'Basófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['basofilos v absoluto','basofilos absoluto']},
+    {clave:'plaquetas', nombre:'Plaquetas', unidad:'x10³/µl', sinonimos:['plaquetas']},
+    {clave:'vpm', nombre:'Volumen plaquetar medio (VPM)', unidad:'fl', sinonimos:['volumen plaquetar medio','vpm']},
+    {clave:'glucosa', nombre:'Glucosa suero', unidad:'mg/dl', sinonimos:['glucosa suero','glucosa']},
+    {clave:'creatinina', nombre:'Creatinina suero', unidad:'mg/dl', sinonimos:['creatinina suero']},
+    {clave:'filtrado_glomerular', nombre:'Filtrado glomerular (CKD-EPI)', unidad:'ml/min/1.73m²', sinonimos:['filtrado glomerular']},
+    {clave:'acido_urico', nombre:'Ácido úrico suero', unidad:'mg/dl', sinonimos:['acido urico suero','acido urico']},
+    {clave:'bilirrubina_total', nombre:'Bilirrubina total suero', unidad:'mg/dl', sinonimos:['bilirrubina total suero','bilirrubina total']},
+    {clave:'hba1c', nombre:'Hemoglobina glicosilada (A1c)', unidad:'%', sinonimos:['hemoglobina glicosilada','porcentaje hemoglobina glicosilada']},
+    {clave:'ast_got', nombre:'AST (GOT) suero', unidad:'U/L', sinonimos:['ast got suero','got']},
+    {clave:'alt_gpt', nombre:'ALT (GPT) suero', unidad:'U/L', sinonimos:['alt gpt suero','gpt']},
+    {clave:'gamma_gt', nombre:'Gamma-GT suero', unidad:'U/L', sinonimos:['gamma gt suero','gamma gt']},
+    {clave:'ferritina', nombre:'Ferritina suero', unidad:'ng/ml', sinonimos:['ferritina suero','ferritina']},
+    {clave:'colesterol_total', nombre:'Colesterol total suero', unidad:'mg/dl', sinonimos:['colesterol total suero','colesterol total']},
+    {clave:'trigliceridos', nombre:'Triglicéridos suero', unidad:'mg/dl', sinonimos:['trigliceridos suero','trigliceridos']},
+    {clave:'hdl', nombre:'HDL Colesterol suero', unidad:'mg/dl', sinonimos:['hdl colesterol suero','hdl']},
+    {clave:'ldl', nombre:'Colesterol LDL (Friedewald)', unidad:'mg/dl', sinonimos:['colesterol ldl','ldl']},
+    {clave:'no_hdl', nombre:'Colesterol no-HDL suero', unidad:'mg/dl', sinonimos:['colesterol no hdl suero','no hdl']},
+    {clave:'tsh', nombre:'TSH suero', unidad:'µUI/ml', sinonimos:['tsh suero','tsh']},
+    {clave:'psa', nombre:'PSA suero', unidad:'ng/ml', sinonimos:['psa suero','psa']},
+    {clave:'vitamina_d', nombre:'Vitamina D 25-Hidroxi', unidad:'ng/ml', sinonimos:['vitamina d 25 hidroxi suero','vitamina d']},
+    {clave:'creatinina_orina', nombre:'Creatinina orina', unidad:'mg/dl', sinonimos:['creatinina orina']},
+    {clave:'microalbumina_orina', nombre:'Microalbúmina orina', unidad:'mg/l', sinonimos:['microalbumina orina']},
+    {clave:'cociente_microalb_creat', nombre:'Cociente microalbuminuria/creatinina', unidad:'mg/g', sinonimos:['cociente microalbuminuria creatinina orina','cociente microalbuminuria creatinina']},
+    {clave:'sodio', nombre:'Sodio suero', unidad:'mEq/l', sinonimos:['sodio suero','sodio']},
+    {clave:'potasio', nombre:'Potasio suero', unidad:'mEq/l', sinonimos:['potasio suero','potasio']},
+    {clave:'urea', nombre:'Urea suero', unidad:'mg/dl', sinonimos:['urea suero','urea']},
+    {clave:'proteinas_totales', nombre:'Proteínas totales suero', unidad:'g/dl', sinonimos:['proteinas totales suero','proteinas totales']},
+    {clave:'pcr', nombre:'Proteína C Reactiva', unidad:'mg/l', sinonimos:['proteina c reactiva','pcr']}
+  ];
+
+  function buscarEnCatalogo(etiqueta){
+    const n = normalizar(etiqueta);
+    if(!n) return null;
+    let mejor = null, mejorLen = 0;
+    CATALOGO.forEach(c=>{
+      c.sinonimos.forEach(s=>{
+        if(n===s || n.includes(s) || s.includes(n)){
+          if(s.length>mejorLen){ mejor=c; mejorLen=s.length; }
+        }
+      });
+    });
+    return mejor;
+  }
+
+  function slugify(s){
+    return normalizar(s).replace(/\s+/g,'_').slice(0,40) || ('param_'+Date.now());
+  }
+
+  /* ---------------- Parser de texto pegado ---------------- */
+  function parseRango(txt){
+    if(!txt) return {refMin:null, refMax:null};
+    txt = txt.trim();
+    let m = txt.match(/^([\-\d.,]+)\s*-\s*([\-\d.,]+)$/);
+    if(m) return {refMin: parseFloat(m[1].replace(',','.')), refMax: parseFloat(m[2].replace(',','.'))};
+    m = txt.match(/inf\.?\s*([\-\d.,]+)/i);
+    if(m) return {refMin:null, refMax: parseFloat(m[1].replace(',','.'))};
+    m = txt.match(/sup\.?\s*([\-\d.,]+)/i);
+    if(m) return {refMin: parseFloat(m[1].replace(',','.')), refMax:null};
+    return {refMin:null, refMax:null};
+  }
+
+  function parseTextoAnalitica(texto){
+    const lineas = texto.split('\n').map(l=>l.trim()).filter(Boolean);
+    const resultados = [];
+    const rx = /^([A-Za-zÁÉÍÓÚÑáéíóúñ%\/().\-\s]+?)\s{1,}([\-\d]+[.,]?\d*)\s+([A-Za-zµ%\/\d\^³²º.]*)\s*\(?([^)]*)\)?\s*$/;
+    lineas.forEach(linea=>{
+      // saltar cabeceras de tabla obvias
+      if(/^(prueba|resultado|unidades|valores)/i.test(linea)) return;
+      const m = linea.match(rx);
+      if(!m) return;
+      let [, etiqueta, valorStr, unidad, rango] = m;
+      etiqueta = etiqueta.trim();
+      if(!etiqueta || etiqueta.length<2) return;
+      const valor = parseFloat(valorStr.replace(',','.'));
+      if(isNaN(valor)) return;
+      const cat = buscarEnCatalogo(etiqueta);
+      const {refMin, refMax} = parseRango(rango);
+      resultados.push({
+        clave: cat ? cat.clave : slugify(etiqueta),
+        nombre: cat ? cat.nombre : etiqueta,
+        valor: valor,
+        unidad: (unidad && unidad.trim()) ? unidad.trim() : (cat ? cat.unidad : ''),
+        refMin: (refMin!==null && !isNaN(refMin)) ? refMin : null,
+        refMax: (refMax!==null && !isNaN(refMax)) ? refMax : null
+      });
+    });
+    return resultados;
+  }
+
+  function fueraDeRango(p){
+    if(p.refMin!=null && p.valor < p.refMin) return true;
+    if(p.refMax!=null && p.valor > p.refMax) return true;
+    return false;
+  }
+
+  /* ---------------- Estado del formulario de captura ---------------- */
+  let borrador = [];
+
+  function renderBorrador(){
+    const cont = document.getElementById('analiticasPreviewBody');
+    if(!cont) return;
+    if(!borrador.length){
+      cont.innerHTML = '<tr><td colspan="6" style="color:var(--text-3);padding:10px;">Todavía no hay parámetros interpretados.</td></tr>';
+      return;
+    }
+    cont.innerHTML = borrador.map((p,i)=>`
+      <tr>
+        <td><input data-i="${i}" data-f="nombre" value="${p.nombre.replace(/"/g,'&quot;')}" style="width:100%;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:4px 6px;font-size:0.78rem;"></td>
+        <td><input data-i="${i}" data-f="valor" type="number" step="any" value="${p.valor}" style="width:70px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:4px 6px;font-size:0.78rem;"></td>
+        <td><input data-i="${i}" data-f="unidad" value="${(p.unidad||'').replace(/"/g,'&quot;')}" style="width:70px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:4px 6px;font-size:0.78rem;"></td>
+        <td><input data-i="${i}" data-f="refMin" type="number" step="any" value="${p.refMin!=null?p.refMin:''}" style="width:60px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:4px 6px;font-size:0.78rem;"></td>
+        <td><input data-i="${i}" data-f="refMax" type="number" step="any" value="${p.refMax!=null?p.refMax:''}" style="width:60px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:6px;padding:4px 6px;font-size:0.78rem;"></td>
+        <td style="text-align:center;">
+          ${fueraDeRango(p) ? '<span style="color:var(--danger);">●</span>' : '<span style="color:var(--success);">●</span>'}
+          <button onclick="window.__analiticasQuitarFila(${i})" style="margin-left:6px;background:none;border:none;color:var(--text-3);cursor:pointer;">✕</button>
+        </td>
+      </tr>`).join('');
+    cont.querySelectorAll('input').forEach(inp=>{
+      inp.addEventListener('input', e=>{
+        const i = +e.target.dataset.i, f = e.target.dataset.f;
+        let v = e.target.value;
+        if(f==='valor'||f==='refMin'||f==='refMax'){
+          v = v===''? null : parseFloat(v);
+        }
+        borrador[i][f] = v;
+      });
+    });
+  }
+
+  window.__analiticasQuitarFila = function(i){
+    borrador.splice(i,1);
+    renderBorrador();
+  };
+
+  window.analiticasInterpretar = function(){
+    const texto = document.getElementById('analiticasTextoPegado').value;
+    const nuevos = parseTextoAnalitica(texto);
+    if(!nuevos.length){
+      alert('No he podido reconocer líneas con el patrón "Nombre  Valor  Unidad  (rango)". Puedes añadir filas a mano con el botón "+ Añadir parámetro".');
+      return;
+    }
+    borrador = nuevos;
+    renderBorrador();
+  };
+
+  window.analiticasAnadirFilaManual = function(){
+    borrador.push({clave:'param_'+Date.now(), nombre:'', valor:0, unidad:'', refMin:null, refMax:null});
+    renderBorrador();
+  };
+
+  window.analiticasGuardar = function(){
+    const fecha = document.getElementById('analiticasFecha').value;
+    const laboratorio = document.getElementById('analiticasLab').value.trim();
+    if(!fecha){ alert('Indica la fecha del informe.'); return; }
+    const parametros = borrador.filter(p=>p.nombre && !isNaN(p.valor)).map(p=>({
+      clave: p.clave, nombre: p.nombre, valor: p.valor, unidad: p.unidad||'',
+      refMin: p.refMin, refMax: p.refMax, fueraDeRango: fueraDeRango(p)
+    }));
+    if(!parametros.length){ alert('No hay parámetros que guardar.'); return; }
+    if(!DATOS.analiticas) DATOS.analiticas = [];
+    const idxExiste = DATOS.analiticas.findIndex(a=>a.fecha===fecha && a.laboratorio===laboratorio);
+    const registro = {fecha, laboratorio, parametros};
+    if(idxExiste>=0) DATOS.analiticas[idxExiste] = registro; else DATOS.analiticas.push(registro);
+    DATOS.analiticas.sort((a,b)=>b.fecha.localeCompare(a.fecha));
+    borrador = [];
+    document.getElementById('analiticasTextoPegado').value='';
+    document.getElementById('analiticasFormPanel').style.display='none';
+    renderAnaliticas();
+    if(typeof autoguardarLocal==='function') autoguardarLocal();
+  };
+
+  window.analiticasEliminar = function(fecha, laboratorio){
+    if(!confirm('¿Eliminar esta analítica del histórico?')) return;
+    DATOS.analiticas = (DATOS.analiticas||[]).filter(a=>!(a.fecha===fecha && a.laboratorio===laboratorio));
+    renderAnaliticas();
+    if(typeof autoguardarLocal==='function') autoguardarLocal();
+  };
+
+  window.analiticasTogglePanel = function(){
+    const p = document.getElementById('analiticasFormPanel');
+    p.style.display = (p.style.display==='none' || !p.style.display) ? 'block' : 'none';
+    if(p.style.display==='block'){
+      document.getElementById('analiticasFecha').value = new Date().toISOString().slice(0,10);
+      borrador = [];
+      renderBorrador();
+    }
+  };
+
+  /* ---------------- Render de tabla histórica + resumen ---------------- */
+  function renderAnaliticas(){
+    const listaEl = document.getElementById('analiticasHistorico');
+    const resumenEl = document.getElementById('analiticasResumen');
+    const selParam = document.getElementById('analiticasSelParam');
+    const datos = (DATOS.analiticas||[]).slice().sort((a,b)=>b.fecha.localeCompare(a.fecha));
+
+    if(!datos.length){
+      if(listaEl) listaEl.innerHTML = '<div style="color:var(--text-3);padding:10px;font-size:0.85rem;">Todavía no hay analíticas guardadas.</div>';
+      if(resumenEl) resumenEl.innerHTML = '';
+      if(selParam) selParam.innerHTML = '<option value="">Sin datos</option>';
+      dibujarGraficoTrend(null);
+      return;
+    }
+
+    // Resumen: última analítica
+    const ultima = datos[0];
+    const fueraCount = ultima.parametros.filter(p=>p.fueraDeRango).length;
+    const fechaFmt = new Date(ultima.fecha).toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'});
+    if(resumenEl){
+      resumenEl.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+          <div>
+            <div style="color:var(--text-2);font-size:0.8rem;">Última analítica</div>
+            <div style="color:var(--text-1);font-weight:600;">${fechaFmt}${ultima.laboratorio?' · '+ultima.laboratorio:''}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="color:${fueraCount?'var(--danger)':'var(--success)'};font-weight:700;font-size:1.1rem;">${fueraCount}</div>
+            <div style="color:var(--text-3);font-size:0.75rem;">fuera de rango</div>
+          </div>
+        </div>
+        ${fueraCount ? '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+          ultima.parametros.filter(p=>p.fueraDeRango).map(p=>`<span style="background:var(--danger-soft);color:var(--danger);border-radius:8px;padding:3px 9px;font-size:0.75rem;">${p.nombre}: ${p.valor}${p.unidad?(' '+p.unidad):''}</span>`).join('') +
+          '</div>' : '<div style="color:var(--success);font-size:0.85rem;">Todos los parámetros dentro de rango.</div>'}
+      `;
+    }
+
+    // Tabla histórica
+    if(listaEl){
+      listaEl.innerHTML = `
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+          <thead><tr style="color:var(--text-3);text-align:left;">
+            <th style="padding:6px 4px;">Fecha</th><th style="padding:6px 4px;">Laboratorio</th>
+            <th style="padding:6px 4px;">Parámetros</th><th style="padding:6px 4px;">Fuera rango</th><th></th>
+          </tr></thead>
+          <tbody>
+          ${datos.map(a=>{
+            const fc = a.parametros.filter(p=>p.fueraDeRango).length;
+            return `<tr style="border-top:1px solid var(--border-soft);">
+              <td style="padding:7px 4px;color:var(--text-1);">${new Date(a.fecha).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'})}</td>
+              <td style="padding:7px 4px;color:var(--text-2);">${a.laboratorio||'—'}</td>
+              <td style="padding:7px 4px;color:var(--text-2);">${a.parametros.length}</td>
+              <td style="padding:7px 4px;color:${fc?'var(--danger)':'var(--success)'};">${fc}</td>
+              <td style="padding:7px 4px;text-align:right;"><button onclick="analiticasEliminar('${a.fecha}','${(a.laboratorio||'').replace(/'/g,"\\'")}')" style="background:none;border:none;color:var(--text-3);cursor:pointer;">🗑️</button></td>
+            </tr>`;
+          }).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    // Selector de parámetro para evolución
+    if(selParam){
+      const claves = new Map();
+      datos.forEach(a=>a.parametros.forEach(p=>{ if(!claves.has(p.clave)) claves.set(p.clave, p.nombre); }));
+      const actual = selParam.value;
+      selParam.innerHTML = Array.from(claves.entries()).map(([clave,nombre])=>`<option value="${clave}">${nombre}</option>`).join('');
+      if(actual && claves.has(actual)) selParam.value = actual;
+      dibujarGraficoTrend(selParam.value || Array.from(claves.keys())[0]);
+    }
+  }
+
+  function dibujarGraficoTrend(clave){
+    const canvas = document.getElementById('analiticasChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width = canvas.clientWidth * (window.devicePixelRatio||1);
+    const h = canvas.height = 220 * (window.devicePixelRatio||1);
+    ctx.clearRect(0,0,w,h);
+    if(!clave){ return; }
+    const datos = (DATOS.analiticas||[]).slice().sort((a,b)=>a.fecha.localeCompare(b.fecha));
+    const puntos = [];
+    datos.forEach(a=>{
+      const p = a.parametros.find(x=>x.clave===clave);
+      if(p) puntos.push({fecha:a.fecha, valor:p.valor, refMin:p.refMin, refMax:p.refMax, nombre:p.nombre, unidad:p.unidad, fuera:p.fueraDeRango});
+    });
+    if(puntos.length<1) return;
+
+    const pad = {l:44*(window.devicePixelRatio||1), r:14*(window.devicePixelRatio||1), t:16*(window.devicePixelRatio||1), b:28*(window.devicePixelRatio||1)};
+    const valores = puntos.map(p=>p.valor);
+    const refMins = puntos.map(p=>p.refMin).filter(v=>v!=null);
+    const refMaxs = puntos.map(p=>p.refMax).filter(v=>v!=null);
+    let minV = Math.min(...valores, ...refMins);
+    let maxV = Math.max(...valores, ...refMaxs);
+    if(minV===maxV){ minV -= 1; maxV += 1; }
+    const margen = (maxV-minV)*0.15;
+    minV -= margen; maxV += margen;
+
+    const x = i => pad.l + (puntos.length===1 ? (w-pad.l-pad.r)/2 : i*(w-pad.l-pad.r)/(puntos.length-1));
+    const y = v => h-pad.b - (v-minV)/(maxV-minV)*(h-pad.t-pad.b);
+
+    // banda de normalidad (si hay refMin/refMax constantes)
+    const refMin0 = puntos[puntos.length-1].refMin, refMax0 = puntos[puntos.length-1].refMax;
+    if(refMin0!=null || refMax0!=null){
+      const yTop = y(refMax0!=null?refMax0:maxV);
+      const yBot = y(refMin0!=null?refMin0:minV);
+      ctx.fillStyle = 'rgba(74,222,128,0.08)';
+      ctx.fillRect(pad.l, yTop, w-pad.l-pad.r, yBot-yTop);
+    }
+
+    // eje
+    ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,h-pad.b); ctx.lineTo(w-pad.r,h-pad.b); ctx.stroke();
+
+    // línea
+    ctx.strokeStyle = '#c9a961'; ctx.lineWidth = 2*(window.devicePixelRatio||1);
+    ctx.beginPath();
+    puntos.forEach((p,i)=>{ const px=x(i), py=y(p.valor); if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
+    ctx.stroke();
+
+    // puntos
+    puntos.forEach((p,i)=>{
+      const px=x(i), py=y(p.valor);
+      ctx.beginPath();
+      ctx.arc(px,py,4*(window.devicePixelRatio||1),0,7);
+      ctx.fillStyle = p.fuera ? '#f87171' : '#4ade80';
+      ctx.fill();
+    });
+
+    // etiquetas eje Y (min/max)
+    ctx.fillStyle = '#6b6863';
+    ctx.font = (10*(window.devicePixelRatio||1))+'px Inter';
+    ctx.textAlign='right';
+    ctx.fillText(maxV.toFixed(1), pad.l-6, pad.t+8);
+    ctx.fillText(minV.toFixed(1), pad.l-6, h-pad.b);
+
+    // etiquetas eje X (primera y última fecha)
+    ctx.textAlign='left';
+    ctx.fillText(new Date(puntos[0].fecha).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'}), pad.l, h-6);
+    ctx.textAlign='right';
+    ctx.fillText(new Date(puntos[puntos.length-1].fecha).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'}), w-pad.r, h-6);
+  }
+
+  window.analiticasSelParamChange = function(){
+    const sel = document.getElementById('analiticasSelParam');
+    dibujarGraficoTrend(sel.value);
+  };
+
+  /* ---------------- Inyección del HTML de la tarjeta Analíticas ---------------- */
+  function inyectarUI(){
+    const cardActualizar = document.getElementById('cardActualizar');
+    if(!cardActualizar) return;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'cardAnaliticas';
+    card.innerHTML = `
+      <div class="card-title" style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div class="title-text">🧪 Analíticas</div>
+      </div>
+      <div id="analiticasResumen"></div>
+      <div style="margin:14px 0;">
+        <button class="btn" onclick="analiticasTogglePanel()">+ Añadir analítica</button>
+      </div>
+      <div id="analiticasFormPanel" style="display:none;background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+          <div>
+            <label style="display:block;color:var(--text-3);font-size:0.75rem;margin-bottom:4px;">Fecha del informe</label>
+            <input type="date" id="analiticasFecha" style="background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:8px;padding:6px 10px;">
+          </div>
+          <div style="flex:1;min-width:160px;">
+            <label style="display:block;color:var(--text-3);font-size:0.75rem;margin-bottom:4px;">Laboratorio / centro (opcional)</label>
+            <input type="text" id="analiticasLab" style="width:100%;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:8px;padding:6px 10px;">
+          </div>
+        </div>
+        <label style="display:block;color:var(--text-3);font-size:0.75rem;margin-bottom:4px;">Pega aquí el texto de la analítica (copiado del PDF o de la web del laboratorio)</label>
+        <textarea id="analiticasTextoPegado" rows="6" style="width:100%;background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:8px;padding:8px;font-size:0.8rem;font-family:monospace;"></textarea>
+        <div style="margin:10px 0;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="analiticasInterpretar()">🔎 Interpretar texto</button>
+          <button class="btn btn-secondary" onclick="analiticasAnadirFilaManual()">+ Añadir parámetro manual</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.78rem;min-width:520px;">
+            <thead><tr style="color:var(--text-3);text-align:left;">
+              <th style="padding:4px;">Parámetro</th><th style="padding:4px;">Valor</th><th style="padding:4px;">Unidad</th>
+              <th style="padding:4px;">Mín.</th><th style="padding:4px;">Máx.</th><th style="padding:4px;">Estado</th>
+            </tr></thead>
+            <tbody id="analiticasPreviewBody"></tbody>
+          </table>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="btn" onclick="analiticasGuardar()">💾 Guardar analítica</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('analiticasFormPanel').style.display='none';">Cancelar</button>
+        </div>
+      </div>
+      <div id="analiticasHistorico" style="margin-bottom:18px;"></div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
+          <div style="color:var(--text-2);font-size:0.85rem;">Evolución de un parámetro</div>
+          <select id="analiticasSelParam" onchange="analiticasSelParamChange()" style="background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);border-radius:8px;padding:6px 10px;"></select>
+        </div>
+        <canvas id="analiticasChart" style="width:100%;height:220px;display:block;"></canvas>
+      </div>
+    `;
+    cardActualizar.parentNode.insertBefore(card, cardActualizar.nextSibling);
+  }
+
+  /* ---------------- Sincronización con GitHub ---------------- */
+  function inyectarBotonesGitHub(){
+    const descargarBtn = document.querySelector('button[onclick="descargarHTML()"]');
+    if(!descargarBtn) return;
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;';
+    wrap.innerHTML = `
+      <button class="btn" onclick="guardarEnGitHub()">☁️ Guardar en GitHub</button>
+      <button class="btn btn-secondary" style="padding:8px 12px;font-size:0.78rem;" onclick="cambiarTokenGitHub()">🔑 Cambiar token</button>
+      <span id="ghSyncStatus" style="color:var(--text-3);font-size:0.8rem;"></span>
+    `;
+    descargarBtn.parentNode.appendChild(wrap);
+  }
+
+  function getToken(){
+    let t = localStorage.getItem(GH_TOKEN_KEY);
+    if(!t){
+      t = prompt('Pega tu token de acceso personal de GitHub (fine-grained, con permiso "Contents: Read & Write" sobre el repo '+GH_REPO+').\n\nSe guarda solo en este dispositivo, nunca se sube al repo.');
+      if(t) localStorage.setItem(GH_TOKEN_KEY, t.trim());
+    }
+    return t;
+  }
+
+  window.cambiarTokenGitHub = function(){
+    localStorage.removeItem(GH_TOKEN_KEY);
+    getToken();
+  };
+
+  window.guardarEnGitHub = async function(){
+    const token = getToken();
+    if(!token){ return; }
+    const status = document.getElementById('ghSyncStatus');
+    if(status) status.textContent = 'Guardando…';
+    try{
+      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_DATA_PATH}`;
+      let sha;
+      const getRes = await fetch(api, {headers:{Authorization:'token '+token}});
+      if(getRes.ok){ const j = await getRes.json(); sha = j.sha; }
+      else if(getRes.status!==404){ throw new Error('No se pudo comprobar el archivo actual ('+getRes.status+')'); }
+      const contenido = btoa(unescape(encodeURIComponent(JSON.stringify(DATOS,null,2))));
+      const body = {message:'Actualización de datos — '+new Date().toLocaleString('es-ES'), content:contenido, branch:GH_BRANCH};
+      if(sha) body.sha = sha;
+      const putRes = await fetch(api, {method:'PUT', headers:{Authorization:'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(body)});
+      if(!putRes.ok){
+        const err = await putRes.json().catch(()=>({}));
+        throw new Error(err.message || ('Error '+putRes.status));
+      }
+      if(status) status.textContent = '✅ Guardado '+new Date().toLocaleTimeString('es-ES');
+      if(typeof autoguardarLocal==='function') autoguardarLocal();
+    }catch(e){
+      console.error(e);
+      if(status) status.textContent = '❌ '+e.message;
+      alert('No se pudo guardar en GitHub:\n'+e.message+'\n\nRevisa que el token tenga permiso de escritura ("Contents: Read and write") sobre el repositorio '+GH_REPO+'.');
+    }
+  };
+
+  async function cargarDesdeGitHub(){
+    const status = document.getElementById('ghSyncStatus');
+    try{
+      const url = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${GH_DATA_PATH}?t=${Date.now()}`;
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok) throw new Error('sin datos.json remoto todavía ('+res.status+')');
+      const remoto = await res.json();
+      DATOS = remoto;
+      if(typeof renderAll==='function') renderAll();
+      renderAnaliticas();
+      if(status) status.textContent = 'Sincronizado con GitHub';
+    }catch(e){
+      console.warn('No se pudo cargar datos.json desde GitHub, usando copia local del archivo:', e.message);
+      if(status) status.textContent = 'Sin conexión — usando copia local';
+    }
+  }
+
+  /* ---------------- Arranque ---------------- */
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{
+      inyectarUI();
+      inyectarBotonesGitHub();
+      renderAnaliticas();
+      cargarDesdeGitHub();
+    }, 50);
+  });
+
+})();
+
+</script>
 </body></html>
