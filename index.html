@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"><head>
+<html lang="es" data-lt-installed="true"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TrackPeso · Elite</title>
@@ -1042,7 +1042,7 @@
     <div class="alert-item alert-success">
       <div class="alert-icon">🏆</div>
       <div class="alert-content">
-        <div class="alert-title">¡Racha de 23 días!</div>
+        <div class="alert-title">¡Racha de 26 días!</div>
         <div class="alert-desc">La mejor hasta ahora. Sigue así.</div>
       </div>
     </div>
@@ -1089,7 +1089,7 @@
   
     <div class="stat-card">
       <div class="stat-label">Racha</div>
-      <div class="stat-value gold">23 días</div>
+      <div class="stat-value gold">26 días</div>
       <div class="stat-sub ">seguidos</div>
     </div>
   
@@ -1101,138 +1101,14 @@
   
     <div class="stat-card">
       <div class="stat-label">Llegada</div>
-      <div class="stat-value gold">20 sept</div>
+      <div class="stat-value gold">23 sept</div>
       <div class="stat-sub ">33 días</div>
     </div>
   </div>
 
   <div class="section-divider"></div>
 
-  <details class="card" id="cardActualizar">
-    <summary class="card-title">
-      <span class="icon">⚙️</span>
-      <div>
-        <div class="title-text">Actualizar y Descargar Datos</div>
-        <div class="subtitle-text">Compatible con CSV y formato pipe · toca para abrir</div>
-      </div>
-    </summary>
-    <div id="autosaveBanner" style="display:none; margin-bottom:16px; padding:12px 14px; background:var(--warning-soft); border:1px solid var(--warning); border-radius:10px; font-size:0.85rem; color:var(--text-1);"></div>
-    <div class="tabs">
-      <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
-      <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
-      <button class="tab active" onclick="switchTab(event, 'tabActividad')">Actividad</button>
-    </div>
-
-    <div id="tabPeso" class="tab-content">
-      <div class="format-hint">
-        <strong>📥 Importación de peso</strong><br>
-        Selecciona el CSV exportado por tu báscula. Reconoce CSV de balanza (Renpho y similares) y CSV simple (fecha,peso). Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>⚖️ Archivo de peso</strong>
-          <small>CSV exportado de la báscula o app de salud.</small>
-          <input type="file" id="fileImportPeso" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivoPeso()">📥 Importar archivo</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fileImportPeso').value='';document.getElementById('importPesoStatus').textContent=''">✕ Limpiar selección</button>
-      </div>
-      <div id="importPesoStatus" class="import-status"></div>
-      <details style="margin-top:18px;">
-        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
-        <div style="margin-top:12px;">
-          <div class="format-hint">
-            <strong>📋 Formatos aceptados al pegar:</strong><br>
-            <strong>1. CSV de balanza</strong> (Renpho, etc.): <code>time,weight,height,bmi,...</code><br>
-            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 91.2 | 92.7 | 92.0 | +0.2 | 33.0</code><br>
-            <strong>3. CSV simple</strong>: <code>fecha,peso</code> o <code>fecha,manana,tarde</code>
-          </div>
-          <label>Pega los datos de peso (CSV o tabla)</label>
-          <textarea id="inputPeso" placeholder="Pega aquí los datos de peso..."></textarea>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn" onclick="procesarPeso()">Procesar Peso</button>
-            <button class="btn btn-secondary" onclick="toggleLog('logPeso')">Ver log</button>
-          </div>
-          <div id="logPeso" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-balanza</div><div class="log-line log-info">Columnas: time=0, weight=1, bmi=3</div><div class="log-line log-success">✅ 32 días procesados (73 mediciones)</div><div class="log-line log-success">✓ 29 actualizados, 3 nuevos</div></div>
-        </div>
-      </details>
-    </div>
-
-    <div id="tabTA" class="tab-content">
-      <div class="format-hint">
-        <strong>📥 Importación de tensión</strong><br>
-        Selecciona el CSV exportado por tu tensiómetro. Reconoce CSV de tensiómetro (fecha,sistólica,diástole,pulso...) y CSV simple. Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>🩺 Archivo de tensión</strong>
-          <small>CSV exportado del tensiómetro o app de salud.</small>
-          <input type="file" id="fileImportTA" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivoTA()">📥 Importar archivo</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('fileImportTA').value='';document.getElementById('importTAStatus').textContent=''">✕ Limpiar selección</button>
-      </div>
-      <div id="importTAStatus" class="import-status"></div>
-      <details style="margin-top:18px;">
-        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
-        <div style="margin-top:12px;">
-          <div class="format-hint">
-            <strong>📋 Formatos aceptados al pegar:</strong><br>
-            <strong>1. CSV de tensiómetro</strong>: <code>Fecha,Sistólica,Diástole,Pulso,...</code><br>
-            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 142 | 76 | 67 | HTA</code><br>
-            <strong>3. CSV simple</strong>: <code>fecha,sistolica,diastole,pulso</code>
-          </div>
-          <label>Pega los datos de tensión (CSV o tabla)</label>
-          <textarea id="inputTA" placeholder="Pega aquí los datos de tensión..."></textarea>
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn" onclick="procesarTA()">Procesar Tensión</button>
-            <button class="btn btn-secondary" onclick="toggleLog('logTA')">Ver log</button>
-          </div>
-          <div id="logTA" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-tension</div><div class="log-line log-info">Columnas: fecha=0, sis=1, dia=2, pulso=3</div><div class="log-line log-success">✅ 20 días procesados (20 mediciones)</div><div class="log-line log-success">✓ 18 actualizados, 2 nuevos</div></div>
-        </div>
-      </details>
-    </div>
-
-
-    <div id="tabActividad" class="tab-content active">
-      <div class="format-hint">
-        <strong>📥 Importación de actividad</strong><br>
-        Selecciona los CSV exportados por tu dispositivo. Puedes actualizar solo el archivo que haya cambiado.
-        Los datos se fusionan por fecha y no se duplican.
-      </div>
-      <div class="file-import-grid">
-        <div class="file-import-box">
-          <strong>🚶 Actividad diaria</strong>
-          <small>ACTIVITY*.csv — fecha, pasos, distancia, runDistance, calorías.</small>
-          <input type="file" id="fileActividad" accept=".csv,text/csv">
-        </div>
-        <div class="file-import-box">
-          <strong>🏃 Sesiones</strong>
-          <small>ACTIVITY_STAGE*.csv — fecha, inicio, fin, distancia, calorías, pasos.</small>
-          <input type="file" id="fileActividadEtapas" accept=".csv,text/csv">
-        </div>
-        <div class="file-import-box">
-          <strong>⏱ Actividad por minuto</strong>
-          <small>ACTIVITY_MINUTE*.csv — fecha, hora, pasos.</small>
-          <input type="file" id="fileActividadMinuto" accept=".csv,text/csv">
-        </div>
-      </div>
-      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" onclick="importarArchivosActividad()">📥 Incorporar archivos seleccionados</button>
-        <button class="btn btn-secondary" onclick="limpiarSeleccionActividad()">✕ Limpiar selección</button>
-      </div>
-      <div id="importActividadStatus" class="import-status">✅ Actividad diaria: 37 filas incorporadas. · Sesiones: 191 filas incorporadas. · Actividad por minuto: 4007 filas incorporadas.</div>
-    </div>
-
-    <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn" onclick="descargarHTML()">💾 Descargar HTML Actualizado</button>
-      <button class="btn btn-secondary" onclick="restaurarOriginal()">↺ Restaurar Original</button>
-    </div>
-  </details>
+  <div id="cardAnaliticasAnchor"></div>
 
 
   <div class="card">
@@ -1246,42 +1122,42 @@
     <div class="hitos-grid" id="hitosGrid">
     <div class="hito-card ">
       <div class="hito-peso">88 kg</div>
-      <div class="hito-fecha">24 ago</div>
+      <div class="hito-fecha">27 ago</div>
       <div class="hito-dias">en 6 días</div>
       
     </div>
   
     <div class="hito-card ">
       <div class="hito-peso">87 kg</div>
-      <div class="hito-fecha">30 ago</div>
+      <div class="hito-fecha">2 sept</div>
       <div class="hito-dias">en 12 días</div>
       
     </div>
   
     <div class="hito-card ">
       <div class="hito-peso">86 kg</div>
-      <div class="hito-fecha">5 sept</div>
+      <div class="hito-fecha">8 sept</div>
       <div class="hito-dias">en 18 días</div>
       
     </div>
   
     <div class="hito-card ">
       <div class="hito-peso">85 kg</div>
-      <div class="hito-fecha">11 sept</div>
+      <div class="hito-fecha">14 sept</div>
       <div class="hito-dias">en 24 días</div>
       
     </div>
   
     <div class="hito-card ">
       <div class="hito-peso">84 kg</div>
-      <div class="hito-fecha">18 sept</div>
+      <div class="hito-fecha">21 sept</div>
       <div class="hito-dias">en 31 días</div>
       
     </div>
   
     <div class="hito-card objetivo">
       <div class="hito-peso">83.6 kg</div>
-      <div class="hito-fecha">20 sept</div>
+      <div class="hito-fecha">23 sept</div>
       <div class="hito-dias">en 33 días</div>
       <div class="hito-badge next">🎯 Objetivo</div>
     </div>
@@ -1313,27 +1189,10 @@
     </div>
     <div class="inyeccion-item">
       <div class="label">Días restantes</div>
-      <div class="value">3</div>
+      <div class="value">0</div>
     </div>
   </div>
-      <div class="form-row">
-        <div>
-          <label>Fecha</label>
-          <input type="date" id="injFecha">
-        </div>
-        <div>
-          <label>Dosis</label>
-          <select id="injDosis">
-            <option value="2.5">2.5 mg</option>
-            <option value="5">5 mg</option>
-            <option value="7.5">7.5 mg</option>
-            <option value="10">10 mg</option>
-            <option value="12.5">12.5 mg</option>
-            <option value="15">15 mg</option>
-          </select>
-        </div>
-      </div>
-      <button class="btn" onclick="registrarInyeccion()">💉 Pinchado</button>
+      <div id="inyeccionEntryFormPlaceholder" style="color:var(--text-3);font-size:0.82rem;margin-top:6px;">💉 Para registrar el pinchazo de hoy, baja al final de la página, a "Registrar datos".</div>
       <div style="margin-top:18px">
         <label style="margin-bottom:8px">Historial de inyecciones</label>
         <div class="historial-inyecciones" id="historialInyecciones">
@@ -1510,7 +1369,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>22 jul</strong></td>
         <td>148</td>
         <td>87</td>
@@ -1518,7 +1377,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>18 jul</strong></td>
         <td>153</td>
         <td>88</td>
@@ -1526,7 +1385,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>17 jul</strong></td>
         <td>162</td>
         <td>95</td>
@@ -1534,7 +1393,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>16 jul</strong></td>
         <td>144</td>
         <td>90</td>
@@ -1542,7 +1401,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>15 jul</strong></td>
         <td>149</td>
         <td>89</td>
@@ -1550,7 +1409,7 @@
         <td><span class="badge badge-danger">HTA Estadio 2</span></td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>14 jul</strong></td>
         <td>146</td>
         <td>90</td>
@@ -1559,7 +1418,7 @@
       </tr>
     </tbody>
         </table>
-      </div>
+      </div><button class="btn btn-secondary tabla-toggle-btn" data-for="_tablaTA_tbody" data-expanded="0" style="margin-top: 12px;">▾ Ver todos (20)</button>
     </div>
   </div>
 
@@ -1625,7 +1484,7 @@
       </div>
     </div>
     <div class="chart-container">
-      <canvas id="canvasProyeccion" width="1188" height="380" style="height: 380px;"></canvas>
+      <canvas id="canvasProyeccion" width="814" height="304" style="height: 380px;"></canvas>
     </div>
     <div class="chart-legend">
       <div class="legend-item"><span class="legend-line solid"></span>Histórico</div>
@@ -1708,7 +1567,7 @@
       <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:16px;height:2px;background:#f87171;display:inline-block;"></span>Línea de tendencia</span>
     </div>
     <div class="chart-container" style="position:relative;">
-      <canvas id="canvasCorrelacion" width="1188" height="240" style="height: 240px;"></canvas>
+      <canvas id="canvasCorrelacion" width="814" height="192" style="height: 240px;"></canvas>
       <div id="tooltipCorrelacion" style="position:absolute; display:none; pointer-events:none; background:var(--bg-3); border:1px solid var(--border-gold-strong); border-radius:8px; padding:6px 10px; font-size:0.75rem; color:var(--text-1); white-space:nowrap; z-index:5; box-shadow:0 4px 14px rgba(0,0,0,.4);"></div>
     </div>
     <div id="correlacionStats" style="margin-top:14px;"><div class="activity-analysis"><div class="activity-analysis-card"><div class="title">Pearson</div><div class="big">0.23</div><div class="small">Relación lineal peso–sistólica. <span class="confidence conf-med">Moderada · n=20</span></div></div><div class="activity-analysis-card"><div class="title">Spearman</div><div class="big">0.35</div><div class="small">Relación monotónica, menos sensible a valores extremos.</div></div><div class="activity-analysis-card"><div class="title">Muestra</div><div class="big">20</div><div class="small">Pares de mediciones coincidentes por fecha.</div></div></div></div>
@@ -1728,7 +1587,7 @@
       <div class="label">kg perdidos / mg total</div>
     </div>
     <div class="eficiencia-item">
-      <div class="value">7.6 kg</div>
+      <div class="value">6.5 kg</div>
       <div class="label">Pérdida mensual</div>
       <div style="font-size:0.68rem; color:var(--text-3); margin-top:4px;">Proyección mensual</div>
     </div>
@@ -1737,7 +1596,7 @@
       <div class="label">Dosis media</div>
     </div>
     <div class="eficiencia-item">
-      <div class="value">19</div>
+      <div class="value">22</div>
       <div class="label">Días en tratamiento</div>
     </div>
     <div class="eficiencia-item">
@@ -1898,7 +1757,7 @@
         <td>32.7</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>31 jul</strong></td>
         <td>91.2</td>
         <td>92.3</td>
@@ -1907,7 +1766,7 @@
         <td>32.9</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>30 jul</strong></td>
         <td>91.8</td>
         <td>92.7</td>
@@ -1916,7 +1775,7 @@
         <td>33.1</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>29 jul</strong></td>
         <td>91.7</td>
         <td>92.2</td>
@@ -1925,7 +1784,7 @@
         <td>33.0</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>28 jul</strong></td>
         <td>92.3</td>
         <td>92.6</td>
@@ -1934,7 +1793,7 @@
         <td>33.1</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>27 jul</strong></td>
         <td>92.1</td>
         <td>92.8</td>
@@ -1943,7 +1802,7 @@
         <td>33.1</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>26 jul</strong></td>
         <td>-</td>
         <td>91.9</td>
@@ -1952,7 +1811,7 @@
         <td>33.0</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>24 jul</strong></td>
         <td>91.5</td>
         <td>-</td>
@@ -1961,7 +1820,7 @@
         <td>32.8</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>23 jul</strong></td>
         <td>91.8</td>
         <td>91.9</td>
@@ -1970,7 +1829,7 @@
         <td>32.9</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>22 jul</strong></td>
         <td>92.0</td>
         <td>-</td>
@@ -1979,7 +1838,7 @@
         <td>33.0</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>21 jul</strong></td>
         <td>91.6</td>
         <td>92.0</td>
@@ -1988,7 +1847,7 @@
         <td>32.9</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>20 jul</strong></td>
         <td>-</td>
         <td>92.7</td>
@@ -1997,7 +1856,7 @@
         <td>33.2</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>19 jul</strong></td>
         <td>92.1</td>
         <td>92.7</td>
@@ -2006,7 +1865,7 @@
         <td>33.1</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>18 jul</strong></td>
         <td>92.0</td>
         <td>92.9</td>
@@ -2015,7 +1874,7 @@
         <td>33.1</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>17 jul</strong></td>
         <td>92.7</td>
         <td>93.4</td>
@@ -2024,7 +1883,7 @@
         <td>33.4</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>16 jul</strong></td>
         <td>92.7</td>
         <td>-</td>
@@ -2033,7 +1892,7 @@
         <td>33.2</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>15 jul</strong></td>
         <td>-</td>
         <td>93.2</td>
@@ -2042,7 +1901,7 @@
         <td>33.4</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>14 jul</strong></td>
         <td>93.1</td>
         <td>93.2</td>
@@ -2051,7 +1910,7 @@
         <td>33.4</td>
       </tr>
     
-      <tr>
+      <tr style="display: none;">
         <td><strong>13 jul</strong></td>
         <td>-</td>
         <td>93.6</td>
@@ -2061,7 +1920,7 @@
       </tr>
     </tbody>
       </table>
-    </div>
+    </div><button class="btn btn-secondary tabla-toggle-btn" data-for="_tablaPeso_tbody" data-expanded="0" style="margin-top: 12px;">▾ Ver todos (32)</button>
   </div>
 
   <div class="card">
@@ -2086,7 +1945,7 @@
     <div class="resumen-box" id="resumenBox">
     <p>De <strong>93.6 kg</strong> a <strong>88.8 kg</strong> en <strong>36 días</strong>. Has perdido <strong>4.8 kg</strong>, un <strong>48.0%</strong> del objetivo.</p>
     <p>Ritmo real: <strong>1.12 kg/sem</strong> (¡superas el objetivo!).</p>
-    <p>Si mantienes el ritmo, llegarías a <strong>83.6 kg</strong> el <strong>20 de septiembre de 2026</strong> (en <strong>33 días</strong>).</p>
+    <p>Si mantienes el ritmo, llegarías a <strong>83.6 kg</strong> el <strong>23 de septiembre de 2026</strong> (en <strong>33 días</strong>).</p>
     
   <p>Tensión arterial: <strong>137/85 mmHg</strong> - <strong>HTA Estadio 1</strong>. Pulso: 64 bpm.</p><p>Tirzepatida: <strong>2.5 mg</strong> el 14 de agosto de 2026. Total: <strong>3</strong> inyección(es).</p><p>IMC actual: <strong>31.8</strong>. Al llegar al objetivo: <strong>30.0</strong>.</p><p>Periodo analizado: <strong>36 días</strong>. Pérdida observada: <strong>4.8 kg</strong>. Ritmo robusto estimado: <strong>1.12 kg/sem</strong>.</p><p>Actividad: <strong>37</strong> días registrados; media últimos 7 días: <strong>9779 pasos/día</strong>.</p><p>Se han podido comparar actividad y peso del día siguiente en <strong>28</strong> ocasiones. El cambio medio de peso posterior fue <strong>-0.19 kg</strong>; es una descripción, no una atribución causal.</p></div>
   </div>
@@ -2110,7 +1969,7 @@
       <div class="activity-stat"><div class="label">Máximo</div><div class="value">15.408</div><div class="sub">pasos en un día</div></div>
       <div class="activity-stat"><div class="label">Mínimo</div><div class="value">3162</div><div class="sub">pasos en un día</div></div>
     </div></div>
-    <div class="activity-chart-wrap"><canvas id="canvasActividad" width="1220" height="328"></canvas></div>
+    <div class="activity-chart-wrap"><canvas id="canvasActividad" width="840" height="262"></canvas></div>
     <div id="actividadAnalisis"><div class="activity-analysis">
       <div class="activity-analysis-card"><div class="title">🚶 Actividad reciente</div><div class="big">3188 pasos</div><div class="small">Media de los últimos 7 días: <strong>9779</strong> pasos.</div></div>
       <div class="activity-analysis-card"><div class="title">⚖️ Actividad → peso siguiente</div><div class="small">Pasos del día → cambio de peso al día siguiente: Pearson <strong>-0.25</strong> · Spearman <strong>-0.22</strong>. <span class="confidence conf-med">Moderada · n=28</span></div></div>
@@ -2119,14 +1978,186 @@
     <div class="activity-table" style="margin-top:18px">
       <table>
         <thead><tr><th>Fecha</th><th>Peso</th><th>Pasos</th><th>Km</th><th>Sesiones</th><th>Peso siguiente</th><th>∆ siguiente</th></tr></thead>
-        <tbody id="tablaActividadBody"><tr><td>18/8</td><td>88.8</td><td>3188</td><td>2.19</td><td>6</td><td>—</td><td>—</td></tr><tr><td>17/8</td><td>—</td><td>8705</td><td>6.07</td><td>8</td><td>88.8</td><td>—</td></tr><tr><td>16/8</td><td>88.5</td><td>8752</td><td>6.27</td><td>5</td><td>—</td><td>—</td></tr><tr><td>15/8</td><td>89.3</td><td>14.681</td><td>10.59</td><td>3</td><td>88.5</td><td>-0.75</td></tr><tr><td>14/8</td><td>88.9</td><td>12.808</td><td>9.02</td><td>5</td><td>89.3</td><td>+0.35</td></tr><tr><td>13/8</td><td>89.5</td><td>10.547</td><td>7.37</td><td>5</td><td>88.9</td><td>-0.65</td></tr><tr><td>12/8</td><td>89.9</td><td>9773</td><td>7.19</td><td>4</td><td>89.5</td><td>-0.35</td></tr><tr><td>11/8</td><td>90.0</td><td>10.790</td><td>7.58</td><td>7</td><td>89.9</td><td>-0.10</td></tr><tr><td>10/8</td><td>90.2</td><td>10.979</td><td>8.17</td><td>3</td><td>90.0</td><td>-0.15</td></tr><tr><td>9/8</td><td>90.1</td><td>10.904</td><td>7.46</td><td>5</td><td>90.2</td><td>+0.04</td></tr><tr><td>8/8</td><td>90.4</td><td>15.408</td><td>10.85</td><td>4</td><td>90.1</td><td>-0.29</td></tr><tr><td>7/8</td><td>90.5</td><td>3162</td><td>2.03</td><td>3</td><td>90.4</td><td>-0.10</td></tr><tr><td>6/8</td><td>—</td><td>8969</td><td>6.12</td><td>9</td><td>90.5</td><td>—</td></tr><tr><td>5/8</td><td>—</td><td>7683</td><td>5.10</td><td>6</td><td>—</td><td>—</td></tr><tr><td>4/8</td><td>—</td><td>7355</td><td>4.98</td><td>5</td><td>—</td><td>—</td></tr><tr><td>3/8</td><td>90.7</td><td>9134</td><td>6.31</td><td>7</td><td>—</td><td>—</td></tr><tr><td>2/8</td><td>90.7</td><td>10.700</td><td>7.42</td><td>6</td><td>90.7</td><td>0.00</td></tr><tr><td>1/8</td><td>91.3</td><td>7408</td><td>5.27</td><td>5</td><td>90.7</td><td>-0.60</td></tr><tr><td>31/7</td><td>91.8</td><td>8043</td><td>5.39</td><td>5</td><td>91.3</td><td>-0.45</td></tr><tr><td>30/7</td><td>92.3</td><td>12.474</td><td>8.56</td><td>8</td><td>91.8</td><td>-0.50</td></tr><tr><td>29/7</td><td>92.0</td><td>13.521</td><td>8.94</td><td>6</td><td>92.3</td><td>+0.28</td></tr><tr><td>28/7</td><td>92.4</td><td>9238</td><td>6.11</td><td>3</td><td>92.0</td><td>-0.46</td></tr><tr><td>27/7</td><td>92.4</td><td>3749</td><td>2.41</td><td>4</td><td>92.4</td><td>-0.02</td></tr><tr><td>26/7</td><td>91.9</td><td>5491</td><td>3.74</td><td>8</td><td>92.4</td><td>+0.55</td></tr><tr><td>25/7</td><td>—</td><td>10.336</td><td>6.92</td><td>11</td><td>91.9</td><td>—</td></tr><tr><td>24/7</td><td>91.5</td><td>5224</td><td>3.42</td><td>4</td><td>—</td><td>—</td></tr><tr><td>23/7</td><td>91.9</td><td>7692</td><td>5.36</td><td>6</td><td>91.5</td><td>-0.38</td></tr><tr><td>22/7</td><td>92.0</td><td>10.294</td><td>7.05</td><td>4</td><td>91.9</td><td>-0.17</td></tr><tr><td>21/7</td><td>91.8</td><td>7338</td><td>5.16</td><td>3</td><td>92.0</td><td>+0.25</td></tr><tr><td>20/7</td><td>92.7</td><td>12.401</td><td>8.49</td><td>6</td><td>91.8</td><td>-0.90</td></tr><tr><td>19/7</td><td>92.4</td><td>3506</td><td>2.41</td><td>3</td><td>92.7</td><td>+0.30</td></tr><tr><td>18/7</td><td>92.5</td><td>13.753</td><td>9.40</td><td>7</td><td>92.4</td><td>-0.05</td></tr><tr><td>17/7</td><td>93.1</td><td>7864</td><td>5.65</td><td>3</td><td>92.5</td><td>-0.60</td></tr><tr><td>16/7</td><td>92.7</td><td>7052</td><td>4.95</td><td>5</td><td>93.1</td><td>+0.35</td></tr><tr><td>15/7</td><td>93.2</td><td>8539</td><td>6.19</td><td>6</td><td>92.7</td><td>-0.50</td></tr><tr><td>14/7</td><td>93.1</td><td>5644</td><td>3.96</td><td>2</td><td>93.2</td><td>+0.08</td></tr><tr><td>13/7</td><td>93.6</td><td>4899</td><td>3.25</td><td>1</td><td>93.1</td><td>-0.47</td></tr></tbody>
-      </table>
+        <tbody id="tablaActividadBody"><tr><td>18/8</td><td>88.8</td><td>3188</td><td>2.19</td><td>6</td><td>—</td><td>—</td></tr><tr><td>17/8</td><td>—</td><td>8705</td><td>6.07</td><td>8</td><td>88.8</td><td>—</td></tr><tr><td>16/8</td><td>88.5</td><td>8752</td><td>6.27</td><td>5</td><td>—</td><td>—</td></tr><tr><td>15/8</td><td>89.3</td><td>14.681</td><td>10.59</td><td>3</td><td>88.5</td><td>-0.75</td></tr><tr><td>14/8</td><td>88.9</td><td>12.808</td><td>9.02</td><td>5</td><td>89.3</td><td>+0.35</td></tr><tr><td>13/8</td><td>89.5</td><td>10.547</td><td>7.37</td><td>5</td><td>88.9</td><td>-0.65</td></tr><tr><td>12/8</td><td>89.9</td><td>9773</td><td>7.19</td><td>4</td><td>89.5</td><td>-0.35</td></tr><tr><td>11/8</td><td>90.0</td><td>10.790</td><td>7.58</td><td>7</td><td>89.9</td><td>-0.10</td></tr><tr><td>10/8</td><td>90.2</td><td>10.979</td><td>8.17</td><td>3</td><td>90.0</td><td>-0.15</td></tr><tr><td>9/8</td><td>90.1</td><td>10.904</td><td>7.46</td><td>5</td><td>90.2</td><td>+0.04</td></tr><tr><td>8/8</td><td>90.4</td><td>15.408</td><td>10.85</td><td>4</td><td>90.1</td><td>-0.29</td></tr><tr><td>7/8</td><td>90.5</td><td>3162</td><td>2.03</td><td>3</td><td>90.4</td><td>-0.10</td></tr><tr><td>6/8</td><td>—</td><td>8969</td><td>6.12</td><td>9</td><td>90.5</td><td>—</td></tr><tr><td>5/8</td><td>—</td><td>7683</td><td>5.10</td><td>6</td><td>—</td><td>—</td></tr><tr style="display: none;"><td>4/8</td><td>—</td><td>7355</td><td>4.98</td><td>5</td><td>—</td><td>—</td></tr><tr style="display: none;"><td>3/8</td><td>90.7</td><td>9134</td><td>6.31</td><td>7</td><td>—</td><td>—</td></tr><tr style="display: none;"><td>2/8</td><td>90.7</td><td>10.700</td><td>7.42</td><td>6</td><td>90.7</td><td>0.00</td></tr><tr style="display: none;"><td>1/8</td><td>91.3</td><td>7408</td><td>5.27</td><td>5</td><td>90.7</td><td>-0.60</td></tr><tr style="display: none;"><td>31/7</td><td>91.8</td><td>8043</td><td>5.39</td><td>5</td><td>91.3</td><td>-0.45</td></tr><tr style="display: none;"><td>30/7</td><td>92.3</td><td>12.474</td><td>8.56</td><td>8</td><td>91.8</td><td>-0.50</td></tr><tr style="display: none;"><td>29/7</td><td>92.0</td><td>13.521</td><td>8.94</td><td>6</td><td>92.3</td><td>+0.28</td></tr><tr style="display: none;"><td>28/7</td><td>92.4</td><td>9238</td><td>6.11</td><td>3</td><td>92.0</td><td>-0.46</td></tr><tr style="display: none;"><td>27/7</td><td>92.4</td><td>3749</td><td>2.41</td><td>4</td><td>92.4</td><td>-0.02</td></tr><tr style="display: none;"><td>26/7</td><td>91.9</td><td>5491</td><td>3.74</td><td>8</td><td>92.4</td><td>+0.55</td></tr><tr style="display: none;"><td>25/7</td><td>—</td><td>10.336</td><td>6.92</td><td>11</td><td>91.9</td><td>—</td></tr><tr style="display: none;"><td>24/7</td><td>91.5</td><td>5224</td><td>3.42</td><td>4</td><td>—</td><td>—</td></tr><tr style="display: none;"><td>23/7</td><td>91.9</td><td>7692</td><td>5.36</td><td>6</td><td>91.5</td><td>-0.38</td></tr><tr style="display: none;"><td>22/7</td><td>92.0</td><td>10.294</td><td>7.05</td><td>4</td><td>91.9</td><td>-0.17</td></tr><tr style="display: none;"><td>21/7</td><td>91.8</td><td>7338</td><td>5.16</td><td>3</td><td>92.0</td><td>+0.25</td></tr><tr style="display: none;"><td>20/7</td><td>92.7</td><td>12.401</td><td>8.49</td><td>6</td><td>91.8</td><td>-0.90</td></tr><tr style="display: none;"><td>19/7</td><td>92.4</td><td>3506</td><td>2.41</td><td>3</td><td>92.7</td><td>+0.30</td></tr><tr style="display: none;"><td>18/7</td><td>92.5</td><td>13.753</td><td>9.40</td><td>7</td><td>92.4</td><td>-0.05</td></tr><tr style="display: none;"><td>17/7</td><td>93.1</td><td>7864</td><td>5.65</td><td>3</td><td>92.5</td><td>-0.60</td></tr><tr style="display: none;"><td>16/7</td><td>92.7</td><td>7052</td><td>4.95</td><td>5</td><td>93.1</td><td>+0.35</td></tr><tr style="display: none;"><td>15/7</td><td>93.2</td><td>8539</td><td>6.19</td><td>6</td><td>92.7</td><td>-0.50</td></tr><tr style="display: none;"><td>14/7</td><td>93.1</td><td>5644</td><td>3.96</td><td>2</td><td>93.2</td><td>+0.08</td></tr><tr style="display: none;"><td>13/7</td><td>93.6</td><td>4899</td><td>3.25</td><td>1</td><td>93.1</td><td>-0.47</td></tr></tbody>
+      </table><button class="btn btn-secondary tabla-toggle-btn" data-for="_tablaActividadBody" data-expanded="0" style="margin-top: 12px;">▾ Ver todos (37)</button>
     </div>
     <div class="activity-note">
       Los análisis muestran asociaciones observadas en tus datos personales. No demuestran causalidad ni sustituyen una valoración médica.
     </div>
   </div>
 
+
+  <div class="section-divider"></div>
+
+  <div id="registrarDatosHeading" style="text-align:center;margin-bottom:8px;">
+    <div style="color:var(--gold-2);font-weight:700;font-size:1.1rem;letter-spacing:.02em;">📝 Registrar datos</div>
+    <div style="color:var(--text-3);font-size:0.82rem;margin-top:4px;">Todo lo que necesitas para meter peso, tensión, inyecciones, actividad o analíticas está aquí abajo.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <span class="icon">💉</span>
+      <div>
+        <div class="title-text">Registrar inyección de Tirzepatida</div>
+        <div class="subtitle-text">Se guarda al momento y sube automáticamente a GitHub si tienes la sincronización activada</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div>
+        <label>Fecha</label>
+        <input type="date" id="injFecha">
+      </div>
+      <div>
+        <label>Dosis</label>
+        <select id="injDosis">
+          <option value="2.5">2.5 mg</option>
+          <option value="5">5 mg</option>
+          <option value="7.5">7.5 mg</option>
+          <option value="10">10 mg</option>
+          <option value="12.5">12.5 mg</option>
+          <option value="15">15 mg</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" onclick="registrarInyeccion()">💉 Pinchado</button>
+  </div>
+
+  <div id="dataEntrySection">
+  <details class="card" id="cardActualizar" open="">
+    <summary class="card-title">
+      <span class="icon">⚙️</span>
+      <div>
+        <div class="title-text">Actualizar y Descargar Datos</div>
+        <div class="subtitle-text">Compatible con CSV y formato pipe · toca para abrir</div>
+      </div>
+    </summary>
+    <div id="autosaveBanner" style="display: block; margin-bottom: 16px; padding: 12px 14px; background: var(--warning-soft); border: 1px solid var(--warning); border-radius: 10px; font-size: 0.85rem; color: var(--text-1);">📦 Hay cambios guardados en este navegador (20 ago, 17:33) que no están en este archivo — probablemente los importaste aquí y no llegaste a descargar/re-subir el HTML actualizado.
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn" style="padding:6px 14px;font-size:0.8rem;" onclick="restaurarAutoguardado()">Restaurar esos cambios</button>
+          <button class="btn btn-secondary" style="padding:6px 14px;font-size:0.8rem;" onclick="descartarAutoguardado()">Descartar</button>
+        </div></div>
+    <div class="tabs">
+      <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
+      <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
+      <button class="tab active" onclick="switchTab(event, 'tabActividad')">Actividad</button>
+    </div>
+
+    <div id="tabPeso" class="tab-content">
+      <div class="format-hint">
+        <strong>📥 Importación de peso</strong><br>
+        Selecciona el CSV exportado por tu báscula. Reconoce CSV de balanza (Renpho y similares) y CSV simple (fecha,peso). Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>⚖️ Archivo de peso</strong>
+          <small>CSV exportado de la báscula o app de salud.</small>
+          <input type="file" id="fileImportPeso" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivoPeso()">📥 Importar archivo</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileImportPeso').value='';document.getElementById('importPesoStatus').textContent=''">✕ Limpiar selección</button>
+      </div>
+      <div id="importPesoStatus" class="import-status"></div>
+      <details style="margin-top:18px;">
+        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
+        <div style="margin-top:12px;">
+          <div class="format-hint">
+            <strong>📋 Formatos aceptados al pegar:</strong><br>
+            <strong>1. CSV de balanza</strong> (Renpho, etc.): <code>time,weight,height,bmi,...</code><br>
+            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 91.2 | 92.7 | 92.0 | +0.2 | 33.0</code><br>
+            <strong>3. CSV simple</strong>: <code>fecha,peso</code> o <code>fecha,manana,tarde</code>
+          </div>
+          <label>Pega los datos de peso (CSV o tabla)</label>
+          <textarea id="inputPeso" placeholder="Pega aquí los datos de peso..."></textarea>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" onclick="procesarPeso()">Procesar Peso</button>
+            <button class="btn btn-secondary" onclick="toggleLog('logPeso')">Ver log</button>
+          </div>
+          <div id="logPeso" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-balanza</div><div class="log-line log-info">Columnas: time=0, weight=1, bmi=3</div><div class="log-line log-success">✅ 32 días procesados (73 mediciones)</div><div class="log-line log-success">✓ 29 actualizados, 3 nuevos</div></div>
+        </div>
+      </details>
+    </div>
+
+    <div id="tabTA" class="tab-content">
+      <div class="format-hint">
+        <strong>📥 Importación de tensión</strong><br>
+        Selecciona el CSV exportado por tu tensiómetro. Reconoce CSV de tensiómetro (fecha,sistólica,diástole,pulso...) y CSV simple. Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>🩺 Archivo de tensión</strong>
+          <small>CSV exportado del tensiómetro o app de salud.</small>
+          <input type="file" id="fileImportTA" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivoTA()">📥 Importar archivo</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('fileImportTA').value='';document.getElementById('importTAStatus').textContent=''">✕ Limpiar selección</button>
+      </div>
+      <div id="importTAStatus" class="import-status"></div>
+      <details style="margin-top:18px;">
+        <summary style="cursor:pointer; color:var(--text-3); font-size:0.85rem;">Alternativa: pegar los datos manualmente</summary>
+        <div style="margin-top:12px;">
+          <div class="format-hint">
+            <strong>📋 Formatos aceptados al pegar:</strong><br>
+            <strong>1. CSV de tensiómetro</strong>: <code>Fecha,Sistólica,Diástole,Pulso,...</code><br>
+            <strong>2. Tabla con pipes</strong>: <code>0 | 31 jul | 142 | 76 | 67 | HTA</code><br>
+            <strong>3. CSV simple</strong>: <code>fecha,sistolica,diastole,pulso</code>
+          </div>
+          <label>Pega los datos de tensión (CSV o tabla)</label>
+          <textarea id="inputTA" placeholder="Pega aquí los datos de tensión..."></textarea>
+          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" onclick="procesarTA()">Procesar Tensión</button>
+            <button class="btn btn-secondary" onclick="toggleLog('logTA')">Ver log</button>
+          </div>
+          <div id="logTA" class="process-log active"><div class="log-line log-info">🔍 Analizando formato...</div><div class="log-line log-info">Formato detectado: csv-tension</div><div class="log-line log-info">Columnas: fecha=0, sis=1, dia=2, pulso=3</div><div class="log-line log-success">✅ 20 días procesados (20 mediciones)</div><div class="log-line log-success">✓ 18 actualizados, 2 nuevos</div></div>
+        </div>
+      </details>
+    </div>
+
+
+    <div id="tabActividad" class="tab-content active">
+      <div class="format-hint">
+        <strong>📥 Importación de actividad</strong><br>
+        Selecciona los CSV exportados por tu dispositivo. Puedes actualizar solo el archivo que haya cambiado.
+        Los datos se fusionan por fecha y no se duplican.
+      </div>
+      <div class="file-import-grid">
+        <div class="file-import-box">
+          <strong>🚶 Actividad diaria</strong>
+          <small>ACTIVITY*.csv — fecha, pasos, distancia, runDistance, calorías.</small>
+          <input type="file" id="fileActividad" accept=".csv,text/csv">
+        </div>
+        <div class="file-import-box">
+          <strong>🏃 Sesiones</strong>
+          <small>ACTIVITY_STAGE*.csv — fecha, inicio, fin, distancia, calorías, pasos.</small>
+          <input type="file" id="fileActividadEtapas" accept=".csv,text/csv">
+        </div>
+        <div class="file-import-box">
+          <strong>⏱ Actividad por minuto</strong>
+          <small>ACTIVITY_MINUTE*.csv — fecha, hora, pasos.</small>
+          <input type="file" id="fileActividadMinuto" accept=".csv,text/csv">
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" onclick="importarArchivosActividad()">📥 Incorporar archivos seleccionados</button>
+        <button class="btn btn-secondary" onclick="limpiarSeleccionActividad()">✕ Limpiar selección</button>
+      </div>
+      <div id="importActividadStatus" class="import-status">✅ Actividad diaria: 37 filas incorporadas. · Sesiones: 191 filas incorporadas. · Actividad por minuto: 4007 filas incorporadas.</div>
+    </div>
+
+    <div style="margin-top:24px; display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn" onclick="descargarHTML()">💾 Descargar HTML Actualizado</button>
+      <button class="btn btn-secondary" onclick="restaurarOriginal()">↺ Restaurar Original</button>
+    <div id="ghSyncButtonsWrap" style="margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <button class="btn" onclick="guardarEnGitHub()">☁️ Guardar en GitHub</button>
+      <button class="btn btn-secondary" style="padding:8px 12px;font-size:0.78rem;" onclick="cambiarTokenGitHub()">🔑 Cambiar token</button>
+      <span id="ghSyncStatus" style="color:var(--text-3);font-size:0.8rem;">Sincronizado con GitHub</span>
+    </div></div>
+  </details>
+  </div>
+  <!-- fin dataEntrySection: el bloque cardActualizar se traslada al final de la página mediante moverEntradaDeDatosAlFinal() -->
 
   <div style="text-align:center; padding:32px 20px;">
     <div style="color:var(--text-4); font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;">
@@ -24703,9 +24734,2273 @@ let DATOS = {
       "rem": 0,
       "siestas": null
     }
+  ],
+  "analiticas": [
+    {
+      "fecha": "2026-03-10",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.6,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 15.5,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 44.1,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 95.2,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 33.5,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 35.1,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 13,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 6.5,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 3.8,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.6,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.09,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.04,
+          "unidad": "x10³/µl",
+          "refMin": 0.01,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 203,
+          "unidad": "x10³/µl",
+          "refMin": 130,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 10.3,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 97,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 100,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.85,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 92.1,
+          "unidad": "ml/min/1.73m²",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 6.2,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 1,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.7,
+          "unidad": "%",
+          "refMin": null,
+          "refMax": 5.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 24,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 25,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 41,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 14,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 172,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 205,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 212,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 42,
+          "unidad": "mg/dl",
+          "refMin": 40,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 121,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "no_hdl",
+          "nombre": "Colesterol no-HDL suero",
+          "valor": 163,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 130,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 1.15,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 1.2,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 28.8,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": null,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "creatinina_orina",
+          "nombre": "Creatinina orina",
+          "valor": 70.1,
+          "unidad": "mg/dl",
+          "refMin": 39,
+          "refMax": 259,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "microalbumina_orina",
+          "nombre": "Microalbúmina orina",
+          "valor": 3,
+          "unidad": "mg/l",
+          "refMin": 0,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "cociente_microalb_creat",
+          "nombre": "Cociente microalbuminuria/creatinina",
+          "valor": 4.3,
+          "unidad": "mg/g",
+          "refMin": null,
+          "refMax": 30,
+          "fueraDeRango": false
+        }
+      ]
+    },
+    {
+      "fecha": "2025-06-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.4,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.5,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 41.8,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 95.7,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 33.2,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34.7,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 12.8,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 5.5,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 2.9,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.5,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.1,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.04,
+          "unidad": "x10³/µl",
+          "refMin": 0.01,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 184,
+          "unidad": "x10³/µl",
+          "refMin": 130,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.1,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tiempo_protrombina",
+          "nombre": "Tiempo de Protrombina",
+          "valor": 13.5,
+          "unidad": "sg",
+          "refMin": 11,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_quick",
+          "nombre": "Índice de Quick",
+          "valor": 98,
+          "unidad": "%",
+          "refMin": 65,
+          "refMax": 125,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "inr",
+          "nombre": "INR",
+          "valor": 1,
+          "unidad": "",
+          "refMin": 0.8,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttpa",
+          "nombre": "Tiempo de tromboplastina parcial activado (TTPA)",
+          "valor": 27.6,
+          "unidad": "sg",
+          "refMin": 23,
+          "refMax": 39.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 110,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 100,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bun",
+          "nombre": "BUN (Nitrógeno ureico) suero",
+          "valor": 15,
+          "unidad": "mg/dl",
+          "refMin": 8,
+          "refMax": 23,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.91,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 89.32,
+          "unidad": "ml/min/1.73m²",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 6.2,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.8,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.3,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_indirecta",
+          "nombre": "Bilirrubina indirecta suero",
+          "valor": 0.5,
+          "unidad": "mg/dl",
+          "refMin": 0,
+          "refMax": 1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.5,
+          "unidad": "mg/dl",
+          "refMin": 8.8,
+          "refMax": 10.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "magnesio",
+          "nombre": "Magnesio suero",
+          "valor": 2,
+          "unidad": "mg/dL",
+          "refMin": 1.6,
+          "refMax": 2.4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.7,
+          "unidad": "%",
+          "refMin": null,
+          "refMax": 5.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 144,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.8,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 22,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 23,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 41,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 53,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 15,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 98,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ck",
+          "nombre": "CK (Creatin Quinasa) suero",
+          "valor": 235,
+          "unidad": "UI/l",
+          "refMin": null,
+          "refMax": 190,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "lipasa",
+          "nombre": "Lipasa suero",
+          "valor": 34,
+          "unidad": "UI/l",
+          "refMin": 13,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 171,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 191,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 260,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 195,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 164,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 36,
+          "unidad": "mg/dl",
+          "refMin": 40,
+          "refMax": null,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 126,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "no_hdl",
+          "nombre": "Colesterol no-HDL suero",
+          "valor": 159,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 130,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "zinc",
+          "nombre": "Zinc suero",
+          "valor": 91,
+          "unidad": "mcg/dL",
+          "refMin": 70,
+          "refMax": 120,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 1.37,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 5.65,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t3_total",
+          "nombre": "T3 total suero",
+          "valor": 1.03,
+          "unidad": "ng/ml",
+          "refMin": 0.8,
+          "refMax": 2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 12.4,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": null,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2024-01-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.6,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.9,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 43.8,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 95.2,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 32.4,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 12.8,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 6.3,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 3.2,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.6,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.07,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.03,
+          "unidad": "x10³/µl",
+          "refMin": 0.01,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 210,
+          "unidad": "x10³/µl",
+          "refMin": 130,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.5,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 7,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 97,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 39,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.83,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 94.31,
+          "unidad": "ml/min/1.73m²",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 5.5,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.5,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.2,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "albumina",
+          "nombre": "Albúmina suero",
+          "valor": 41.9,
+          "unidad": "g/L",
+          "refMin": 35,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.1,
+          "unidad": "mg/dl",
+          "refMin": 8.8,
+          "refMax": 10.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 2.9,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.7,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 141,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.5,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "cloro",
+          "nombre": "Cloro suero",
+          "valor": 105,
+          "unidad": "mmol/l",
+          "refMin": 98,
+          "refMax": 107,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 25,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 27,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 41,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 53,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 13,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 221,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 109,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "colinesterasa",
+          "nombre": "Colinesterasa suero",
+          "valor": 8383,
+          "unidad": "U/L",
+          "refMin": 5320,
+          "refMax": 12920,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 108,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 188,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 265,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 203,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 135,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 40,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 136,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 27,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_aterogenico",
+          "nombre": "Índice aterogénico suero",
+          "valor": 5.1,
+          "unidad": "Índice",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "no_hdl",
+          "nombre": "Colesterol no-HDL suero",
+          "valor": 163,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "lipidos_totales",
+          "nombre": "Lípidos totales suero",
+          "valor": 738,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 800,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 0.94,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 7.32,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "pcr",
+          "nombre": "Proteína C Reactiva",
+          "valor": 0.4,
+          "unidad": "mg/dL",
+          "refMin": null,
+          "refMax": 5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.6,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 0.96,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 14.4,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": null,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2021-09-25",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.7,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 15.4,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 45.5,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 97.6,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 33,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 33.8,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 13,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 6.5,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 3.3,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.7,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.06,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.03,
+          "unidad": "x10³/µl",
+          "refMin": 0,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 191,
+          "unidad": "x10³/µl",
+          "refMin": 125,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.4,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 4,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tiempo_protrombina",
+          "nombre": "Tiempo de Protrombina",
+          "valor": 13.5,
+          "unidad": "sg",
+          "refMin": 11,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "indice_quick",
+          "nombre": "Índice de Quick",
+          "valor": 98,
+          "unidad": "%",
+          "refMin": 65,
+          "refMax": 125,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "inr",
+          "nombre": "INR",
+          "valor": 1,
+          "unidad": "",
+          "refMin": 0.8,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttpa",
+          "nombre": "Tiempo de tromboplastina parcial activado (TTPA)",
+          "valor": 28.1,
+          "unidad": "sg",
+          "refMin": 23,
+          "refMax": 39.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ttp_ratio",
+          "nombre": "TTP Ratio",
+          "valor": 0.9,
+          "unidad": "",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 84,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 33,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.72,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 102.15,
+          "unidad": "ml/min",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_urico",
+          "nombre": "Ácido úrico suero",
+          "valor": 5.1,
+          "unidad": "mg/dl",
+          "refMin": 3.4,
+          "refMax": 7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.6,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.3,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.1,
+          "unidad": "mg/dl",
+          "refMin": 8.6,
+          "refMax": 10,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 3.2,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.4,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 143,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.6,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 29,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 35,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 38,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 50,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 55,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 15,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 217,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "amilasa",
+          "nombre": "Amilasa suero",
+          "valor": 98,
+          "unidad": "UI/l",
+          "refMin": 28,
+          "refMax": 100,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colinesterasa",
+          "nombre": "Colinesterasa suero",
+          "valor": 7561,
+          "unidad": "U/L",
+          "refMin": 5320,
+          "refMax": 12920,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hierro",
+          "nombre": "Hierro suero",
+          "valor": 87,
+          "unidad": "µg/dl",
+          "refMin": 33,
+          "refMax": 193,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 298,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "transferrina",
+          "nombre": "Transferrina suero",
+          "valor": 265,
+          "unidad": "mg/dl",
+          "refMin": 200,
+          "refMax": 360,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 190,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 121,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 43,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 123,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 24,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "lipidos_totales",
+          "nombre": "Lípidos totales suero",
+          "valor": 711,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 800,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "aslo",
+          "nombre": "ASLO suero",
+          "valor": 24,
+          "unidad": "UI/ml",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "factor_reumatoide",
+          "nombre": "Factor reumatoide suero",
+          "valor": 7,
+          "unidad": "UI/ml",
+          "refMin": 0,
+          "refMax": 14,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 1.16,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_libre",
+          "nombre": "T4 libre suero",
+          "valor": 1.09,
+          "unidad": "ng/dl",
+          "refMin": 0.9,
+          "refMax": 1.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_total",
+          "nombre": "T4 total suero",
+          "valor": 6.83,
+          "unidad": "mcg/dL",
+          "refMin": 5.1,
+          "refMax": 14.1,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "pcr",
+          "nombre": "Proteína C Reactiva",
+          "valor": 0.6,
+          "unidad": "mg/dL",
+          "refMin": null,
+          "refMax": 5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.6,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 0.93,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_folico",
+          "nombre": "Ácido fólico suero",
+          "valor": 4.97,
+          "unidad": "ng/ml",
+          "refMin": 3.89,
+          "refMax": 26.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_b12",
+          "nombre": "Vitamina B12 suero",
+          "valor": 324.2,
+          "unidad": "pg/ml",
+          "refMin": 197,
+          "refMax": 771,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_d",
+          "nombre": "Vitamina D 25-Hidroxi",
+          "valor": 14.3,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 100,
+          "fueraDeRango": true
+        }
+      ]
+    },
+    {
+      "fecha": "2020-07-18",
+      "laboratorio": "Hospital Quirónsalud Infanta Luisa",
+      "parametros": [
+        {
+          "clave": "hematies",
+          "nombre": "Hematíes",
+          "valor": 4.5,
+          "unidad": "x10^6/µl",
+          "refMin": 4.5,
+          "refMax": 6,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hemoglobina",
+          "nombre": "Hemoglobina",
+          "valor": 14.9,
+          "unidad": "g/dl",
+          "refMin": 13.6,
+          "refMax": 17,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hematocrito",
+          "nombre": "Hematocrito",
+          "valor": 43.1,
+          "unidad": "%",
+          "refMin": 42,
+          "refMax": 52,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vcm",
+          "nombre": "Volumen corpuscular medio (VCM)",
+          "valor": 94.9,
+          "unidad": "fl",
+          "refMin": 81,
+          "refMax": 99,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hcm",
+          "nombre": "Hemoglobina corpuscular media (HCM)",
+          "valor": 32.8,
+          "unidad": "pg",
+          "refMin": 27.5,
+          "refMax": 33.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "chcm",
+          "nombre": "Concentración Hemoglobina Corpuscular Media (CHCM)",
+          "valor": 34.6,
+          "unidad": "g/dl",
+          "refMin": 31.5,
+          "refMax": 36,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "rdw",
+          "nombre": "RDW",
+          "valor": 13.1,
+          "unidad": "%",
+          "refMin": 12.5,
+          "refMax": 15.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "leucocitos",
+          "nombre": "Leucocitos",
+          "valor": 4.8,
+          "unidad": "x10³/µl",
+          "refMin": 3.8,
+          "refMax": 11.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "neutrofilos_abs",
+          "nombre": "Neutrófilos (V. Absoluto)",
+          "valor": 2.4,
+          "unidad": "x10³/µl",
+          "refMin": 2.5,
+          "refMax": 7.5,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "linfocitos_abs",
+          "nombre": "Linfocitos (V. Absoluto)",
+          "valor": 1.8,
+          "unidad": "x10³/µl",
+          "refMin": 1.5,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "monocitos_abs",
+          "nombre": "Monocitos (V. Absoluto)",
+          "valor": 0.5,
+          "unidad": "x10³/µl",
+          "refMin": 0.2,
+          "refMax": 0.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "eosinofilos_abs",
+          "nombre": "Eosinófilos (V. Absoluto)",
+          "valor": 0.07,
+          "unidad": "x10³/µl",
+          "refMin": 0.05,
+          "refMax": 0.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "basofilos_abs",
+          "nombre": "Basófilos (V. Absoluto)",
+          "valor": 0.04,
+          "unidad": "x10³/µl",
+          "refMin": 0,
+          "refMax": 0.15,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "plaquetas",
+          "nombre": "Plaquetas",
+          "valor": 184,
+          "unidad": "x10³/µl",
+          "refMin": 125,
+          "refMax": 450,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vpm",
+          "nombre": "Volumen plaquetar medio (VPM)",
+          "valor": 11.5,
+          "unidad": "fl",
+          "refMin": 8,
+          "refMax": 13,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vsg",
+          "nombre": "Velocidad de sedimentación (VSG)",
+          "valor": 3,
+          "unidad": "mm/h",
+          "refMin": null,
+          "refMax": 20,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "glucosa",
+          "nombre": "Glucosa suero",
+          "valor": 86,
+          "unidad": "mg/dl",
+          "refMin": 74,
+          "refMax": 109,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "urea",
+          "nombre": "Urea suero",
+          "valor": 29,
+          "unidad": "mg/dl",
+          "refMin": 16.6,
+          "refMax": 48.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "creatinina",
+          "nombre": "Creatinina suero",
+          "valor": 0.82,
+          "unidad": "mg/dl",
+          "refMin": 0.7,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "filtrado_glomerular",
+          "nombre": "Filtrado glomerular (CKD-EPI)",
+          "valor": 97.42,
+          "unidad": "ml/min",
+          "refMin": null,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_total",
+          "nombre": "Bilirrubina total suero",
+          "valor": 0.4,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 1.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "bilirrubina_directa",
+          "nombre": "Bilirrubina directa suero",
+          "valor": 0.1,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 0.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "calcio",
+          "nombre": "Calcio suero",
+          "valor": 9.5,
+          "unidad": "mg/dl",
+          "refMin": 8.6,
+          "refMax": 10,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosforo",
+          "nombre": "Fósforo suero",
+          "valor": 3.7,
+          "unidad": "mg/dl",
+          "refMin": 2.5,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hba1c",
+          "nombre": "Hemoglobina glicosilada (A1c)",
+          "valor": 5.5,
+          "unidad": "%",
+          "refMin": 4.8,
+          "refMax": 5.9,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "sodio",
+          "nombre": "Sodio suero",
+          "valor": 141,
+          "unidad": "mEq/l",
+          "refMin": 136,
+          "refMax": 146,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "potasio",
+          "nombre": "Potasio suero",
+          "valor": 4.8,
+          "unidad": "mEq/l",
+          "refMin": 3.5,
+          "refMax": 5.2,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ast_got",
+          "nombre": "AST (GOT) suero",
+          "valor": 22,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 35,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "alt_gpt",
+          "nombre": "ALT (GPT) suero",
+          "valor": 14,
+          "unidad": "U/L",
+          "refMin": 0,
+          "refMax": 50,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "fosfatasa_alcalina",
+          "nombre": "Fosfatasa alcalina suero",
+          "valor": 57,
+          "unidad": "U/L",
+          "refMin": 40,
+          "refMax": 129,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "gamma_gt",
+          "nombre": "Gamma-GT suero",
+          "valor": 5,
+          "unidad": "U/L",
+          "refMin": null,
+          "refMax": 60,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldh",
+          "nombre": "LDH suero",
+          "valor": 301,
+          "unidad": "UI/l",
+          "refMin": 135,
+          "refMax": 225,
+          "fueraDeRango": true
+        },
+        {
+          "clave": "ferritina",
+          "nombre": "Ferritina suero",
+          "valor": 303,
+          "unidad": "ng/ml",
+          "refMin": 30,
+          "refMax": 400,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "colesterol_total",
+          "nombre": "Colesterol total suero",
+          "valor": 184,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 200,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "trigliceridos",
+          "nombre": "Triglicéridos suero",
+          "valor": 137,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 150,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "hdl",
+          "nombre": "HDL Colesterol suero",
+          "valor": 38,
+          "unidad": "mg/dl",
+          "refMin": 35,
+          "refMax": null,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "ldl",
+          "nombre": "Colesterol LDL (Friedewald)",
+          "valor": 119,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 160,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vldl",
+          "nombre": "VLDL Colesterol suero",
+          "valor": 27,
+          "unidad": "mg/dl",
+          "refMin": null,
+          "refMax": 40,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "tsh",
+          "nombre": "TSH suero",
+          "valor": 0.92,
+          "unidad": "µUI/ml",
+          "refMin": 0.4,
+          "refMax": 4.5,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "t4_libre",
+          "nombre": "T4 libre suero",
+          "valor": 1.03,
+          "unidad": "ng/dl",
+          "refMin": 0.9,
+          "refMax": 1.7,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "proteinas_totales",
+          "nombre": "Proteínas totales suero",
+          "valor": 6.5,
+          "unidad": "g/dl",
+          "refMin": 6.4,
+          "refMax": 8.3,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "psa",
+          "nombre": "PSA suero",
+          "valor": 1.03,
+          "unidad": "ng/ml",
+          "refMin": null,
+          "refMax": 4,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "acido_folico",
+          "nombre": "Ácido fólico suero",
+          "valor": 7.81,
+          "unidad": "ng/ml",
+          "refMin": 3.89,
+          "refMax": 26.8,
+          "fueraDeRango": false
+        },
+        {
+          "clave": "vitamina_b12",
+          "nombre": "Vitamina B12 suero",
+          "valor": 254.2,
+          "unidad": "pg/ml",
+          "refMin": 197,
+          "refMax": 771,
+          "fueraDeRango": false
+        }
+      ]
+    }
   ]
 };
-let DATOS_BUILD_TS = '2026-08-18T21:14:00.000Z';
+let DATOS_BUILD_TS = '2026-08-21T12:37:24.963Z';
 /* =========================================================
    UTILIDADES
    ========================================================= */
@@ -25656,6 +27951,7 @@ function registrarInyeccion() {
   renderInyecciones();
   renderEficiencia();
   renderPrevision();
+  if (typeof autoguardarLocal === 'function') autoguardarLocal();
 }
 
 /* =========================================================
@@ -25683,6 +27979,7 @@ function guardarAyuno() {
   DATOS.ayuno.horaComer = document.getElementById('ayunoHoraComer').value;
   DATOS.ayuno.horaAyuno = document.getElementById('ayunoHoraAyuno').value;
   renderAyuno();
+  if (typeof autoguardarLocal === 'function') autoguardarLocal();
 }
 
 function añadirSalto() {
@@ -25693,6 +27990,7 @@ function añadirSalto() {
     DATOS.saltos.sort();
   }
   renderAll();
+  if (typeof autoguardarLocal === 'function') autoguardarLocal();
 }
 
 /* =========================================================
@@ -26860,6 +29158,7 @@ window.addEventListener('resize', () => {
     try{
       localStorage.setItem(AUTOSAVE_KEY, JSON.stringify({datos:DATOS, savedAt: ts||new Date().toISOString()}));
     }catch(e){ /* modo privado u otro fallo de almacenamiento: no es crítico */ }
+    if(typeof autoSincronizarGitHub==='function') autoSincronizarGitHub();
   };
   function comprobarAutoguardado(){
     let raw;
@@ -27049,84 +29348,91 @@ window.addEventListener('load', () => {
 
   /* ---------------- Catálogo de parámetros conocidos ---------------- */
   const CATALOGO = [
-    {clave:'hematies', nombre:'Hematíes', unidad:'x10^6/µl', sinonimos:['hematies']},
-    {clave:'hemoglobina', nombre:'Hemoglobina', unidad:'g/dl', sinonimos:['hemoglobina']},
-    {clave:'hematocrito', nombre:'Hematocrito', unidad:'%', sinonimos:['hematocrito']},
-    {clave:'vcm', nombre:'Volumen corpuscular medio (VCM)', unidad:'fl', sinonimos:['volumen corpuscular medio','vcm']},
-    {clave:'hcm', nombre:'Hemoglobina corpuscular media (HCM)', unidad:'pg', sinonimos:['hemoglobina corpuscular media','hcm']},
-    {clave:'chcm', nombre:'Concentración Hemoglobina Corpuscular Media (CHCM)', unidad:'g/dl', sinonimos:['concentracion hemoglobina corpuscular media','chcm']},
-    {clave:'rdw', nombre:'RDW', unidad:'%', sinonimos:['rdw']},
-    {clave:'leucocitos', nombre:'Leucocitos', unidad:'x10³/µl', sinonimos:['leucocitos']},
-    {clave:'neutrofilos_abs', nombre:'Neutrófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['neutrofilos v absoluto','neutrofilos']},
-    {clave:'linfocitos_abs', nombre:'Linfocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['linfocitos v absoluto','linfocitos absoluto']},
-    {clave:'monocitos_abs', nombre:'Monocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['monocitos v absoluto','monocitos absoluto']},
-    {clave:'eosinofilos_abs', nombre:'Eosinófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['eosinofilos v absoluto','eosinofilos absoluto']},
-    {clave:'basofilos_abs', nombre:'Basófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['basofilos v absoluto','basofilos absoluto']},
-    {clave:'plaquetas', nombre:'Plaquetas', unidad:'x10³/µl', sinonimos:['plaquetas']},
-    {clave:'vpm', nombre:'Volumen plaquetar medio (VPM)', unidad:'fl', sinonimos:['volumen plaquetar medio','vpm']},
-    {clave:'glucosa', nombre:'Glucosa suero', unidad:'mg/dl', sinonimos:['glucosa suero','glucosa']},
-    {clave:'creatinina', nombre:'Creatinina suero', unidad:'mg/dl', sinonimos:['creatinina suero']},
-    {clave:'filtrado_glomerular', nombre:'Filtrado glomerular (CKD-EPI)', unidad:'ml/min/1.73m²', sinonimos:['filtrado glomerular']},
-    {clave:'acido_urico', nombre:'Ácido úrico suero', unidad:'mg/dl', sinonimos:['acido urico suero','acido urico']},
-    {clave:'bilirrubina_total', nombre:'Bilirrubina total suero', unidad:'mg/dl', sinonimos:['bilirrubina total suero','bilirrubina total']},
-    {clave:'hba1c', nombre:'Hemoglobina glicosilada (A1c)', unidad:'%', sinonimos:['hemoglobina glicosilada','porcentaje hemoglobina glicosilada']},
-    {clave:'ast_got', nombre:'AST (GOT) suero', unidad:'U/L', sinonimos:['ast got suero','got']},
-    {clave:'alt_gpt', nombre:'ALT (GPT) suero', unidad:'U/L', sinonimos:['alt gpt suero','gpt']},
-    {clave:'gamma_gt', nombre:'Gamma-GT suero', unidad:'U/L', sinonimos:['gamma gt suero','gamma gt']},
-    {clave:'ferritina', nombre:'Ferritina suero', unidad:'ng/ml', sinonimos:['ferritina suero','ferritina']},
-    {clave:'colesterol_total', nombre:'Colesterol total suero', unidad:'mg/dl', sinonimos:['colesterol total suero','colesterol total']},
-    {clave:'trigliceridos', nombre:'Triglicéridos suero', unidad:'mg/dl', sinonimos:['trigliceridos suero','trigliceridos']},
-    {clave:'hdl', nombre:'HDL Colesterol suero', unidad:'mg/dl', sinonimos:['hdl colesterol suero','hdl']},
-    {clave:'ldl', nombre:'Colesterol LDL (Friedewald)', unidad:'mg/dl', sinonimos:['colesterol ldl','ldl']},
-    {clave:'no_hdl', nombre:'Colesterol no-HDL suero', unidad:'mg/dl', sinonimos:['colesterol no hdl suero','no hdl']},
-    {clave:'tsh', nombre:'TSH suero', unidad:'µUI/ml', sinonimos:['tsh suero','tsh']},
-    {clave:'psa', nombre:'PSA suero', unidad:'ng/ml', sinonimos:['psa suero','psa']},
-    {clave:'vitamina_d', nombre:'Vitamina D 25-Hidroxi', unidad:'ng/ml', sinonimos:['vitamina d 25 hidroxi suero','vitamina d']},
-    {clave:'creatinina_orina', nombre:'Creatinina orina', unidad:'mg/dl', sinonimos:['creatinina orina']},
-    {clave:'microalbumina_orina', nombre:'Microalbúmina orina', unidad:'mg/l', sinonimos:['microalbumina orina']},
-    {clave:'cociente_microalb_creat', nombre:'Cociente microalbuminuria/creatinina', unidad:'mg/g', sinonimos:['cociente microalbuminuria creatinina orina','cociente microalbuminuria creatinina']},
-    {clave:'sodio', nombre:'Sodio suero', unidad:'mEq/l', sinonimos:['sodio suero','sodio']},
-    {clave:'potasio', nombre:'Potasio suero', unidad:'mEq/l', sinonimos:['potasio suero','potasio']},
-    {clave:'urea', nombre:'Urea suero', unidad:'mg/dl', sinonimos:['urea suero','urea']},
-    {clave:'proteinas_totales', nombre:'Proteínas totales suero', unidad:'g/dl', sinonimos:['proteinas totales suero','proteinas totales']},
-    {clave:'pcr', nombre:'Proteína C Reactiva', unidad:'mg/l', sinonimos:['proteina c reactiva','pcr']},
-    {clave:'urea', nombre:'Urea suero', unidad:'mg/dl', sinonimos:['urea suero','urea']},
-    {clave:'bun', nombre:'BUN (Nitrógeno ureico) suero', unidad:'mg/dl', sinonimos:['bun nitrogeno ureico suero','bun']},
-    {clave:'bilirrubina_directa', nombre:'Bilirrubina directa suero', unidad:'mg/dl', sinonimos:['bilirrubina directa suero','bilirrubina directa']},
-    {clave:'bilirrubina_indirecta', nombre:'Bilirrubina indirecta suero', unidad:'mg/dl', sinonimos:['bilirrubina indirecta suero','bilirrubina indirecta']},
-    {clave:'calcio', nombre:'Calcio suero', unidad:'mg/dl', sinonimos:['calcio suero']},
-    {clave:'magnesio', nombre:'Magnesio suero', unidad:'mg/dL', sinonimos:['magnesio suero']},
-    {clave:'fosforo', nombre:'Fósforo suero', unidad:'mg/dl', sinonimos:['fosforo suero']},
-    {clave:'albumina', nombre:'Albúmina suero', unidad:'g/L', sinonimos:['albumina suero']},
-    {clave:'cloro', nombre:'Cloro suero', unidad:'mmol/l', sinonimos:['cloro suero']},
-    {clave:'fosfatasa_alcalina', nombre:'Fosfatasa alcalina suero', unidad:'U/L', sinonimos:['fosfatasa alcalina suero']},
-    {clave:'ldh', nombre:'LDH suero', unidad:'UI/l', sinonimos:['ldh suero','ldh']},
-    {clave:'amilasa', nombre:'Amilasa suero', unidad:'UI/l', sinonimos:['amilasa suero']},
-    {clave:'lipasa', nombre:'Lipasa suero', unidad:'UI/l', sinonimos:['lipasa suero']},
-    {clave:'ck', nombre:'CK (Creatin Quinasa) suero', unidad:'UI/l', sinonimos:['ck creatin quinasa suero','creatin quinasa']},
-    {clave:'colinesterasa', nombre:'Colinesterasa suero', unidad:'U/L', sinonimos:['colinesterasa suero']},
-    {clave:'hierro', nombre:'Hierro suero', unidad:'µg/dl', sinonimos:['hierro suero']},
-    {clave:'transferrina', nombre:'Transferrina suero', unidad:'mg/dl', sinonimos:['transferrina suero']},
-    {clave:'vldl', nombre:'VLDL Colesterol suero', unidad:'mg/dl', sinonimos:['vldl colesterol suero','vldl']},
-    {clave:'indice_aterogenico', nombre:'Índice aterogénico suero', unidad:'Índice', sinonimos:['indice aterogenico suero']},
-    {clave:'lipidos_totales', nombre:'Lípidos totales suero', unidad:'mg/dl', sinonimos:['lipidos totales suero']},
-    {clave:'zinc', nombre:'Zinc suero', unidad:'mcg/dL', sinonimos:['zinc suero']},
-    {clave:'t4_libre', nombre:'T4 libre suero', unidad:'ng/dl', sinonimos:['t4 libre suero']},
-    {clave:'t4_total', nombre:'T4 total suero', unidad:'mcg/dL', sinonimos:['t4 total suero']},
-    {clave:'t3_libre', nombre:'T3 libre suero', unidad:'pg/mL', sinonimos:['t3 libre suero']},
-    {clave:'t3_total', nombre:'T3 total suero', unidad:'ng/ml', sinonimos:['t3 total suero']},
-    {clave:'aslo', nombre:'ASLO suero', unidad:'UI/ml', sinonimos:['aslo suero','aslo']},
-    {clave:'factor_reumatoide', nombre:'Factor reumatoide suero', unidad:'UI/ml', sinonimos:['factor reumatoide suero']},
-    {clave:'acido_folico', nombre:'Ácido fólico suero', unidad:'ng/ml', sinonimos:['acido folico suero']},
-    {clave:'vitamina_b12', nombre:'Vitamina B12 suero', unidad:'pg/ml', sinonimos:['vitamina b12 suero','vitamina b12']},
-    {clave:'psa_libre', nombre:'PSA Libre suero', unidad:'ng/ml', sinonimos:['psa libre suero']},
-    {clave:'vsg', nombre:'Velocidad de sedimentación (VSG)', unidad:'mm/h', sinonimos:['velocidad de sedimentacion a 1 hora vsg','vsg']},
-    {clave:'tiempo_protrombina', nombre:'Tiempo de Protrombina', unidad:'sg', sinonimos:['tiempo de protrombina']},
-    {clave:'indice_quick', nombre:'Índice de Quick', unidad:'%', sinonimos:['indice de quick']},
-    {clave:'inr', nombre:'INR', unidad:'', sinonimos:['inr']},
-    {clave:'ttpa', nombre:'Tiempo de tromboplastina parcial activado (TTPA)', unidad:'sg', sinonimos:['tiempo de tromboplastina parcial activado ttpa','ttpa']},
-    {clave:'ttp_ratio', nombre:'TTP Ratio', unidad:'', sinonimos:['ttp ratio']},
+    {clave:'hematies', grupo:'Sangre (hemograma)', nombre:'Hematíes', unidad:'x10^6/µl', sinonimos:['hematies']},
+    {clave:'hemoglobina', grupo:'Sangre (hemograma)', nombre:'Hemoglobina', unidad:'g/dl', sinonimos:['hemoglobina']},
+    {clave:'hematocrito', grupo:'Sangre (hemograma)', nombre:'Hematocrito', unidad:'%', sinonimos:['hematocrito']},
+    {clave:'vcm', grupo:'Sangre (hemograma)', nombre:'Volumen corpuscular medio (VCM)', unidad:'fl', sinonimos:['volumen corpuscular medio','vcm']},
+    {clave:'hcm', grupo:'Sangre (hemograma)', nombre:'Hemoglobina corpuscular media (HCM)', unidad:'pg', sinonimos:['hemoglobina corpuscular media','hcm']},
+    {clave:'chcm', grupo:'Sangre (hemograma)', nombre:'Concentración Hemoglobina Corpuscular Media (CHCM)', unidad:'g/dl', sinonimos:['concentracion hemoglobina corpuscular media','chcm']},
+    {clave:'rdw', grupo:'Sangre (hemograma)', nombre:'RDW', unidad:'%', sinonimos:['rdw']},
+    {clave:'leucocitos', grupo:'Sangre (hemograma)', nombre:'Leucocitos', unidad:'x10³/µl', sinonimos:['leucocitos']},
+    {clave:'neutrofilos_abs', grupo:'Sangre (hemograma)', nombre:'Neutrófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['neutrofilos v absoluto','neutrofilos']},
+    {clave:'linfocitos_abs', grupo:'Sangre (hemograma)', nombre:'Linfocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['linfocitos v absoluto','linfocitos absoluto']},
+    {clave:'monocitos_abs', grupo:'Sangre (hemograma)', nombre:'Monocitos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['monocitos v absoluto','monocitos absoluto']},
+    {clave:'eosinofilos_abs', grupo:'Sangre (hemograma)', nombre:'Eosinófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['eosinofilos v absoluto','eosinofilos absoluto']},
+    {clave:'basofilos_abs', grupo:'Sangre (hemograma)', nombre:'Basófilos (V. Absoluto)', unidad:'x10³/µl', sinonimos:['basofilos v absoluto','basofilos absoluto']},
+    {clave:'plaquetas', grupo:'Sangre (hemograma)', nombre:'Plaquetas', unidad:'x10³/µl', sinonimos:['plaquetas']},
+    {clave:'vpm', grupo:'Sangre (hemograma)', nombre:'Volumen plaquetar medio (VPM)', unidad:'fl', sinonimos:['volumen plaquetar medio','vpm']},
+    {clave:'glucosa', grupo:'Azúcar en sangre', nombre:'Glucosa suero', unidad:'mg/dl', sinonimos:['glucosa suero','glucosa']},
+    {clave:'creatinina', grupo:'Riñón', nombre:'Creatinina suero', unidad:'mg/dl', sinonimos:['creatinina suero']},
+    {clave:'filtrado_glomerular', grupo:'Riñón', nombre:'Filtrado glomerular (CKD-EPI)', unidad:'ml/min/1.73m²', sinonimos:['filtrado glomerular']},
+    {clave:'acido_urico', grupo:'Riñón', nombre:'Ácido úrico suero', unidad:'mg/dl', sinonimos:['acido urico suero','acido urico']},
+    {clave:'bilirrubina_total', grupo:'Hígado', nombre:'Bilirrubina total suero', unidad:'mg/dl', sinonimos:['bilirrubina total suero','bilirrubina total']},
+    {clave:'hba1c', grupo:'Azúcar en sangre', nombre:'Hemoglobina glicosilada (A1c)', unidad:'%', sinonimos:['hemoglobina glicosilada','porcentaje hemoglobina glicosilada']},
+    {clave:'ast_got', grupo:'Hígado', nombre:'AST (GOT) suero', unidad:'U/L', sinonimos:['ast got suero','got']},
+    {clave:'alt_gpt', grupo:'Hígado', nombre:'ALT (GPT) suero', unidad:'U/L', sinonimos:['alt gpt suero','gpt']},
+    {clave:'gamma_gt', grupo:'Hígado', nombre:'Gamma-GT suero', unidad:'U/L', sinonimos:['gamma gt suero','gamma gt']},
+    {clave:'ferritina', grupo:'Hierro y anemia', nombre:'Ferritina suero', unidad:'ng/ml', sinonimos:['ferritina suero','ferritina']},
+    {clave:'colesterol_total', grupo:'Colesterol y grasas', nombre:'Colesterol total suero', unidad:'mg/dl', sinonimos:['colesterol total suero','colesterol total']},
+    {clave:'trigliceridos', grupo:'Colesterol y grasas', nombre:'Triglicéridos suero', unidad:'mg/dl', sinonimos:['trigliceridos suero','trigliceridos']},
+    {clave:'hdl', grupo:'Colesterol y grasas', nombre:'HDL Colesterol suero', unidad:'mg/dl', sinonimos:['hdl colesterol suero','hdl']},
+    {clave:'ldl', grupo:'Colesterol y grasas', nombre:'Colesterol LDL (Friedewald)', unidad:'mg/dl', sinonimos:['colesterol ldl','ldl']},
+    {clave:'no_hdl', grupo:'Colesterol y grasas', nombre:'Colesterol no-HDL suero', unidad:'mg/dl', sinonimos:['colesterol no hdl suero','no hdl']},
+    {clave:'tsh', grupo:'Tiroides', nombre:'TSH suero', unidad:'µUI/ml', sinonimos:['tsh suero','tsh']},
+    {clave:'psa', grupo:'Próstata', nombre:'PSA suero', unidad:'ng/ml', sinonimos:['psa suero','psa']},
+    {clave:'vitamina_d', grupo:'Vitaminas', nombre:'Vitamina D 25-Hidroxi', unidad:'ng/ml', sinonimos:['vitamina d 25 hidroxi suero','vitamina d']},
+    {clave:'creatinina_orina', grupo:'Riñón', nombre:'Creatinina orina', unidad:'mg/dl', sinonimos:['creatinina orina']},
+    {clave:'microalbumina_orina', grupo:'Riñón', nombre:'Microalbúmina orina', unidad:'mg/l', sinonimos:['microalbumina orina']},
+    {clave:'cociente_microalb_creat', grupo:'Riñón', nombre:'Cociente microalbuminuria/creatinina', unidad:'mg/g', sinonimos:['cociente microalbuminuria creatinina orina','cociente microalbuminuria creatinina']},
+    {clave:'sodio', grupo:'Sales y minerales', nombre:'Sodio suero', unidad:'mEq/l', sinonimos:['sodio suero','sodio']},
+    {clave:'potasio', grupo:'Sales y minerales', nombre:'Potasio suero', unidad:'mEq/l', sinonimos:['potasio suero','potasio']},
+    {clave:'urea', grupo:'Riñón', nombre:'Urea suero', unidad:'mg/dl', sinonimos:['urea suero','urea']},
+    {clave:'proteinas_totales', grupo:'Proteínas e inflamación', nombre:'Proteínas totales suero', unidad:'g/dl', sinonimos:['proteinas totales suero','proteinas totales']},
+    {clave:'pcr', grupo:'Proteínas e inflamación', nombre:'Proteína C Reactiva', unidad:'mg/l', sinonimos:['proteina c reactiva','pcr']},
+    {clave:'urea', grupo:'Riñón', nombre:'Urea suero', unidad:'mg/dl', sinonimos:['urea suero','urea']},
+    {clave:'bun', grupo:'Riñón', nombre:'BUN (Nitrógeno ureico) suero', unidad:'mg/dl', sinonimos:['bun nitrogeno ureico suero','bun']},
+    {clave:'bilirrubina_directa', grupo:'Hígado', nombre:'Bilirrubina directa suero', unidad:'mg/dl', sinonimos:['bilirrubina directa suero','bilirrubina directa']},
+    {clave:'bilirrubina_indirecta', grupo:'Hígado', nombre:'Bilirrubina indirecta suero', unidad:'mg/dl', sinonimos:['bilirrubina indirecta suero','bilirrubina indirecta']},
+    {clave:'calcio', grupo:'Sales y minerales', nombre:'Calcio suero', unidad:'mg/dl', sinonimos:['calcio suero']},
+    {clave:'magnesio', grupo:'Sales y minerales', nombre:'Magnesio suero', unidad:'mg/dL', sinonimos:['magnesio suero']},
+    {clave:'fosforo', grupo:'Sales y minerales', nombre:'Fósforo suero', unidad:'mg/dl', sinonimos:['fosforo suero']},
+    {clave:'albumina', grupo:'Proteínas e inflamación', nombre:'Albúmina suero', unidad:'g/L', sinonimos:['albumina suero']},
+    {clave:'cloro', grupo:'Sales y minerales', nombre:'Cloro suero', unidad:'mmol/l', sinonimos:['cloro suero']},
+    {clave:'fosfatasa_alcalina', grupo:'Hígado', nombre:'Fosfatasa alcalina suero', unidad:'U/L', sinonimos:['fosfatasa alcalina suero']},
+    {clave:'ldh', grupo:'Hígado', nombre:'LDH suero', unidad:'UI/l', sinonimos:['ldh suero','ldh']},
+    {clave:'amilasa', grupo:'Hígado (páncreas)', nombre:'Amilasa suero', unidad:'UI/l', sinonimos:['amilasa suero']},
+    {clave:'lipasa', grupo:'Hígado (páncreas)', nombre:'Lipasa suero', unidad:'UI/l', sinonimos:['lipasa suero']},
+    {clave:'ck', grupo:'Músculo', nombre:'CK (Creatin Quinasa) suero', unidad:'UI/l', sinonimos:['ck creatin quinasa suero','creatin quinasa']},
+    {clave:'colinesterasa', grupo:'Hígado', nombre:'Colinesterasa suero', unidad:'U/L', sinonimos:['colinesterasa suero']},
+    {clave:'hierro', grupo:'Hierro y anemia', nombre:'Hierro suero', unidad:'µg/dl', sinonimos:['hierro suero']},
+    {clave:'transferrina', grupo:'Hierro y anemia', nombre:'Transferrina suero', unidad:'mg/dl', sinonimos:['transferrina suero']},
+    {clave:'vldl', grupo:'Colesterol y grasas', nombre:'VLDL Colesterol suero', unidad:'mg/dl', sinonimos:['vldl colesterol suero','vldl']},
+    {clave:'indice_aterogenico', grupo:'Colesterol y grasas', nombre:'Índice aterogénico suero', unidad:'Índice', sinonimos:['indice aterogenico suero']},
+    {clave:'lipidos_totales', grupo:'Colesterol y grasas', nombre:'Lípidos totales suero', unidad:'mg/dl', sinonimos:['lipidos totales suero']},
+    {clave:'zinc', grupo:'Vitaminas y minerales', nombre:'Zinc suero', unidad:'mcg/dL', sinonimos:['zinc suero']},
+    {clave:'t4_libre', grupo:'Tiroides', nombre:'T4 libre suero', unidad:'ng/dl', sinonimos:['t4 libre suero']},
+    {clave:'t4_total', grupo:'Tiroides', nombre:'T4 total suero', unidad:'mcg/dL', sinonimos:['t4 total suero']},
+    {clave:'t3_libre', grupo:'Tiroides', nombre:'T3 libre suero', unidad:'pg/mL', sinonimos:['t3 libre suero']},
+    {clave:'t3_total', grupo:'Tiroides', nombre:'T3 total suero', unidad:'ng/ml', sinonimos:['t3 total suero']},
+    {clave:'aslo', grupo:'Proteínas e inflamación', nombre:'ASLO suero', unidad:'UI/ml', sinonimos:['aslo suero','aslo']},
+    {clave:'factor_reumatoide', grupo:'Proteínas e inflamación', nombre:'Factor reumatoide suero', unidad:'UI/ml', sinonimos:['factor reumatoide suero']},
+    {clave:'acido_folico', grupo:'Vitaminas', nombre:'Ácido fólico suero', unidad:'ng/ml', sinonimos:['acido folico suero']},
+    {clave:'vitamina_b12', grupo:'Vitaminas', nombre:'Vitamina B12 suero', unidad:'pg/ml', sinonimos:['vitamina b12 suero','vitamina b12']},
+    {clave:'psa_libre', grupo:'Próstata', nombre:'PSA Libre suero', unidad:'ng/ml', sinonimos:['psa libre suero']},
+    {clave:'vsg', grupo:'Sangre (hemograma)', nombre:'Velocidad de sedimentación (VSG)', unidad:'mm/h', sinonimos:['velocidad de sedimentacion a 1 hora vsg','vsg']},
+    {clave:'tiempo_protrombina', grupo:'Coagulación', nombre:'Tiempo de Protrombina', unidad:'sg', sinonimos:['tiempo de protrombina']},
+    {clave:'indice_quick', grupo:'Coagulación', nombre:'Índice de Quick', unidad:'%', sinonimos:['indice de quick']},
+    {clave:'inr', grupo:'Coagulación', nombre:'INR', unidad:'', sinonimos:['inr']},
+    {clave:'ttpa', grupo:'Coagulación', nombre:'Tiempo de tromboplastina parcial activado (TTPA)', unidad:'sg', sinonimos:['tiempo de tromboplastina parcial activado ttpa','ttpa']},
+    {clave:'ttp_ratio', grupo:'Coagulación', nombre:'TTP Ratio', unidad:'', sinonimos:['ttp ratio']},
   ];
+
+  function grupoDeClave(clave){
+    const c = CATALOGO.find(x=>x.clave===clave);
+    return c ? c.grupo : 'Otros';
+  }
+
+  const ORDEN_GRUPOS = ['Sangre (hemograma)','Colesterol y grasas','Azúcar en sangre','Riñón','Hígado','Hígado (páncreas)','Tiroides','Hierro y anemia','Vitaminas','Vitaminas y minerales','Sales y minerales','Proteínas e inflamación','Coagulación','Próstata','Músculo','Otros'];
 
   function buscarEnCatalogo(etiqueta){
     const n = normalizar(etiqueta);
@@ -27317,9 +29623,20 @@ window.addEventListener('load', () => {
             <div style="color:var(--text-3);font-size:0.75rem;">fuera de rango</div>
           </div>
         </div>
-        ${fueraCount ? '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
-          ultima.parametros.filter(p=>p.fueraDeRango).map(p=>`<span style="background:var(--danger-soft);color:var(--danger);border-radius:8px;padding:3px 9px;font-size:0.75rem;">${p.nombre}: ${p.valor}${p.unidad?(' '+p.unidad):''}</span>`).join('') +
-          '</div>' : '<div style="color:var(--success);font-size:0.85rem;">Todos los parámetros dentro de rango.</div>'}
+        ${(()=>{
+          if(!fueraCount) return '<div style="color:var(--success);font-size:0.85rem;">Todos los parámetros dentro de rango.</div>';
+          const fuera = ultima.parametros.filter(p=>p.fueraDeRango);
+          const porGrupo = new Map();
+          fuera.forEach(p=>{ const g = grupoDeClave(p.clave); if(!porGrupo.has(g)) porGrupo.set(g, []); porGrupo.get(g).push(p); });
+          const gruposPresentes = ORDEN_GRUPOS.filter(g=>porGrupo.has(g)).concat(Array.from(porGrupo.keys()).filter(g=>!ORDEN_GRUPOS.includes(g)));
+          return gruposPresentes.map(g=>`
+            <div style="margin-bottom:8px;">
+              <div style="color:var(--text-3);font-size:0.72rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;">${g}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                ${porGrupo.get(g).map(p=>`<span style="background:var(--danger-soft);color:var(--danger);border-radius:8px;padding:3px 9px;font-size:0.75rem;">${p.nombre}: ${p.valor}${p.unidad?(' '+p.unidad):''}</span>`).join('')}
+              </div>
+            </div>`).join('');
+        })()}
       `;
     }
 
@@ -27351,7 +29668,23 @@ window.addEventListener('load', () => {
       const claves = new Map();
       datos.forEach(a=>a.parametros.forEach(p=>{ if(!claves.has(p.clave)) claves.set(p.clave, p.nombre); }));
       const actual = selParam.value;
-      selParam.innerHTML = Array.from(claves.entries()).map(([clave,nombre])=>`<option value="${clave}">${nombre}</option>`).join('');
+
+      // Agrupar por sistema/conjunto clínico para que tenga sentido sin ser médico
+      const porGrupo = new Map();
+      claves.forEach((nombre, clave)=>{
+        const g = grupoDeClave(clave);
+        if(!porGrupo.has(g)) porGrupo.set(g, []);
+        porGrupo.get(g).push({clave, nombre});
+      });
+      const gruposPresentes = ORDEN_GRUPOS.filter(g=>porGrupo.has(g))
+        .concat(Array.from(porGrupo.keys()).filter(g=>!ORDEN_GRUPOS.includes(g)));
+      selParam.innerHTML = gruposPresentes.map(g=>{
+        const items = porGrupo.get(g).sort((a,b)=>a.nombre.localeCompare(b.nombre,'es'));
+        return `<optgroup label="${g}">` +
+          items.map(({clave,nombre})=>`<option value="${clave}">${nombre}</option>`).join('') +
+          `</optgroup>`;
+      }).join('');
+
       if(actual && claves.has(actual)) selParam.value = actual;
       dibujarGraficoTrend(selParam.value || Array.from(claves.keys())[0]);
     }
@@ -27435,8 +29768,13 @@ window.addEventListener('load', () => {
 
   /* ---------------- Inyección del HTML de la tarjeta Analíticas ---------------- */
   function inyectarUI(){
-    const cardActualizar = document.getElementById('cardActualizar');
-    if(!cardActualizar) return;
+    const anchor = document.getElementById('cardAnaliticasAnchor');
+    if(!anchor) return;
+
+    // Idempotencia: si por descargas/recargas anteriores ya existiera una tarjeta
+    // de Analíticas en el DOM (p.ej. porque quedó guardada en un HTML previo),
+    // se elimina antes de insertar la nueva para no duplicarla.
+    document.querySelectorAll('#cardAnaliticas').forEach(el=>el.remove());
 
     const card = document.createElement('div');
     card.className = 'card';
@@ -27489,14 +29827,18 @@ window.addEventListener('load', () => {
         <canvas id="analiticasChart" style="width:100%;height:220px;display:block;"></canvas>
       </div>
     `;
-    cardActualizar.parentNode.insertBefore(card, cardActualizar.nextSibling);
+    anchor.parentNode.insertBefore(card, anchor.nextSibling);
   }
 
   /* ---------------- Sincronización con GitHub ---------------- */
   function inyectarBotonesGitHub(){
+    // Idempotencia: si ya existe el bloque de botones de GitHub (p.ej. porque
+    // quedó guardado en un HTML previo), no se duplica.
+    if(document.getElementById('ghSyncButtonsWrap')) return;
     const descargarBtn = document.querySelector('button[onclick="descargarHTML()"]');
     if(!descargarBtn) return;
     const wrap = document.createElement('div');
+    wrap.id = 'ghSyncButtonsWrap';
     wrap.style.cssText = 'margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;';
     wrap.innerHTML = `
       <button class="btn" onclick="guardarEnGitHub()">☁️ Guardar en GitHub</button>
@@ -27520,25 +29862,34 @@ window.addEventListener('load', () => {
     getToken();
   };
 
+  /* ---------------- Sincronización con GitHub (manual y automática) ---------------- */
+  let ghSyncTimer = null;
+  let ghSyncInFlight = false;
+
+  async function pushDatosAGitHub(token, mensaje){
+    const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_DATA_PATH}`;
+    let sha;
+    const getRes = await fetch(api, {headers:{Authorization:'token '+token}});
+    if(getRes.ok){ const j = await getRes.json(); sha = j.sha; }
+    else if(getRes.status!==404){ throw new Error('No se pudo comprobar el archivo actual ('+getRes.status+')'); }
+    const contenido = btoa(unescape(encodeURIComponent(JSON.stringify(DATOS,null,2))));
+    const body = {message: mensaje || ('Actualización de datos — '+new Date().toLocaleString('es-ES')), content:contenido, branch:GH_BRANCH};
+    if(sha) body.sha = sha;
+    const putRes = await fetch(api, {method:'PUT', headers:{Authorization:'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    if(!putRes.ok){
+      const err = await putRes.json().catch(()=>({}));
+      throw new Error(err.message || ('Error '+putRes.status));
+    }
+  }
+
   window.guardarEnGitHub = async function(){
     const token = getToken();
     if(!token){ return; }
+    if(ghSyncTimer){ clearTimeout(ghSyncTimer); ghSyncTimer = null; }
     const status = document.getElementById('ghSyncStatus');
     if(status) status.textContent = 'Guardando…';
     try{
-      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_DATA_PATH}`;
-      let sha;
-      const getRes = await fetch(api, {headers:{Authorization:'token '+token}});
-      if(getRes.ok){ const j = await getRes.json(); sha = j.sha; }
-      else if(getRes.status!==404){ throw new Error('No se pudo comprobar el archivo actual ('+getRes.status+')'); }
-      const contenido = btoa(unescape(encodeURIComponent(JSON.stringify(DATOS,null,2))));
-      const body = {message:'Actualización de datos — '+new Date().toLocaleString('es-ES'), content:contenido, branch:GH_BRANCH};
-      if(sha) body.sha = sha;
-      const putRes = await fetch(api, {method:'PUT', headers:{Authorization:'token '+token,'Content-Type':'application/json'}, body:JSON.stringify(body)});
-      if(!putRes.ok){
-        const err = await putRes.json().catch(()=>({}));
-        throw new Error(err.message || ('Error '+putRes.status));
-      }
+      await pushDatosAGitHub(token);
       if(status) status.textContent = '✅ Guardado '+new Date().toLocaleTimeString('es-ES');
       if(typeof autoguardarLocal==='function') autoguardarLocal();
     }catch(e){
@@ -27546,6 +29897,32 @@ window.addEventListener('load', () => {
       if(status) status.textContent = '❌ '+e.message;
       alert('No se pudo guardar en GitHub:\n'+e.message+'\n\nRevisa que el token tenga permiso de escritura ("Contents: Read and write") sobre el repositorio '+GH_REPO+'.');
     }
+  };
+
+  /* Sincronización automática y silenciosa: se dispara sola tras cada dato guardado
+     (peso, tensión, inyección, analítica...) SIEMPRE que ya exista un token guardado
+     en este dispositivo. Si no hay token configurado, no hace nada ni interrumpe con
+     ventanas emergentes — hay que pulsar una vez "☁️ Guardar en GitHub" para activarla. */
+  window.autoSincronizarGitHub = function(){
+    let token;
+    try{ token = localStorage.getItem(GH_TOKEN_KEY); }catch(e){ return; }
+    if(!token) return;
+    if(ghSyncTimer) clearTimeout(ghSyncTimer);
+    ghSyncTimer = setTimeout(async ()=>{
+      if(ghSyncInFlight) return;
+      ghSyncInFlight = true;
+      const status = document.getElementById('ghSyncStatus');
+      if(status) status.textContent = 'Guardando en GitHub…';
+      try{
+        await pushDatosAGitHub(token, 'Actualización automática — '+new Date().toLocaleString('es-ES'));
+        if(status) status.textContent = '✅ Sincronizado '+new Date().toLocaleTimeString('es-ES');
+      }catch(e){
+        console.warn('Sincronización automática con GitHub falló:', e.message);
+        if(status) status.textContent = '⚠️ No se pudo sincronizar automáticamente';
+      }finally{
+        ghSyncInFlight = false;
+      }
+    }, 1200);
   };
 
   async function cargarDesdeGitHub(){
