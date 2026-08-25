@@ -2012,6 +2012,18 @@
       </div>
     </summary>
     <div id="autosaveBanner" style="display:none; margin-bottom:16px; padding:12px 14px; background:var(--warning-soft); border:1px solid var(--warning); border-radius:10px; font-size:0.85rem; color:var(--text-1);"></div>
+
+    <div style="margin-bottom:16px; padding:16px; background:var(--bg-2); border:1px solid var(--border); border-radius:12px;">
+      <strong style="color:var(--gold-2);">☁️ Sincronización entre dispositivos</strong>
+      <div id="syncStatus" style="color:var(--text-3); font-size:0.82rem; margin:6px 0 12px;">Comprobando…</div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <input type="password" id="githubTokenInput" placeholder="Token de GitHub (solo para guardar, opcional)" style="flex:1; min-width:220px; padding:8px 10px; background:var(--bg-3); border:1px solid var(--border); border-radius:8px; color:var(--text-1); font-size:0.82rem;">
+        <button class="btn" onclick="guardarTokenGitHub()">Guardar token</button>
+        <button class="btn btn-secondary" onclick="sincronizarConGitHub(true)">Sincronizar ahora</button>
+      </div>
+      <div style="color:var(--text-4); font-size:0.75rem; margin-top:8px;">El token solo se guarda en este navegador y solo hace falta en el dispositivo desde el que introduces datos. Para consultar desde otro móvil u ordenador no hace falta ningún token: los datos se cargan solos.</div>
+    </div>
+
     <div class="tabs">
       <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
       <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
@@ -27024,6 +27036,150 @@ window.instalarTrackPesoApp = async function () {
 window.addEventListener('load', () => {
   setTimeout(() => { if (!deferredInstallPrompt) mostrarBannerManual(); }, 2500);
 });
+
+/* =========================================================
+   SINCRONIZACIÓN ENTRE DISPOSITIVOS (GitHub)
+   Guarda/lee los datos en datos.json dentro del repo de GitHub
+   de la propia app, para poder consultarlos desde cualquier
+   móvil u ordenador sin depender del archivo HTML descargado.
+   - Lectura: pública, no requiere token.
+   - Escritura: requiere un token guardado en ESTE navegador
+     (Settings → Developer settings → Personal access tokens,
+     con permiso de escritura sobre el repo "TrackPeso").
+   ========================================================= */
+(function(){
+  const GH_OWNER='meleiro2014-creator';
+  const GH_REPO='TrackPeso';
+  const GH_PATH='datos.json';
+  const GH_TOKEN_KEY='trackpeso_gh_token_v1';
+  let ghSha=null;
+  let syncTimer=null;
+
+  function ghToken(){
+    try{ return localStorage.getItem(GH_TOKEN_KEY)||''; }catch(e){ return ''; }
+  }
+
+  function actualizarEstadoSync(msg){
+    const el=document.getElementById('syncStatus');
+    if(el) el.textContent=msg;
+  }
+
+  window.guardarTokenGitHub=function(){
+    const input=document.getElementById('githubTokenInput');
+    const val=(input.value||'').trim();
+    try{
+      if(val) localStorage.setItem(GH_TOKEN_KEY, val);
+      else localStorage.removeItem(GH_TOKEN_KEY);
+    }catch(e){}
+    input.value='';
+    input.placeholder = val ? 'Token guardado ✓ (oculto)' : 'Token de GitHub (solo para guardar, opcional)';
+    actualizarEstadoSync(val ? 'Token guardado en este navegador. A partir de ahora, tus cambios se subirán solos.' : 'Token eliminado: este dispositivo solo podrá consultar, no guardar.');
+  };
+
+  async function ghGet(){
+    const headers={'Accept':'application/vnd.github+json'};
+    const t=ghToken(); if(t) headers['Authorization']='token '+t;
+    const resp=await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}?t=${Date.now()}`,{headers, cache:'no-store'});
+    if(resp.status===404) return null;
+    if(!resp.ok) throw new Error('lectura '+resp.status);
+    const json=await resp.json();
+    ghSha=json.sha;
+    const content=decodeURIComponent(escape(atob(String(json.content).replace(/\n/g,''))));
+    return JSON.parse(content);
+  }
+
+  async function ghPut(payload){
+    const t=ghToken();
+    if(!t){ actualizarEstadoSync('⚠️ No hay token guardado en este dispositivo: no se puede guardar en la nube.'); return false; }
+    try{ await ghGet(); }catch(e){ /* si falla, seguimos sin sha e intentamos igualmente */ }
+    const body={
+      message:'TrackPeso: actualización de datos — '+new Date().toLocaleString('es-ES'),
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))))
+    };
+    if(ghSha) body.sha=ghSha;
+    let resp;
+    try{
+      resp=await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`,{
+        method:'PUT',
+        headers:{'Accept':'application/vnd.github+json','Authorization':'token '+t,'Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+    }catch(e){
+      actualizarEstadoSync('⚠️ No se pudo conectar con GitHub para guardar.');
+      return false;
+    }
+    if(!resp.ok){
+      const txt=await resp.text().catch(()=>'');
+      console.error('GitHub PUT error', resp.status, txt);
+      actualizarEstadoSync(resp.status===401 ? '❌ El token no es válido o no tiene permiso de escritura.' : '❌ Error al guardar en la nube ('+resp.status+').');
+      return false;
+    }
+    const j=await resp.json();
+    ghSha = j.content && j.content.sha;
+    return true;
+  }
+
+  function aplicarDatosRemotos(remoto){
+    DATOS=remoto.datos;
+    DATOS_BUILD_TS=remoto.guardadoEn || new Date().toISOString();
+    try{ if(typeof renderAll==='function') renderAll(); }catch(e){ console.error(e); }
+    try{ if(typeof window.renderAllV21==='function') window.renderAllV21(); }catch(e){ console.error(e); }
+    try{ if(typeof autoguardarLocalOriginal==='function') autoguardarLocalOriginal(DATOS_BUILD_TS); }catch(e){}
+    actualizarEstadoSync('☁️ Datos actualizados desde la nube — '+new Date(DATOS_BUILD_TS).toLocaleString('es-ES'));
+  }
+
+  async function subirAhora(){
+    actualizarEstadoSync('Guardando en la nube…');
+    const ts=new Date().toISOString();
+    const ok=await ghPut({datos:DATOS, guardadoEn:ts});
+    if(ok){
+      DATOS_BUILD_TS=ts;
+      actualizarEstadoSync('✅ Guardado en la nube — '+new Date(ts).toLocaleString('es-ES'));
+    }
+    return ok;
+  }
+  window.subirDatosAGitHub=subirAhora;
+
+  window.sincronizarConGitHub=async function(manual){
+    actualizarEstadoSync('Comprobando la nube…');
+    try{
+      const remoto=await ghGet();
+      if(!remoto){
+        if(manual && ghToken()){ await subirAhora(); }
+        else actualizarEstadoSync('Aún no hay datos guardados en la nube.'+(ghToken()?'':' Guarda un token para poder subir los tuyos.'));
+        return;
+      }
+      if(remoto.guardadoEn && remoto.guardadoEn>DATOS_BUILD_TS){
+        aplicarDatosRemotos(remoto);
+      } else {
+        actualizarEstadoSync('Al día. Última sincronización: '+(remoto.guardadoEn?new Date(remoto.guardadoEn).toLocaleString('es-ES'):'—'));
+        if(manual && ghToken()) await subirAhora();
+      }
+    }catch(e){
+      actualizarEstadoSync('⚠️ No se pudo comprobar la nube: '+e.message);
+    }
+  };
+
+  // Enganchamos el autoguardado local ya existente: cada vez que se guarda
+  // algo localmente (tras añadir/editar peso, tensión o actividad), se
+  // programa también una subida a GitHub (con un pequeño retraso, para
+  // agrupar varios cambios seguidos en una sola subida).
+  const autoguardarLocalOriginal=window.autoguardarLocal;
+  window.autoguardarLocal=function(ts){
+    if(typeof autoguardarLocalOriginal==='function') autoguardarLocalOriginal(ts);
+    if(!ghToken()) return;
+    if(syncTimer) clearTimeout(syncTimer);
+    syncTimer=setTimeout(()=>{ subirAhora(); }, 2500);
+  };
+
+  window.addEventListener('load', ()=>{
+    setTimeout(()=>{
+      const input=document.getElementById('githubTokenInput');
+      if(input && ghToken()) input.placeholder='Token guardado ✓ (oculto)';
+      sincronizarConGitHub(false);
+    }, 600);
+  });
+})();
 </script>
 
 </body></html>
