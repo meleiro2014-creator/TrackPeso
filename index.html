@@ -17,34 +17,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-0: #08080c;
-    --bg-1: #0f0f15;
-    --bg-2: #14141c;
-    --bg-3: #1c1c26;
-    --bg-4: #24242f;
-    --border: rgba(255,255,255,0.06);
-    --border-soft: rgba(255,255,255,0.03);
-    --border-gold: rgba(201, 169, 97, 0.18);
-    --border-gold-strong: rgba(201, 169, 97, 0.35);
-    --gold-1: #e4cc8a;
-    --gold-2: #d4b872;
-    --gold-3: #c9a961;
-    --gold-4: #a8893f;
-    --gold-5: #7a6530;
-    --text-1: #f0ede6;
-    --text-2: #a8a5a0;
-    --text-3: #6b6863;
-    --text-4: #4a4845;
-    --success: #4ade80;
-    --success-soft: rgba(74, 222, 128, 0.12);
+    /* Paleta clínica: azul-marino profundo + acento teal (antes negro/oro).
+       Se mantienen los nombres de variable (--gold-*, --border-gold, --glow-gold)
+       para no tener que tocar miles de referencias en el resto del CSS/HTML. */
+    --bg-0: #0a0f14;
+    --bg-1: #0f161d;
+    --bg-2: #141d26;
+    --bg-3: #1b2631;
+    --bg-4: #24313d;
+    --border: rgba(255,255,255,0.07);
+    --border-soft: rgba(255,255,255,0.04);
+    --border-gold: rgba(56, 189, 190, 0.20);
+    --border-gold-strong: rgba(56, 189, 190, 0.40);
+    --gold-1: #8fe3e0;
+    --gold-2: #57c7c9;
+    --gold-3: #2fa9b5;
+    --gold-4: #1f7f8c;
+    --gold-5: #155a66;
+    --text-1: #eef3f6;
+    --text-2: #9fb0bb;
+    --text-3: #6c7d88;
+    --text-4: #47555f;
+    --success: #34d399;
+    --success-soft: rgba(52, 211, 153, 0.12);
     --danger: #f87171;
     --danger-soft: rgba(248, 113, 113, 0.12);
     --warning: #fbbf24;
     --warning-soft: rgba(251, 191, 36, 0.12);
     --info: #60a5fa;
     --info-soft: rgba(96, 165, 250, 0.12);
-    --glow-gold: 0 0 40px rgba(201, 169, 97, 0.08);
-    --glow-gold-strong: 0 0 60px rgba(201, 169, 97, 0.15);
+    --glow-gold: 0 0 40px rgba(56, 189, 190, 0.10);
+    --glow-gold-strong: 0 0 60px rgba(56, 189, 190, 0.18);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -322,6 +325,112 @@
   }
 
   .prevision-base strong { color: var(--gold-2); font-weight: 600; }
+
+  /* ===== LOGROS (resumen para el médico) ===== */
+  .logros-card {
+    background: linear-gradient(145deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    border: 1px solid var(--border-gold-strong);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 28px;
+    box-shadow: var(--glow-gold);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logros-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-2), transparent);
+  }
+
+  .logros-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .logros-eyebrow {
+    font-size: 0.72rem;
+    color: var(--gold-2);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .logros-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-1);
+  }
+
+  .logros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  .logro-bloque {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .logro-bloque-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-2);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .logro-fila {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-top: 1px solid var(--border-soft);
+  }
+  .logro-fila:first-of-type { border-top: none; padding-top: 0; }
+
+  .logro-label { color: var(--text-3); font-size: 0.82rem; }
+  .logro-valor { font-weight: 700; color: var(--text-1); font-size: 1rem; }
+  .logro-valor.positive { color: var(--success); }
+  .logro-valor.negative { color: var(--danger); }
+
+  .logro-destacado {
+    text-align: center;
+    padding: 16px 10px;
+  }
+  .logro-destacado .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--gold-1);
+    line-height: 1;
+  }
+  .logro-destacado .num span { font-size: 1.1rem; color: var(--text-2); font-weight: 500; margin-left: 4px; }
+  .logro-destacado .desc { margin-top: 8px; color: var(--text-3); font-size: 0.85rem; }
+
+  @media print {
+    body { background: #fff; color: #111; padding: 0; }
+    .header, #alertsPanel, #previsionCard, .btn, details, .card:not(.logros-card) { display: none !important; }
+    .logros-card { box-shadow: none; border: 1px solid #ccc; background: #fff; color: #111; }
+    .logros-eyebrow, .logro-label, .logros-titulo, .logro-valor, .logro-destacado .num, .logro-destacado .desc { color: #111 !important; -webkit-text-fill-color: #111 !important; }
+    .logro-bloque { background: #f7f7f7; border-color: #ddd; }
+  }
 
   .card {
     background: linear-gradient(145deg, var(--bg-1), var(--bg-2));
@@ -986,10 +1095,10 @@
   </div>
 
   <div class="header">
-    <div class="header-badge">Elite · Análisis Avanzado</div>
+    <div class="header-badge">Informe de Seguimiento Clínico</div>
     <h1>TrackPeso</h1>
-    <div class="subtitle">Control Premium · Salud · Progreso</div>
-    <div class="progress-wrap">
+    <div class="subtitle">Peso · Tensión Arterial · Evolución</div>
+    <div class="progress-wrap" style="display:none;">
       <div class="progress-label">
         <span>Progreso al objetivo</span>
         <strong id="progressPercent">76%</strong>
@@ -1000,8 +1109,21 @@
     </div>
   </div>
 
-  <!-- NUEVA: PREVISIÓN MAÑANA -->
-  <div id="previsionCard">
+  <!-- LOGROS: resumen para enseñar al médico (peso + tensión) -->
+  <div id="logrosCard" class="logros-card">
+    <div class="logros-header">
+      <div>
+        <div class="logros-eyebrow">Resumen para el médico</div>
+        <div class="logros-titulo">Logros del seguimiento</div>
+      </div>
+      <button class="btn" onclick="window.print()" title="Preparar esta pantalla para imprimir o guardar como PDF">🖨️ Imprimir / PDF</button>
+    </div>
+    <div class="logros-grid" id="logrosGrid"></div>
+  </div>
+
+  <!-- Previsión (oculta: ya no es el foco de la app; se mantiene el contenedor
+       para no romper renderPrevision(), que sigue escribiendo en él) -->
+  <div id="previsionCard" style="display:none;">
     <div class="prevision-card">
       <div class="prevision-layout">
         <div class="prevision-main">
@@ -35141,7 +35263,75 @@ function restaurarOriginal() {
 /* =========================================================
    RENDER ALL
    ========================================================= */
+/* =========================================================
+   LOGROS (resumen claro para enseñar al médico)
+   ========================================================= */
+function renderLogros() {
+  const cont = document.getElementById('logrosGrid');
+  if (!cont) return;
+
+  const peso = DATOS.peso;
+  const actual = peso[0].media;
+  const inicio = peso[peso.length - 1].media;
+  const perdido = inicio - actual;
+  const dias = diasEntre(peso[peso.length - 1].fecha, peso[0].fecha);
+  const imcInicio = calcularIMC(inicio);
+  const imcActual = calcularIMC(actual);
+
+  const ta = DATOS.ta;
+  const ultimaTA = ta[0];
+  const primeraTA = ta[ta.length - 1];
+  const nMuestra = Math.min(3, ta.length);
+  const mediaRecSis = Math.round(ta.slice(0, nMuestra).reduce((a, t) => a + t.sis, 0) / nMuestra);
+  const mediaRecDia = Math.round(ta.slice(0, nMuestra).reduce((a, t) => a + t.dia, 0) / nMuestra);
+  const mediaIniSis = Math.round(ta.slice(-nMuestra).reduce((a, t) => a + t.sis, 0) / nMuestra);
+  const mediaIniDia = Math.round(ta.slice(-nMuestra).reduce((a, t) => a + t.dia, 0) / nMuestra);
+  const estadoActual = estadoTA(mediaRecSis, mediaRecDia);
+  const estadoInicial = estadoTA(mediaIniSis, mediaIniDia);
+  const mejoraSis = mediaIniSis - mediaRecSis;
+  const mejoraDia = mediaIniDia - mediaRecDia;
+
+  const bloques = [];
+
+  bloques.push(`
+    <div class="logro-bloque logro-destacado">
+      <div class="num">-${perdido.toFixed(1)}<span>kg</span></div>
+      <div class="desc">perdidos desde el ${fmtFechaLarga(peso[peso.length - 1].fecha)} (${dias} días)</div>
+    </div>
+  `);
+
+  bloques.push(`
+    <div class="logro-bloque">
+      <div class="logro-bloque-titulo">⚖️ Peso</div>
+      <div class="logro-fila"><span class="logro-label">Peso inicial</span><span class="logro-valor">${inicio.toFixed(1)} kg</span></div>
+      <div class="logro-fila"><span class="logro-label">Peso actual</span><span class="logro-valor">${actual.toFixed(1)} kg</span></div>
+      <div class="logro-fila"><span class="logro-label">IMC inicial → actual</span><span class="logro-valor">${imcInicio.toFixed(1)} → ${imcActual.toFixed(1)}</span></div>
+    </div>
+  `);
+
+  bloques.push(`
+    <div class="logro-bloque">
+      <div class="logro-bloque-titulo">❤️ Tensión arterial</div>
+      <div class="logro-fila"><span class="logro-label">Media al inicio</span><span class="logro-valor">${mediaIniSis}/${mediaIniDia} <span class="badge ${estadoInicial.cls}" style="margin-left:6px;">${estadoInicial.txt}</span></span></div>
+      <div class="logro-fila"><span class="logro-label">Media reciente</span><span class="logro-valor">${mediaRecSis}/${mediaRecDia} <span class="badge ${estadoActual.cls}" style="margin-left:6px;">${estadoActual.txt}</span></span></div>
+      <div class="logro-fila"><span class="logro-label">Variación</span><span class="logro-valor ${mejoraSis >= 0 ? 'positive' : 'negative'}">${mejoraSis >= 0 ? '-' : '+'}${Math.abs(mejoraSis)}/${mejoraDia >= 0 ? '-' : '+'}${Math.abs(mejoraDia)} mmHg</span></div>
+    </div>
+  `);
+
+  bloques.push(`
+    <div class="logro-bloque">
+      <div class="logro-bloque-titulo">📋 Última lectura</div>
+      <div class="logro-fila"><span class="logro-label">Peso</span><span class="logro-valor">${actual.toFixed(1)} kg</span></div>
+      <div class="logro-fila"><span class="logro-label">Tensión</span><span class="logro-valor">${ultimaTA.sis}/${ultimaTA.dia} mmHg</span></div>
+      <div class="logro-fila"><span class="logro-label">Pulso</span><span class="logro-valor">${ultimaTA.pulso} bpm</span></div>
+    </div>
+  `);
+
+  cont.innerHTML = bloques.join('');
+}
+
 function renderAll() {
+  renderLogros();
   renderPrevision();
   renderAlertas();
   renderStats();
