@@ -1113,12 +1113,26 @@
   <div id="logrosCard" class="logros-card">
     <div class="logros-header">
       <div>
-        <div class="logros-eyebrow">Resumen para el médico</div>
         <div class="logros-titulo">Logros del seguimiento</div>
       </div>
       <button class="btn" onclick="window.print()" title="Preparar esta pantalla para imprimir o guardar como PDF">🖨️ Imprimir / PDF</button>
     </div>
     <div class="logros-grid" id="logrosGrid"></div>
+  </div>
+
+  <!-- Actividad y movimiento: resumen rápido justo después de Logros -->
+  <div id="actividadLogrosCard" class="logros-card">
+    <div class="logros-header">
+      <div>
+        <div class="logros-titulo" style="font-size:1.3rem;">Actividad y movimiento</div>
+      </div>
+    </div>
+    <div class="logros-grid" id="actividadLogrosGrid"></div>
+    <div id="velocidadChartWrap" style="margin-top:22px; display:none;">
+      <div class="logro-bloque-titulo" style="margin-bottom:10px;">🚶 Velocidad de la marcha por día (km/h)</div>
+      <div class="speed-chart" id="velocidadChart"></div>
+      <div class="speed-labels" id="velocidadLabels"></div>
+    </div>
   </div>
 
   <!-- Previsión (oculta: ya no es el foco de la app; se mantiene el contenedor
@@ -1741,26 +1755,6 @@
       <div class="stat-sub">21 jul</div>
     </div>
   </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">
-      <span class="icon">🔗</span>
-      <div>
-        <div class="title-text">Correlación Peso · Tensión</div>
-        <div class="subtitle-text">Cómo evoluciona tu salud cardiovascular con el peso</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:6px; font-size:0.78rem; color:var(--text-2);">
-      <span>Cada punto es un día con peso y tensión registrados ese mismo día.</span>
-      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px;height:10px;border-radius:50%;background:#c9a961;display:inline-block;"></span>Peso vs. sistólica</span>
-      <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:16px;height:2px;background:#f87171;display:inline-block;"></span>Línea de tendencia</span>
-    </div>
-    <div class="chart-container" style="position:relative;">
-      <canvas id="canvasCorrelacion" width="949" height="192" style="height: 240px;"></canvas>
-      <div id="tooltipCorrelacion" style="position:absolute; display:none; pointer-events:none; background:var(--bg-3); border:1px solid var(--border-gold-strong); border-radius:8px; padding:6px 10px; font-size:0.75rem; color:var(--text-1); white-space:nowrap; z-index:5; box-shadow:0 4px 14px rgba(0,0,0,.4);"></div>
-    </div>
-    <div id="correlacionStats" style="margin-top:14px;"><div class="activity-analysis"><div class="activity-analysis-card"><div class="title">Pearson</div><div class="big">0.52</div><div class="small">Relación lineal peso–sistólica. <span class="confidence conf-med">Moderada · n=29</span></div></div><div class="activity-analysis-card"><div class="title">Spearman</div><div class="big">0.56</div><div class="small">Relación monotónica, menos sensible a valores extremos.</div></div><div class="activity-analysis-card"><div class="title">Muestra</div><div class="big">29</div><div class="small">Pares de mediciones coincidentes por fecha.</div></div></div></div>
   </div>
 
   <div class="card">
@@ -35277,6 +35271,7 @@ function renderLogros() {
   const dias = diasEntre(peso[peso.length - 1].fecha, peso[0].fecha);
   const imcInicio = calcularIMC(inicio);
   const imcActual = calcularIMC(actual);
+  const ritmoSemanal = ritmoRealKgSemana();
 
   const ta = DATOS.ta;
   const ultimaTA = ta[0];
@@ -35306,6 +35301,7 @@ function renderLogros() {
       <div class="logro-fila"><span class="logro-label">Peso inicial</span><span class="logro-valor">${inicio.toFixed(1)} kg</span></div>
       <div class="logro-fila"><span class="logro-label">Peso actual</span><span class="logro-valor">${actual.toFixed(1)} kg</span></div>
       <div class="logro-fila"><span class="logro-label">IMC inicial → actual</span><span class="logro-valor">${imcInicio.toFixed(1)} → ${imcActual.toFixed(1)}</span></div>
+      <div class="logro-fila"><span class="logro-label">Bajada media semanal</span><span class="logro-valor positive">-${ritmoSemanal.toFixed(2)} kg/sem</span></div>
     </div>
   `);
 
@@ -35330,8 +35326,89 @@ function renderLogros() {
   cont.innerHTML = bloques.join('');
 }
 
+/* =========================================================
+   ACTIVIDAD Y MOVIMIENTO (resumen justo después de Logros)
+   ========================================================= */
+function renderActividadLogros() {
+  const cont = document.getElementById('actividadLogrosGrid');
+  if (!cont) return;
+
+  const act = (DATOS.actividad || []).filter(a => a.pasos != null);
+  if (!act.length) {
+    cont.innerHTML = '<div class="empty-state"><div class="icon">🚶</div>Aún no hay datos de actividad.</div>';
+    return;
+  }
+
+  const pasosArr = act.map(a => Number(a.pasos) || 0);
+  const kmArr = act.map(a => Number(a.distanciaKm ?? (a.distancia || 0) / 1000) || 0);
+  const mediaPasos = pasosArr.reduce((a, b) => a + b, 0) / pasosArr.length;
+  const mediaKm = kmArr.reduce((a, b) => a + b, 0) / kmArr.length;
+
+  const bloques = [];
+
+  bloques.push(`
+    <div class="logro-bloque logro-destacado">
+      <div class="num">${Math.round(mediaPasos).toLocaleString('es-ES')}</div>
+      <div class="desc">pasos de media al día (${act.length} días registrados)</div>
+    </div>
+  `);
+
+  bloques.push(`
+    <div class="logro-bloque logro-destacado">
+      <div class="num">${mediaKm.toFixed(2)}<span>km</span></div>
+      <div class="desc">de distancia media al día</div>
+    </div>
+  `);
+
+  // Velocidad de la marcha por día: sesiones con hora de inicio/fin y
+  // distancia, agregadas por día (distancia total / tiempo total ese día).
+  const porDia = {};
+  (DATOS.actividadEtapas || []).forEach(s => {
+    const [h1, m1] = String(s.inicio || '').split(':').map(Number);
+    const [h2, m2] = String(s.fin || '').split(':').map(Number);
+    if ([h1, m1, h2, m2].some(n => Number.isNaN(n))) return;
+    let minutos = (h2 * 60 + m2) - (h1 * 60 + m1);
+    if (minutos <= 0) minutos += 24 * 60;
+    const distanciaM = Number(s.distancia) || 0;
+    if (distanciaM < 300 || minutos < 3 || minutos > 180) return;
+    if (!porDia[s.fecha]) porDia[s.fecha] = { dist: 0, min: 0 };
+    porDia[s.fecha].dist += distanciaM;
+    porDia[s.fecha].min += minutos;
+  });
+
+  const diasVel = Object.keys(porDia).sort().map(fecha => ({
+    fecha,
+    velocidad: (porDia[fecha].dist / 1000) / (porDia[fecha].min / 60)
+  }));
+
+  const wrap = document.getElementById('velocidadChartWrap');
+  const chartCont = document.getElementById('velocidadChart');
+  const labelsCont = document.getElementById('velocidadLabels');
+  if (wrap && chartCont && labelsCont) {
+    if (diasVel.length >= 3) {
+      wrap.style.display = '';
+      const mediaVel = diasVel.reduce((a, d) => a + d.velocidad, 0) / diasVel.length;
+      const maxVel = Math.max(...diasVel.map(d => d.velocidad));
+      chartCont.innerHTML = diasVel.map(d => {
+        const alto = Math.max(4, (d.velocidad / maxVel) * 100);
+        const cls = d.velocidad >= mediaVel * 1.05 ? 'loss' : d.velocidad <= mediaVel * 0.95 ? 'gain' : 'neutral';
+        return `<div class="speed-bar ${cls}" style="height:${alto}%" title="${fmtFecha(d.fecha)}: ${d.velocidad.toFixed(1)} km/h"></div>`;
+      }).join('');
+      const paso = Math.max(1, Math.floor(diasVel.length / 7));
+      labelsCont.innerHTML = diasVel.map((d, i) =>
+        `<div class="speed-label">${(i === 0 || i === diasVel.length - 1 || i % paso === 0) ? fmtFecha(d.fecha) : ''}</div>`
+      ).join('');
+    } else {
+      wrap.style.display = 'none';
+    }
+  }
+
+  cont.innerHTML = bloques.join('');
+}
+
 function renderAll() {
   renderLogros();
+  renderActividadLogros();
   renderPrevision();
   renderAlertas();
   renderStats();
