@@ -1079,6 +1079,26 @@
 .import-status{margin-top:12px;color:var(--text-2);font-size:.78rem;line-height:1.5}
 @media(max-width:650px){.activity-chart-wrap{height:280px}.activity-table{font-size:.72rem}}
 
+
+  .ej-intro{background:var(--bg-2);border:1px solid var(--border-gold);border-radius:14px;padding:14px 18px;margin-bottom:18px;color:var(--text-2);font-size:.9rem}
+  .ej-intro b{color:var(--gold-1)}
+  .ej-h{font-size:1.15rem;margin:26px 0 12px;color:var(--gold-1);font-weight:700}
+  .ej-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+  .ej-card{background:var(--bg-2);border:1px solid var(--border);border-radius:14px;padding:12px}
+  .ej-figs{display:flex;gap:8px;margin-bottom:10px}
+  .ej-figs figure{flex:1;background:#f7f4ee;border-radius:10px;margin:0;padding:4px 4px 6px;text-align:center}
+  .ej-figs svg{width:100%;height:auto;display:block}
+  .ej-figs figcaption{font-size:.72rem;color:#5b5548;font-weight:600}
+  .ej-card h4{font-size:1rem;margin-bottom:4px}
+  .ej-card p{color:var(--text-2);font-size:.86rem}
+  .ej-ser{display:inline-block;margin-top:8px;background:var(--bg-4);color:var(--gold-1);border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:700}
+  .ej-week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  .ej-day{background:var(--bg-2);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center;font-size:.8rem;cursor:pointer;color:var(--text-2)}
+  .ej-day b{display:block;color:var(--text-1);font-size:.9rem}
+  .ej-day.hoy{border-color:var(--gold-3)}
+  .ej-day.ok{background:var(--success-soft);border-color:var(--success)}
+  .ej-day .ck{font-size:1.3rem;display:block;margin-top:4px}
+  @media(max-width:640px){.ej-week{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
@@ -1098,6 +1118,7 @@
     <div class="header-badge">Informe de Seguimiento Clínico</div>
     <h1>TrackPeso</h1>
     <div class="subtitle">Peso · Tensión Arterial · Evolución</div>
+    <div style="margin-top:14px"><a href="#tabEjercicio" onclick="irEjercicio();return false;" style="display:inline-block;background:var(--gold-3);color:#04262b;font-weight:700;padding:10px 22px;border-radius:999px;text-decoration:none;font-size:.95rem">🏋️ Programa de ejercicio</a></div>
     <div class="progress-wrap" style="display:none;">
       <div class="progress-label">
         <span>Progreso al objetivo</span>
@@ -2497,7 +2518,10 @@
       <button class="tab" onclick="switchTab(event, 'tabPeso')">Datos de Peso</button>
       <button class="tab" onclick="switchTab(event, 'tabTA')">Datos de Tensión</button>
       <button class="tab active" onclick="switchTab(event, 'tabActividad')">Actividad</button>
+      <button class="tab" onclick="switchTab(event, 'tabEjercicio')">Ejercicio</button>
     </div>
+
+    <div id="tabEjercicio" class="tab-content"></div>
 
     <div id="tabPeso" class="tab-content">
       <div class="format-hint">
@@ -56153,4 +56177,83 @@ window.addEventListener('load', () => {
 })();
 </script>
 
+
+<script>
+(function(){
+const SK='#e8b98f',BLK='#1c1c22',PANT='#c9b68e',WOOD='#8a5a2b',CREAM='#efe3c2';
+const R=Math.PI/180,end=(p,a,l)=>[p[0]+l*Math.cos(a*R),p[1]+l*Math.sin(a*R)];
+const ln=(a,b,w,c)=>`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+const hat=(x,y)=>`<rect x="${x-14}" y="${y-26}" width="28" height="18" rx="7" fill="${CREAM}"/><rect x="${x-14}" y="${y-15}" width="28" height="5" fill="${BLK}"/><ellipse cx="${x}" cy="${y-9}" rx="25" ry="5" fill="${CREAM}" stroke="#cbbd97"/>`;
+const CANE='<path d="M26 219 L34 112 Q36 96 22 98" fill="none" stroke="#3a2a1c" stroke-width="5" stroke-linecap="round"/>';
+const CHAIR=`<rect x="40" y="158" width="72" height="7" rx="2" fill="${WOOD}"/><rect x="41" y="88" width="7" height="72" rx="2" fill="${WOOD}"/><rect x="44" y="164" width="6" height="55" fill="${WOOD}"/><rect x="102" y="164" width="6" height="55" fill="${WOOD}"/>`;
+const GROUND='<rect x="0" y="219" width="230" height="3" fill="#d9d2c3"/>';
+const svg=b=>`<svg viewBox="0 -40 230 270" xmlns="http://www.w3.org/2000/svg">${GROUND}${b}</svg>`;
+const dumb=(h,a)=>ln(end(h,a+90,9),end(h,a-90,9),9,'#555');
+function side(o){
+  o=Object.assign({hip:[80,150],lean:0,legs:[{th:0,sh:90,ft:0,ay:0}],ua:95,fa:92,w:0,chair:1,extra:''},o);
+  const r=o.lean*R,S=[o.hip[0]+68*Math.sin(r),o.hip[1]-68*Math.cos(r)];
+  let s=o.extra+(o.chair?CHAIR:'')+CANE;
+  o.legs.forEach(L=>{const k=end(o.hip,L.th,58),a0=end(k,L.sh,60),a=[a0[0],a0[1]+(L.ay||0)],hl=[a[0]-6,a[1]+6];
+    s+=ln(o.hip,k,20,PANT)+ln(k,a,16,PANT)+ln(hl,end(hl,-(L.ft||0),30),13,BLK);});
+  s+=ln(o.hip,S,36,BLK);
+  const S2=[S[0]+2,S[1]+4],el=end(S2,o.ua,38),hd=end(el,o.fa,34);
+  s+=ln(S2,el,15,BLK)+ln(el,hd,10,SK)+(o.w?dumb(hd,o.fa):'');
+  const h=[S[0]+6,S[1]-24];
+  s+=`<circle cx="${h[0]}" cy="${h[1]}" r="15" fill="${SK}"/><ellipse cx="${h[0]+6}" cy="${h[1]+9}" rx="10" ry="8" fill="#f4f4f4"/><circle cx="${h[0]+8}" cy="${h[1]-2}" r="1.8" fill="#333"/>`+hat(h[0],h[1]);
+  return svg(s);
+}
+function front(o){
+  const a=o.a,SR=[122,88],SL=[78,88];
+  let s=`<rect x="55" y="158" width="90" height="7" rx="2" fill="${WOOD}"/><rect x="60" y="164" width="6" height="55" fill="${WOOD}"/><rect x="134" y="164" width="6" height="55" fill="${WOOD}"/>`;
+  s+=ln([88,152],[86,180],22,PANT)+ln([112,152],[114,180],22,PANT)+ln([86,180],[86,206],16,PANT)+ln([114,180],[114,206],16,PANT);
+  s+=`<ellipse cx="84" cy="214" rx="14" ry="6" fill="${BLK}"/><ellipse cx="116" cy="214" rx="14" ry="6" fill="${BLK}"/>`;
+  s+=ln([100,152],[100,84],46,BLK);
+  [[SR,a],[SL,180-a]].forEach(([S,ang])=>{const el=end(S,ang,34),hd=end(el,ang,32);s+=ln(S,el,15,BLK)+ln(el,hd,10,SK)+ln([hd[0],hd[1]-8],[hd[0],hd[1]+8],9,'#555');});
+  s+=`<circle cx="100" cy="58" r="16" fill="${SK}"/><ellipse cx="100" cy="68" rx="12" ry="9" fill="#f4f4f4"/><circle cx="94" cy="56" r="1.8" fill="#333"/><circle cx="106" cy="56" r="1.8" fill="#333"/>`+hat(100,58);
+  return svg(s);
+}
+const ST={hip:[80,90],legs:[{th:90,sh:90}]};
+const COUNTER='<rect x="118" y="80" width="112" height="140" fill="#b9b1a0"/><rect x="114" y="76" width="116" height="6" fill="#8d8571"/>';
+const WALL='<rect x="205" y="-40" width="25" height="260" fill="#cfc6b4"/>';
+const EX=[
+ {g:'piernas',t:'1. Levantarse y sentarse',h:'Siéntate y levántate despacio. Usa las manos si hace falta.',s:'2 × 5-8',f:[side({}),side(Object.assign({},ST,{chair:1}))]},
+ {g:'piernas',t:'2. Elevar la punta del pie (sentado)',h:'Talón en el suelo, sube solo la punta del pie.',s:'2 × 10 por pie',f:[side({}),side({legs:[{th:0,sh:90,ft:28}]})]},
+ {g:'piernas',t:'3. Elevar talones (sentado)',h:'Puntas en el suelo, sube los talones.',s:'2 × 10-12',f:[side({}),side({legs:[{th:0,sh:90,ft:-22,ay:-10}]})]},
+ {g:'piernas',t:'4. Extensión de rodilla (sentado)',h:'Estira una pierna hacia delante y aguanta 2 segundos.',s:'2 × 10 por pierna',f:[side({}),side({legs:[{th:0,sh:-4,ft:10}]})]},
+ {g:'brazos',t:'1. Curl de bíceps',h:'Codos pegados al cuerpo, sube y baja la pesa despacio.',s:'2 × 10-12',f:[side({w:1}),side({w:1,fa:-60})]},
+ {g:'brazos',t:'2. Elevación lateral de brazos',h:'Sube los brazos hacia los lados solo hasta la altura de los hombros.',s:'2 × 8-10',f:[front({a:82}),front({a:2})]},
+ {g:'brazos',t:'3. Elevación frontal de brazos',h:'Sube los brazos hacia delante hasta la altura de los hombros y baja despacio.',s:'2 × 8-10',f:[side({w:1}),side({w:1,ua:2,fa:0})]},
+ {g:'brazos',t:'4. Extensión de tríceps sentado',h:'Sujeta la pesa con las dos manos detrás de la cabeza y estira los codos hacia arriba. Baja despacio.',s:'2 × 8-10',f:[side({w:1,ua:-90,fa:150}),side({w:1,ua:-90,fa:-90})]},
+ {g:'diario',t:'Equilibrio de pie',h:'Junto a la encimera o la pared, con la mano cerca para apoyarte.',s:'3 × 10-20 segundos',l:['Postura'],f:[side(Object.assign({},ST,{chair:0,ua:70,fa:35,extra:COUNTER}))]},
+ {g:'diario',t:'Estiramiento de gemelos',h:'Apoyado en la pared, talón de atrás en el suelo, sin rebotes.',s:'2 × 30 segundos por pierna',l:['Postura'],f:[side({chair:0,hip:[105,92],lean:20,ua:15,fa:0,extra:WALL,legs:[{th:105,sh:110,ft:0},{th:70,sh:105,ft:0}]})]}
+];
+const GT={piernas:'Días de piernas (lunes · miércoles · viernes)',brazos:'Días de brazos (martes · sábado) — solo con tu pesa pequeña',diario:'Todos los días'};
+const PLAN=['Piernas','Brazos','Piernas','Solo paseos','Piernas','Brazos','Paseo suave'],DN=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const key=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+window.ejToggle=function(k){DATOS.ejercicio=DATOS.ejercicio||{};if(DATOS.ejercicio[k])delete DATOS.ejercicio[k];else DATOS.ejercicio[k]=1;
+  if(window.autoguardarLocal)try{autoguardarLocal();}catch(e){}ejRender();};
+function ejRender(){
+  const el=document.getElementById('tabEjercicio');if(!el)return;
+  const done=DATOS.ejercicio||{},t=new Date(),mon=new Date(t);mon.setDate(t.getDate()-((t.getDay()+6)%7));
+  let n=0,week='';
+  for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const k=key(d);const ok=!!done[k];if(ok)n++;
+    week+=`<div class="ej-day${ok?' ok':''}${key(t)===k?' hoy':''}" onclick="ejToggle('${k}')"><b>${DN[i]} ${d.getDate()}</b>${PLAN[i]}<span class="ck">${ok?'✅':'⬜'}</span></div>`;}
+  let h=`<div class="ej-intro"><b>Antes de empezar:</b> silla estable, contra la pared y sin ruedas · 3-5 min de calentamiento (tobillos, hombros y “marcha” sentado) · respira con normalidad, sin aguantar el aire · si duele de verdad, para.</div>
+  <div class="ej-h">📅 Esta semana: ${n}/7 días hechos <small style="color:var(--text-3);font-weight:400">(toca un día para marcarlo)</small></div><div class="ej-week">${week}</div>`;
+  ['piernas','brazos','diario'].forEach(g=>{h+=`<div class="ej-h">${GT[g]}</div><div class="ej-grid">`;
+    EX.filter(e=>e.g===g).forEach(e=>{const L=e.l||['Inicio','Final'];
+      h+=`<div class="ej-card"><div class="ej-figs">${e.f.map((f,i)=>`<figure>${f}<figcaption>${L[i]}</figcaption></figure>`).join('')}</div><h4>${e.t}</h4><p>${e.h}</p><span class="ej-ser">${e.s}</span></div>`;});
+    h+='</div>';});
+  h+=`<div class="ej-h">📈 Cómo progresar</div><div class="ej-intro">Semanas 1-2: haz exactamente lo de arriba. Desde la semana 3: añade 1 repetición solo si te resulta fácil. Si al día siguiente te notas más débil, baja la cantidad. Y recuerda: la <b>proteína en cada comida</b> es tan importante como los ejercicios. Además, todos los días: tus 2 paseos + cuestas suaves 1-2 veces por semana.</div>`;
+  el.innerHTML=h;
+}
+window.irEjercicio=function(){
+  document.querySelectorAll('.tab').forEach(t=>{t.classList.toggle('active',/switchTab\(event, 'tabEjercicio'\)/.test(t.getAttribute('onclick')||''));});
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  const e=document.getElementById('tabEjercicio');e.classList.add('active');
+  e.scrollIntoView({behavior:'smooth',block:'start'});
+};
+window.addEventListener('load',ejRender);
+})();
+</script>
 </body></html>
