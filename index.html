@@ -58420,19 +58420,23 @@ const CANE='<path d="M26 219 L34 112 Q36 96 22 98" fill="none" stroke="#3a2a1c" 
 const CHAIR=`<rect x="40" y="158" width="72" height="7" rx="2" fill="${WOOD}"/><rect x="41" y="88" width="7" height="72" rx="2" fill="${WOOD}"/><rect x="44" y="164" width="6" height="55" fill="${WOOD}"/><rect x="102" y="164" width="6" height="55" fill="${WOOD}"/>`;
 const GROUND='<rect x="0" y="219" width="230" height="3" fill="#d9d2c3"/>';
 const svg=b=>`<svg viewBox="0 -40 230 270" xmlns="http://www.w3.org/2000/svg">${GROUND}${b}</svg>`;
+const RED='#d64545';
+const arrow=(a,b)=>{const t=Math.atan2(b[1]-a[1],b[0]-a[0]),c=Math.cos(t),d=Math.sin(t),p=(k,w)=>[b[0]-k*c-w*d,b[1]-k*d+w*c];
+  const l=p(11,6),r=p(11,-6);return ln(a,p(6,0),4,RED)+`<polygon points="${b[0].toFixed(1)},${b[1].toFixed(1)} ${l[0].toFixed(1)},${l[1].toFixed(1)} ${r[0].toFixed(1)},${r[1].toFixed(1)}" fill="${RED}"/>`;};
 const dumb=(h,a)=>ln(end(h,a+90,9),end(h,a-90,9),9,'#555');
 function side(o){
-  o=Object.assign({hip:[80,150],lean:0,legs:[{th:0,sh:90,ft:0,ay:0}],ua:95,fa:92,w:0,chair:1,extra:''},o);
+  o=Object.assign({hip:[80,150],lean:0,legs:[{th:0,sh:90,ft:0,ay:0}],ua:95,fa:92,w:0,chair:1,extra:'',armTop:0,over:''},o);
   const r=o.lean*R,S=[o.hip[0]+68*Math.sin(r),o.hip[1]-68*Math.cos(r)];
   let s=o.extra+(o.chair?CHAIR:'')+CANE;
   o.legs.forEach(L=>{const k=end(o.hip,L.th,58),a0=end(k,L.sh,60),a=[a0[0],a0[1]+(L.ay||0)],hl=[a[0]-6,a[1]+6];
     s+=ln(o.hip,k,20,PANT)+ln(k,a,16,PANT)+ln(hl,end(hl,-(L.ft||0),30),13,BLK);});
   s+=ln(o.hip,S,36,BLK);
   const S2=[S[0]+2,S[1]+4],el=end(S2,o.ua,38),hd=end(el,o.fa,34);
-  s+=ln(S2,el,15,BLK)+ln(el,hd,10,SK)+(o.w?dumb(hd,o.fa):'');
+  const arm=ln(S2,el,15,BLK)+ln(el,hd,10,SK)+(o.w?dumb(hd,o.fa):'');
   const h=[S[0]+6,S[1]-24];
-  s+=`<circle cx="${h[0]}" cy="${h[1]}" r="15" fill="${SK}"/><ellipse cx="${h[0]+6}" cy="${h[1]+9}" rx="10" ry="8" fill="#f4f4f4"/><circle cx="${h[0]+8}" cy="${h[1]-2}" r="1.8" fill="#333"/>`+hat(h[0],h[1]);
-  return svg(s);
+  const head=`<circle cx="${h[0]}" cy="${h[1]}" r="15" fill="${SK}"/><ellipse cx="${h[0]+6}" cy="${h[1]+9}" rx="10" ry="8" fill="#f4f4f4"/><circle cx="${h[0]+8}" cy="${h[1]-2}" r="1.8" fill="#333"/>`+hat(h[0],h[1]);
+  s+=o.armTop?head+arm:arm+head;
+  return svg(s+o.over);
 }
 function front(o){
   const a=o.a,SR=[122,88],SL=[78,88];
@@ -58455,8 +58459,8 @@ const EX=[
  {g:'brazos',t:'1. Curl de bíceps',h:'Codos pegados al cuerpo, sube y baja la pesa despacio.',s:'2 × 10-12',f:[side({w:1}),side({w:1,fa:-60})]},
  {g:'brazos',t:'2. Elevación lateral de brazos',h:'Sube los brazos hacia los lados solo hasta la altura de los hombros.',s:'2 × 8-10',f:[front({a:82}),front({a:2})]},
  {g:'brazos',t:'3. Elevación frontal de brazos',h:'Sube los brazos hacia delante hasta la altura de los hombros y baja despacio.',s:'2 × 8-10',f:[side({w:1}),side({w:1,ua:2,fa:0})]},
- {g:'brazos',t:'4. Extensión de tríceps sentado',h:'Sujeta la pesa con las dos manos detrás de la cabeza y estira los codos hacia arriba. Baja despacio.',s:'2 × 8-10',f:[side({w:1,ua:-90,fa:150}),side({w:1,ua:-90,fa:-90})]},
- {g:'diario',t:'Equilibrio de pie',h:'Junto a la encimera o la pared, con la mano cerca para apoyarte.',s:'3 × 10-20 segundos',l:['Postura'],f:[side(Object.assign({},ST,{chair:0,ua:70,fa:35,extra:COUNTER}))]},
+ {g:'brazos',t:'4. Pesa detrás de la cabeza (tríceps)',h:'Sentado, sujeta la pesa con las dos manos detrás de la cabeza, con los codos hacia el techo. Estira los brazos hacia arriba y baja despacio. Solo se mueven los antebrazos: los codos se quedan cerca de las orejas. Si te molesta el hombro, hazlo con una sola mano o con menos peso.',s:'2 × 8-10',l:['1. Pesa detrás de la cabeza','2. Estira los brazos arriba'],f:[side({w:1,ua:-95,fa:130,armTop:1}),side({w:1,ua:-95,fa:-95,armTop:1,over:arrow([122,50],[122,0])})]},
+ {g:'diario',t:'Equilibrio sobre un pie, con apoyo',h:'Apoya una mano en la encimera y ponte recto. Levanta un pie unos centímetros doblando la rodilla y aguanta mirando al frente. Baja y repite con el otro pie.',s:'3 × 10-20 segundos por pie',l:['1. Apoya la mano y ponte recto','2. Levanta un pie y aguanta'],f:[side(Object.assign({},ST,{chair:0,ua:70,fa:35,extra:COUNTER})),side(Object.assign({},ST,{chair:0,ua:70,fa:35,extra:COUNTER,legs:[{th:70,sh:145,ft:0},{th:90,sh:90}],over:arrow([44,216],[44,197])}))]},
  {g:'diario',t:'Estiramiento de gemelos',h:'Apoyado en la pared, talón de atrás en el suelo, sin rebotes.',s:'2 × 30 segundos por pierna',l:['Postura'],f:[side({chair:0,hip:[105,92],lean:20,ua:15,fa:0,extra:WALL,legs:[{th:105,sh:110,ft:0},{th:70,sh:105,ft:0}]})]}
 ];
 const GT={piernas:'🦵 Hoy toca: piernas',brazos:'💪 Hoy toca: brazos — solo con tu pesa pequeña',diario:'Todos los días'};
